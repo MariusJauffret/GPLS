@@ -1,5 +1,7 @@
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
+const treatmentsMenu = document.querySelector("[data-treatments-menu]");
+const treatmentsToggle = document.querySelector("[data-treatments-toggle]");
 
 function setMenu(open) {
   if (!menuToggle || !mobileMenu) return;
@@ -14,11 +16,31 @@ menuToggle?.addEventListener("click", () => {
   setMenu(menuToggle.getAttribute("aria-expanded") !== "true");
 });
 
+function setTreatmentsMenu(open) {
+  if (!treatmentsMenu || !treatmentsToggle) return;
+
+  treatmentsMenu.toggleAttribute("data-open", open);
+  treatmentsToggle.setAttribute("aria-expanded", String(open));
+}
+
+treatmentsToggle?.addEventListener("click", () => {
+  setTreatmentsMenu(treatmentsToggle.getAttribute("aria-expanded") !== "true");
+});
+
+document.addEventListener("click", (event) => {
+  if (treatmentsMenu && !treatmentsMenu.contains(event.target)) setTreatmentsMenu(false);
+});
+
 mobileMenu?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => setMenu(false));
 });
 
 document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && treatmentsToggle?.getAttribute("aria-expanded") === "true") {
+    setTreatmentsMenu(false);
+    treatmentsToggle.focus();
+  }
+
   if (event.key === "Escape" && menuToggle?.getAttribute("aria-expanded") === "true") {
     setMenu(false);
     menuToggle.focus();
@@ -47,28 +69,34 @@ processTabs.forEach((tab, index) => {
 
 const specialties = [
   {
-    title: "Physiothérapie respiratoire",
-    description: "Une prise en charge personnalisée pour améliorer la capacité respiratoire, faciliter le désencombrement et retrouver plus d’aisance dans les activités quotidiennes.",
-    image: "assets/images/specialty-respiratory.png",
-    alt: "Prise en charge en physiothérapie respiratoire",
-  },
-  {
     title: "Rééducation post-traumatique",
     description: "Un accompagnement progressif après une blessure ou une opération pour récupérer mobilité, force et confiance dans le mouvement.",
-    image: "assets/images/specialty-secondary.png",
+    image: "assets/images/specialty-respiratory.png",
     alt: "Séance de rééducation post-traumatique",
   },
   {
-    title: "Gériatrie",
-    description: "Des exercices adaptés pour préserver l’autonomie, l’équilibre et la mobilité, en tenant compte du rythme et des objectifs de chaque personne.",
+    title: "Rhumatologie",
+    description: "Une prise en charge ciblée pour réduire les douleurs articulaires, entretenir la mobilité et faciliter les gestes du quotidien.",
     image: "assets/images/specialty-respiratory.png",
-    alt: "Accompagnement physiothérapeutique personnalisé",
+    alt: "Prise en charge en rhumatologie",
   },
   {
-    title: "Drainage lymphatique manuel",
-    description: "Des techniques manuelles douces destinées à favoriser la circulation lymphatique et à accompagner la prise en charge des œdèmes.",
-    image: "assets/images/specialty-secondary.png",
-    alt: "Soin manuel au cabinet",
+    title: "Neurologie",
+    description: "Un travail individualisé sur la mobilité, l’équilibre et la coordination afin de préserver les capacités fonctionnelles et l’autonomie.",
+    image: "assets/images/specialty-respiratory.png",
+    alt: "Prise en charge en neurologie",
+  },
+  {
+    title: "Périnatalité",
+    description: "Une prise en charge douce et adaptée aux changements du corps avant et après la naissance, selon les besoins et les indications de chacune.",
+    image: "assets/images/specialty-respiratory.png",
+    alt: "Prise en charge en périnatalité",
+  },
+  {
+    title: "Oncologie",
+    description: "Un suivi individualisé pour soutenir la mobilité, limiter le déconditionnement et accompagner les besoins fonctionnels pendant ou après les traitements.",
+    image: "assets/images/specialty-respiratory.png",
+    alt: "Accompagnement physiothérapeutique en oncologie",
   },
   {
     title: "Sophrologie",
@@ -77,22 +105,22 @@ const specialties = [
     alt: "Accompagnement centré sur la respiration",
   },
   {
-    title: "Oncologie",
-    description: "Un suivi individualisé pour soutenir la mobilité, limiter le déconditionnement et accompagner les besoins fonctionnels pendant ou après les traitements.",
-    image: "assets/images/specialty-secondary.png",
-    alt: "Accompagnement physiothérapeutique individualisé",
-  },
-  {
-    title: "Périnatalité",
-    description: "Une prise en charge douce et adaptée aux changements du corps avant et après la naissance, selon les besoins et les indications de chacune.",
+    title: "Drainage lymphatique manuel",
+    description: "Des techniques manuelles douces destinées à favoriser la circulation lymphatique et à accompagner la prise en charge des œdèmes.",
     image: "assets/images/specialty-respiratory.png",
-    alt: "Prise en charge douce et personnalisée",
+    alt: "Soin de drainage lymphatique manuel",
   },
   {
-    title: "Neurologie et rhumatologie",
-    description: "Un travail ciblé sur la mobilité, l’équilibre, la douleur et les gestes du quotidien pour préserver les capacités fonctionnelles.",
-    image: "assets/images/specialty-secondary.png",
-    alt: "Travail de mobilité au cabinet",
+    title: "Gériatrie",
+    description: "Des exercices adaptés pour préserver l’autonomie, l’équilibre et la mobilité, en tenant compte du rythme et des objectifs de chaque personne.",
+    image: "assets/images/specialty-respiratory.png",
+    alt: "Accompagnement physiothérapeutique en gériatrie",
+  },
+  {
+    title: "Physiothérapie respiratoire",
+    description: "Une prise en charge personnalisée pour améliorer la capacité respiratoire, faciliter le désencombrement et retrouver plus d’aisance dans les activités quotidiennes.",
+    image: "assets/images/specialty-respiratory.png",
+    alt: "Prise en charge en physiothérapie respiratoire",
   },
 ];
 
@@ -153,6 +181,30 @@ specialtyTabs.forEach((tab, index) => {
 
 document.querySelector("[data-specialty-prev]")?.addEventListener("click", () => showSpecialty(activeSpecialty - 1));
 document.querySelector("[data-specialty-next]")?.addEventListener("click", () => showSpecialty(activeSpecialty + 1));
+
+const specialtyLinks = [...document.querySelectorAll("[data-specialty-link]")];
+const specialtiesSection = document.querySelector("#expertises");
+
+function activateSpecialtyFromHash() {
+  if (!window.location.hash) return;
+  const target = specialtyTabs.find((tab) => `#${tab.id}` === window.location.hash);
+  if (target) showSpecialty(Number(target.dataset.specialty));
+}
+
+specialtyLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    const index = Number(link.dataset.specialtyLink);
+    showSpecialty(index);
+    setTreatmentsMenu(false);
+    setMenu(false);
+    window.history.pushState(null, "", link.hash);
+    specialtiesSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+
+window.addEventListener("hashchange", activateSpecialtyFromHash);
+activateSpecialtyFromHash();
 
 document.querySelectorAll("[data-accordion] .accordion__item").forEach((item) => {
   const button = item.querySelector("button");

@@ -265,15 +265,22 @@ h3 {
   align-items: center;
 }
 
-.desktop-nav a {
+.desktop-nav a,
+.nav-dropdown > button {
   position: relative;
+  border: 0;
   padding: 15px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
   font-size: 16px;
   line-height: 1.2;
   white-space: nowrap;
 }
 
-.desktop-nav a::after {
+.desktop-nav a::after,
+.nav-dropdown > button::after {
   position: absolute;
   right: 15px;
   bottom: 9px;
@@ -287,7 +294,10 @@ h3 {
 }
 
 .desktop-nav a:hover::after,
-.desktop-nav a:focus-visible::after {
+.desktop-nav a:focus-visible::after,
+.nav-dropdown > button:hover::after,
+.nav-dropdown > button:focus-visible::after,
+.nav-dropdown[data-open] > button::after {
   transform: scaleX(1);
 }
 
@@ -303,6 +313,68 @@ h3 {
   font-size: 14px;
 }
 
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown > button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-dropdown > button > span {
+  font-size: 18px;
+  transition: transform var(--ease);
+}
+
+.nav-dropdown[data-open] > button > span {
+  transform: rotate(180deg);
+}
+
+.treatments-dropdown {
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 0;
+  display: grid;
+  width: 330px;
+  padding: 10px;
+  border: 1px solid rgba(0, 84, 136, 0.12);
+  border-radius: 15px;
+  background: var(--white);
+  box-shadow: 0 18px 45px rgba(8, 43, 79, 0.16);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  visibility: hidden;
+  transition: opacity var(--ease), transform var(--ease), visibility 0s linear 200ms;
+}
+
+.nav-dropdown[data-open] .treatments-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.desktop-nav .treatments-dropdown a {
+  padding: 11px 13px;
+  border-radius: 9px;
+  color: var(--blue);
+  font-size: 14px;
+  white-space: normal;
+}
+
+.desktop-nav .treatments-dropdown a::after {
+  display: none;
+}
+
+.desktop-nav .treatments-dropdown a:hover,
+.desktop-nav .treatments-dropdown a:focus-visible {
+  background: rgba(0, 126, 205, 0.09);
+}
+
 .menu-toggle,
 .mobile-menu {
   display: none;
@@ -310,7 +382,9 @@ h3 {
 
 .hero {
   display: grid;
-  min-height: min(1165px, 100svh);
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
   grid-template-columns: minmax(700px, 52.1%) minmax(0, 1fr);
   overflow: hidden;
 }
@@ -318,7 +392,8 @@ h3 {
 .hero__copy {
   position: relative;
   display: flex;
-  min-height: 900px;
+  height: 100%;
+  min-height: 0;
   flex-direction: column;
   justify-content: center;
   padding: 170px 7.8vw 285px;
@@ -432,7 +507,8 @@ h3 {
 }
 
 .hero__media {
-  min-height: 900px;
+  height: 100%;
+  min-height: 0;
   background: var(--blue-alt);
 }
 
@@ -440,6 +516,10 @@ h3 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.mobile-assurance {
+  display: none;
 }
 
 .about {
@@ -692,27 +772,65 @@ h3 {
 
 .specialty-tabs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: 0;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  gap: 5px;
+  margin-top: 50px;
 }
 
 .specialty-tabs button {
-  min-height: 92px;
-  border: 1px solid rgba(0, 84, 136, 0.18);
-  padding: 14px 18px;
+  position: relative;
+  min-width: 0;
+  min-height: 120px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 15px;
+  padding: 20px;
   background: var(--white);
   color: var(--blue);
   cursor: pointer;
-  font-size: 15px;
+  font-family: inherit;
+  font-size: 18px;
   font-weight: 600;
   line-height: 1.25;
-  transition: background-color var(--ease), color var(--ease);
+  text-align: right;
+  transition: background-color var(--ease), color var(--ease), transform var(--ease);
 }
 
-.specialty-tabs button[aria-selected="true"],
 .specialty-tabs button:hover {
+  transform: translateY(-2px);
+}
+
+.specialty-tabs button[aria-selected="true"] {
+  grid-column: span 2;
   background: var(--blue-active);
   color: var(--white);
+}
+
+.specialty-tabs button span {
+  position: absolute;
+  z-index: 1;
+  top: 20px;
+  right: 20px;
+  max-width: calc(100% - 40px);
+}
+
+.specialty-tabs button[aria-selected="true"] span {
+  max-width: 55%;
+}
+
+.specialty-tabs button img {
+  position: absolute;
+  bottom: -6px;
+  left: 20px;
+  display: none;
+  width: 118px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.specialty-tabs button[aria-selected="true"] img {
+  display: block;
 }
 
 .team {
@@ -1183,7 +1301,8 @@ textarea:focus {
     gap: 16px;
   }
 
-  .desktop-nav a {
+  .desktop-nav a,
+  .nav-dropdown > button {
     padding-inline: 9px;
     font-size: 14px;
   }
@@ -1228,7 +1347,7 @@ textarea:focus {
   }
 
   .hero__copy {
-    min-height: 850px;
+    min-height: 0;
     padding-bottom: 250px;
   }
 
@@ -1259,7 +1378,7 @@ textarea:focus {
   }
 
   .specialty-tabs {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .team-grid {
@@ -1351,6 +1470,7 @@ textarea:focus {
     inset: 72px 0 0;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     padding: 30px 24px;
     background: var(--white);
     color: var(--blue);
@@ -1372,20 +1492,50 @@ textarea:focus {
     font-weight: 500;
   }
 
+  .mobile-menu__label {
+    padding: 16px 0 8px;
+    color: var(--blue);
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .mobile-menu__treatments {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    padding-bottom: 10px;
+  }
+
+  .mobile-menu nav .mobile-menu__treatments a {
+    display: flex;
+    min-height: 58px;
+    align-items: center;
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: rgba(0, 84, 136, 0.06);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
   .mobile-menu__cta {
     margin-top: 30px;
   }
 
   .hero {
-    display: flex;
-    min-height: 0;
-    flex-direction: column;
+    display: grid;
+    width: 100%;
+    height: calc(100svh - 72px);
+    min-height: calc(100svh - 72px);
+    grid-template-columns: 1fr;
+    grid-template-rows: 42% 58%;
   }
 
   .hero__media {
-    order: -1;
+    grid-row: 1;
     min-height: 0;
-    height: min(646px, 165vw);
+    height: 100%;
   }
 
   .hero__media img {
@@ -1393,20 +1543,23 @@ textarea:focus {
   }
 
   .hero__copy {
+    grid-row: 2;
+    height: 100%;
     min-height: 0;
     justify-content: flex-start;
-    padding: 46px 24px 40px;
+    padding: clamp(22px, 4.5vh, 38px) 24px 24px;
   }
 
   .hero h1 {
-    margin-top: 16px;
-    font-size: clamp(42px, 12vw, 50px);
+    margin-top: 12px;
+    font-size: clamp(36px, 10.5vw, 46px);
     letter-spacing: -0.035em;
+    line-height: 1.02;
   }
 
   .hero__actions {
     align-items: flex-start;
-    margin-top: 36px;
+    margin-top: clamp(20px, 3.5vh, 30px);
   }
 
   .hero__actions > div {
@@ -1420,8 +1573,13 @@ textarea:focus {
   }
 
   .hero__assurance {
-    position: static;
-    margin-top: 36px;
+    display: none;
+  }
+
+  .mobile-assurance {
+    display: block;
+    padding: 18px 24px 40px;
+    background: var(--cream);
   }
 
   .trust-list {
@@ -1565,12 +1723,41 @@ textarea:focus {
 
   .specialty-tabs {
     grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    margin-top: 15px;
   }
 
   .specialty-tabs button {
-    min-height: 76px;
-    padding: 10px;
-    font-size: 13px;
+    min-height: 64px;
+    padding: 12px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .specialty-tabs button[aria-selected="true"] {
+    min-height: 88px;
+    grid-column: 1 / -1;
+    text-align: right;
+  }
+
+  .specialty-tabs button span {
+    position: static;
+    display: block;
+    max-width: none;
+  }
+
+  .specialty-tabs button[aria-selected="true"] span {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    max-width: 48%;
+  }
+
+  .specialty-tabs button img {
+    bottom: -8px;
+    left: 20px;
+    width: 118px;
+    height: 100px;
   }
 
   .team__intro > p:last-child {
@@ -1698,7 +1885,7 @@ textarea:focus {
   }
 
   .specialty-tabs {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

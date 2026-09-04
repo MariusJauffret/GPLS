@@ -29,7 +29,23 @@
       <nav class="desktop-nav" aria-label="Navigation principale">
         <div class="desktop-nav__primary">
           <a href="#cabinet">Le cabinet</a>
-          <a href="#traitements">Traitements</a>
+          <div class="nav-dropdown" data-treatments-menu>
+            <button type="button" aria-expanded="false" aria-controls="treatments-dropdown" data-treatments-toggle>
+              Traitements
+              <span aria-hidden="true">⌄</span>
+            </button>
+            <div class="treatments-dropdown" id="treatments-dropdown">
+              <a href="#domaine-reeducation-post-traumatique" data-specialty-link="0">Rééducation post-traumatique</a>
+              <a href="#domaine-rhumatologie" data-specialty-link="1">Rhumatologie</a>
+              <a href="#domaine-neurologie" data-specialty-link="2">Neurologie</a>
+              <a href="#domaine-perinatalite" data-specialty-link="3">Périnatalité</a>
+              <a href="#domaine-oncologie" data-specialty-link="4">Oncologie</a>
+              <a href="#domaine-sophrologie" data-specialty-link="5">Sophrologie</a>
+              <a href="#domaine-drainage-lymphatique" data-specialty-link="6">Drainage lymphatique manuel</a>
+              <a href="#domaine-geriatrie" data-specialty-link="7">Gériatrie</a>
+              <a href="#domaine-physiotherapie-respiratoire" data-specialty-link="8">Physiothérapie respiratoire</a>
+            </div>
+          </div>
           <a href="#expertises">Expertise</a>
           <a href="#equipe">Notre équipe</a>
         </div>
@@ -49,7 +65,18 @@
     <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
       <nav aria-label="Navigation mobile">
         <a href="#cabinet">Le cabinet</a>
-        <a href="#traitements">Traitements</a>
+        <p class="mobile-menu__label">Traitements</p>
+        <div class="mobile-menu__treatments">
+          <a href="#domaine-reeducation-post-traumatique" data-specialty-link="0">Rééducation post-traumatique</a>
+          <a href="#domaine-rhumatologie" data-specialty-link="1">Rhumatologie</a>
+          <a href="#domaine-neurologie" data-specialty-link="2">Neurologie</a>
+          <a href="#domaine-perinatalite" data-specialty-link="3">Périnatalité</a>
+          <a href="#domaine-oncologie" data-specialty-link="4">Oncologie</a>
+          <a href="#domaine-sophrologie" data-specialty-link="5">Sophrologie</a>
+          <a href="#domaine-drainage-lymphatique" data-specialty-link="6">Drainage lymphatique manuel</a>
+          <a href="#domaine-geriatrie" data-specialty-link="7">Gériatrie</a>
+          <a href="#domaine-physiotherapie-respiratoire" data-specialty-link="8">Physiothérapie respiratoire</a>
+        </div>
         <a href="#expertises">Expertise</a>
         <a href="#equipe">Notre équipe</a>
         <a href="#contact">Contact</a>
@@ -98,6 +125,19 @@
           <img src="assets/images/hero.jpg.png" alt="Séance de physiothérapie au cabinet" width="920" height="1165" />
         </div>
       </section>
+
+      <aside class="mobile-assurance" aria-label="Informations pratiques et prise en charge">
+        <div class="trust-list">
+          <p><img src="assets/icons/shield.svg" alt="" />Prestations prises en charge par l’assurance maladie de base (LAMal) ou l’assurance accident (LAA).</p>
+          <p><img src="assets/icons/shield.svg" alt="" />Vos données sont traitées conformément à la nouvelle loi sur la protection des données (nLPD).</p>
+        </div>
+        <div class="quick-info">
+          <div class="quick-info__partner"><img src="assets/images/physioswiss.png" alt="Physioswiss" /></div>
+          <p><img src="assets/icons/pin.svg" alt="" />Route de Chancy 59<br />1213 Petit-Lancy</p>
+          <p><img src="assets/icons/clock.svg" alt="" />Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</p>
+          <a href="mailto:cabinet@genevephysio-lancysport.ch"><img src="assets/icons/email.svg" alt="" />cabinet@genevephysio-lancysport.ch</a>
+        </div>
+      </aside>
 
       <section class="section about" id="cabinet" aria-labelledby="about-title">
         <div class="container about__layout">
@@ -166,26 +206,27 @@
 
           <div class="specialty-feature" aria-live="polite">
             <div class="specialty-feature__media">
-              <img src="assets/images/specialty-respiratory.png" alt="Prise en charge en physiothérapie respiratoire" data-specialty-image loading="lazy" />
-              <span data-specialty-count>01 / 08</span>
+              <img src="assets/images/specialty-respiratory.png" alt="Séance de rééducation post-traumatique" data-specialty-image loading="lazy" />
+              <span data-specialty-count>01 / 09</span>
             </div>
             <div class="specialty-feature__copy">
               <p class="eyebrow eyebrow--light">Domaine de prise en charge</p>
-              <h3 data-specialty-title>Physiothérapie respiratoire</h3>
-              <p data-specialty-description>Une prise en charge personnalisée pour améliorer la capacité respiratoire, faciliter le désencombrement et retrouver plus d’aisance dans les activités quotidiennes.</p>
+              <h3 data-specialty-title>Rééducation post-traumatique</h3>
+              <p data-specialty-description>Un accompagnement progressif après une blessure ou une opération pour récupérer mobilité, force et confiance dans le mouvement.</p>
               <p>Chaque suivi débute par un bilan complet afin d’adapter les exercices, les techniques manuelles et la progression à vos besoins.</p>
             </div>
           </div>
 
           <div class="specialty-tabs" role="tablist" aria-label="Domaines de prise en charge" data-specialty-tabs>
-            <button type="button" role="tab" aria-selected="true" data-specialty="0">Physiothérapie respiratoire</button>
-            <button type="button" role="tab" aria-selected="false" data-specialty="1">Rééducation post-traumatique</button>
-            <button type="button" role="tab" aria-selected="false" data-specialty="2">Gériatrie</button>
-            <button type="button" role="tab" aria-selected="false" data-specialty="3">Drainage lymphatique manuel</button>
-            <button type="button" role="tab" aria-selected="false" data-specialty="4">Sophrologie</button>
-            <button type="button" role="tab" aria-selected="false" data-specialty="5">Oncologie</button>
-            <button type="button" role="tab" aria-selected="false" data-specialty="6">Périnatalité</button>
-            <button type="button" role="tab" aria-selected="false" data-specialty="7">Neurologie et rhumatologie</button>
+            <button id="domaine-reeducation-post-traumatique" type="button" role="tab" aria-selected="true" data-specialty="0"><img src="assets/images/specialty-secondary.png" alt="" /><span>Rééducation post-traumatique</span></button>
+            <button id="domaine-rhumatologie" type="button" role="tab" aria-selected="false" data-specialty="1"><img src="assets/images/specialty-secondary.png" alt="" /><span>Rhumatologie</span></button>
+            <button id="domaine-neurologie" type="button" role="tab" aria-selected="false" data-specialty="2"><img src="assets/images/specialty-secondary.png" alt="" /><span>Neurologie</span></button>
+            <button id="domaine-perinatalite" type="button" role="tab" aria-selected="false" data-specialty="3"><img src="assets/images/specialty-secondary.png" alt="" /><span>Périnatalité</span></button>
+            <button id="domaine-oncologie" type="button" role="tab" aria-selected="false" data-specialty="4"><img src="assets/images/specialty-secondary.png" alt="" /><span>Oncologie</span></button>
+            <button id="domaine-sophrologie" type="button" role="tab" aria-selected="false" data-specialty="5"><img src="assets/images/specialty-secondary.png" alt="" /><span>Sophrologie</span></button>
+            <button id="domaine-drainage-lymphatique" type="button" role="tab" aria-selected="false" data-specialty="6"><img src="assets/images/specialty-secondary.png" alt="" /><span>Drainage lymphatique manuel</span></button>
+            <button id="domaine-geriatrie" type="button" role="tab" aria-selected="false" data-specialty="7"><img src="assets/images/specialty-secondary.png" alt="" /><span>Gériatrie</span></button>
+            <button id="domaine-physiotherapie-respiratoire" type="button" role="tab" aria-selected="false" data-specialty="8"><img src="assets/images/specialty-secondary.png" alt="" /><span>Physiothérapie respiratoire</span></button>
           </div>
         </div>
       </section>
