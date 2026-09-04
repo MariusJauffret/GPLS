@@ -1,0 +1,10 @@
+{
+  "name": "gpls-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "build": "node build.js"
+  }
+}

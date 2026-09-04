@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Genève Physio Lancy Sport — cabinet de physiothérapie à Petit-Lancy. Physiothérapie générale, sportive et spécialisée."
+    />
+    <meta name="theme-color" content="#005488" />
+    <title>Genève Physio Lancy Sport | Cabinet de physiothérapie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;1,200;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="#accueil" aria-label="Genève Physio Lancy Sport, accueil">
+        <img src="assets/images/brand-header.png" alt="Genève Physio Lancy Sport" width="215" height="71" />
+      </a>
+
+      <nav class="desktop-nav" aria-label="Navigation principale">
+        <div class="desktop-nav__primary">
+          <a href="#cabinet">Le cabinet</a>
+          <a href="#traitements">Traitements</a>
+          <a href="#expertises">Expertise</a>
+          <a href="#equipe">Notre équipe</a>
+        </div>
+        <div class="desktop-nav__secondary">
+          <a href="#contact">Contact</a>
+          <a href="#faq">FAQ</a>
+          <a href="#mentions">Mentions légales</a>
+        </div>
+      </nav>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span class="sr-only">Ouvrir le menu</span>
+        <img src="assets/images/menu.png" alt="" width="68" height="70" />
+      </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+      <nav aria-label="Navigation mobile">
+        <a href="#cabinet">Le cabinet</a>
+        <a href="#traitements">Traitements</a>
+        <a href="#expertises">Expertise</a>
+        <a href="#equipe">Notre équipe</a>
+        <a href="#contact">Contact</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="button button--primary mobile-menu__cta" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">Prendre rendez-vous</a>
+    </div>
+
+    <main id="main">
+      <section class="hero" id="accueil" aria-labelledby="hero-title">
+        <div class="hero__copy">
+          <div class="hero__headline">
+            <p class="eyebrow">Genève Physio Lancy Sport</p>
+            <h1 id="hero-title">Cabinet de <em>physiothérapie</em> à Genève.</h1>
+          </div>
+
+          <div class="hero__actions">
+            <span>Réponse dans les 48h</span>
+            <div>
+              <a class="button button--light" href="tel:+41784344311">
+                <img src="assets/icons/phone.svg" alt="" width="22" height="22" />
+                078 434 43 11
+              </a>
+              <a class="button button--primary" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
+                Demander un rendez-vous
+                <img src="assets/images/arrow-right.png" alt="" width="20" height="24" />
+              </a>
+            </div>
+          </div>
+
+          <div class="hero__assurance">
+            <div class="trust-list">
+              <p><img src="assets/icons/shield.svg" alt="" />Prestations prises en charge par l’assurance maladie de base (LAMal) ou l’assurance accident (LAA).</p>
+              <p><img src="assets/icons/shield.svg" alt="" />Vos données sont traitées conformément à la nouvelle loi sur la protection des données (nLPD).</p>
+            </div>
+            <div class="quick-info">
+              <div class="quick-info__partner"><img src="assets/images/physioswiss.png" alt="Physioswiss" /></div>
+              <p><img src="assets/icons/pin.svg" alt="" />Route de Chancy 59<br />1213 Petit-Lancy</p>
+              <p><img src="assets/icons/clock.svg" alt="" />Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</p>
+              <a href="mailto:cabinet@genevephysio-lancysport.ch"><img src="assets/icons/email.svg" alt="" />cabinet@genevephysio-lancysport.ch</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__media">
+          <img src="assets/images/hero.jpg.png" alt="Séance de physiothérapie au cabinet" width="920" height="1165" />
+        </div>
+      </section>
+
+      <section class="section about" id="cabinet" aria-labelledby="about-title">
+        <div class="container about__layout">
+          <div class="about__gallery" aria-label="L’équipe du cabinet en consultation">
+            <img src="assets/images/about-benjamin.png" alt="Benjamin en consultation" loading="lazy" />
+            <img src="assets/images/about-maria.png" alt="Maria en consultation" loading="lazy" />
+          </div>
+          <div class="about__copy section-copy">
+            <p class="eyebrow eyebrow--line">Cabinet de Petit-Lancy</p>
+            <h2 id="about-title">Le Cabinet</h2>
+            <div class="rich-text">
+              <p>Notre cabinet accompagne adultes et enfants de tous âges dans le traitement des douleurs, la rééducation après une opération ou un accident, et la récupération de la mobilité au quotidien.</p>
+              <p>Chaque suivi commence par un bilan complet, suivi d’un plan de traitement discuté avec vous.</p>
+              <p>Lorsque le déplacement est difficile, nous nous rendons à votre domicile, dans le secteur de Lancy et ses environs.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section treatments-intro" id="traitements" aria-labelledby="treatments-title">
+        <div class="container treatments-intro__layout">
+          <div class="section-copy treatments-intro__copy">
+            <p class="eyebrow eyebrow--line">Cabinet de Petit-Lancy</p>
+            <h2 id="treatments-title">Traitements</h2>
+            <p>Lors de chaque première séance, un bilan complet est réalisé afin de mieux comprendre vos besoins et de personnaliser votre traitement. Il permet d’évaluer votre état physique, d’identifier les douleurs ou limitations et de définir ensemble les objectifs à atteindre.</p>
+
+            <div class="process" data-process>
+              <div class="process__tabs" role="tablist" aria-label="Étapes du traitement">
+                <button type="button" role="tab" aria-selected="true" data-process-tab="0"><img src="assets/images/process.png" alt="" />Bilan</button>
+                <button type="button" role="tab" aria-selected="false" data-process-tab="1">Plan</button>
+                <button type="button" role="tab" aria-selected="false" data-process-tab="2">Traitement</button>
+              </div>
+              <p class="process__description" data-process-description>Nous évaluons votre état physique, vos douleurs et vos limitations pour comprendre précisément vos besoins.</p>
+            </div>
+
+            <article class="pricing-card">
+              <h3>Positions tarifaires LAMal</h3>
+              <dl>
+                <div><dt>Physiothérapie générale*</dt><dd>51.35 CHF</dd></div>
+                <div><dt>Physiothérapie complexe*</dt><dd>82.39 CHF</dd></div>
+                <div><dt>Thérapie de groupe*</dt><dd>26.75 CHF</dd></div>
+              </dl>
+              <p class="pricing-card__note">* Suppléments possibles liés au déplacement, au matériel ou au bilan de première consultation.</p>
+              <p class="pricing-card__insurance"><img src="assets/icons/shield.svg" alt="" />Sur prescription médicale, l’ensemble de nos prestations est pris en charge selon les conditions LAMal ou LAA.</p>
+            </article>
+          </div>
+
+          <div class="treatments-intro__media">
+            <img src="assets/images/treatments.png" alt="Séance de physiothérapie personnalisée" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section specialties" id="expertises" aria-labelledby="specialties-title">
+        <div class="container">
+          <div class="specialties__heading">
+            <div>
+              <p class="eyebrow eyebrow--light eyebrow--line">Un cabinet pluridisciplinaire</p>
+              <h2 id="specialties-title">Nos domaines de prise en charge.</h2>
+            </div>
+            <div class="carousel-controls">
+              <button type="button" aria-label="Domaine précédent" data-specialty-prev><img src="assets/icons/arrow-left.svg" alt="" /></button>
+              <button type="button" aria-label="Domaine suivant" data-specialty-next><img src="assets/icons/arrow-right.svg" alt="" /></button>
+            </div>
+          </div>
+
+          <div class="specialty-feature" aria-live="polite">
+            <div class="specialty-feature__media">
+              <img src="assets/images/specialty-respiratory.png" alt="Prise en charge en physiothérapie respiratoire" data-specialty-image loading="lazy" />
+              <span data-specialty-count>01 / 08</span>
+            </div>
+            <div class="specialty-feature__copy">
+              <p class="eyebrow eyebrow--light">Domaine de prise en charge</p>
+              <h3 data-specialty-title>Physiothérapie respiratoire</h3>
+              <p data-specialty-description>Une prise en charge personnalisée pour améliorer la capacité respiratoire, faciliter le désencombrement et retrouver plus d’aisance dans les activités quotidiennes.</p>
+              <p>Chaque suivi débute par un bilan complet afin d’adapter les exercices, les techniques manuelles et la progression à vos besoins.</p>
+            </div>
+          </div>
+
+          <div class="specialty-tabs" role="tablist" aria-label="Domaines de prise en charge" data-specialty-tabs>
+            <button type="button" role="tab" aria-selected="true" data-specialty="0">Physiothérapie respiratoire</button>
+            <button type="button" role="tab" aria-selected="false" data-specialty="1">Rééducation post-traumatique</button>
+            <button type="button" role="tab" aria-selected="false" data-specialty="2">Gériatrie</button>
+            <button type="button" role="tab" aria-selected="false" data-specialty="3">Drainage lymphatique manuel</button>
+            <button type="button" role="tab" aria-selected="false" data-specialty="4">Sophrologie</button>
+            <button type="button" role="tab" aria-selected="false" data-specialty="5">Oncologie</button>
+            <button type="button" role="tab" aria-selected="false" data-specialty="6">Périnatalité</button>
+            <button type="button" role="tab" aria-selected="false" data-specialty="7">Neurologie et rhumatologie</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section team" id="equipe" aria-labelledby="team-title">
+        <div class="container">
+          <div class="team__intro section-copy">
+            <p class="eyebrow eyebrow--line">Rencontrez nos thérapeutes</p>
+            <h2 id="team-title">Notre Équipe</h2>
+            <p>Tous nos physiothérapeutes sont diplômés et reconnus par la LAMal. Ils effectuent régulièrement des formations dans leurs domaines de spécialisation et développent continuellement leurs compétences.</p>
+          </div>
+
+          <div class="team-grid">
+            <article class="therapist-card">
+              <div class="therapist-card__identity">
+                <h3>Maria Ricaud De La Cruz</h3>
+                <p>Physiothérapeute</p>
+              </div>
+              <img class="therapist-card__portrait" src="assets/images/team-maria.png" alt="Maria Ricaud De La Cruz" loading="lazy" />
+              <div class="therapist-card__details">
+                <div>
+                  <p class="eyebrow eyebrow--light">Expertise</p>
+                  <p>Drainage lymphatique<br />Rhumatologie<br />Rééducation musculo-squelettique<br />Physiothérapie à domicile</p>
+                </div>
+                <p class="therapist-card__languages"><img src="assets/icons/language.svg" alt="" />Français · Anglais · Espagnol</p>
+              </div>
+            </article>
+
+            <article class="therapist-card">
+              <div class="therapist-card__identity">
+                <h3>Benjamin Quittanson</h3>
+                <p>Physiothérapeute</p>
+              </div>
+              <img class="therapist-card__portrait" src="assets/images/team-benjamin.png" alt="Benjamin Quittanson" loading="lazy" />
+              <div class="therapist-card__details">
+                <div>
+                  <p class="eyebrow eyebrow--light">Expertise</p>
+                  <p>Physiothérapie du sport<br />Physiothérapie respiratoire<br />Neurologie · Rhumatologie<br />Physiothérapie à domicile</p>
+                </div>
+                <p class="therapist-card__languages"><img src="assets/icons/language.svg" alt="" />Français · Anglais</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact" aria-labelledby="contact-title">
+        <div class="container">
+          <div class="contact__intro section-copy">
+            <p class="eyebrow eyebrow--line">Planifiez votre rendez-vous</p>
+            <h2 id="contact-title">Contact</h2>
+            <p>Pour un premier rendez-vous ou une question sur votre prise en charge, contactez-nous directement ou utilisez le formulaire. Nous vous répondons habituellement dans les 48 heures.</p>
+          </div>
+
+          <div class="contact-grid">
+            <aside class="contact-sidebar">
+              <article class="onedoc-card">
+                <h3>Prendre rendez-vous sur OneDoc</h3>
+                <p>Choisissez directement le créneau qui vous convient.</p>
+                <a class="onedoc-button" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
+                  <img src="assets/images/onedoc.png" alt="OneDoc" />
+                  <span>Réserver en ligne</span>
+                  <img src="assets/images/arrow-right.png" alt="" />
+                </a>
+              </article>
+
+              <article class="practical-card">
+                <h3>Infos pratiques</h3>
+                <ul>
+                  <li><img src="assets/icons/clock.svg" alt="" /><span>Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</span></li>
+                  <li><img src="assets/icons/pin.svg" alt="" /><span>Route de Chancy 59<br />1213 Petit-Lancy</span></li>
+                  <li><img src="assets/icons/phone.svg" alt="" /><a href="tel:+41784344311">078 434 43 11</a></li>
+                  <li><img src="assets/icons/email.svg" alt="" /><a href="mailto:cabinet@genevephysio-lancysport.ch">cabinet@genevephysio-lancysport.ch</a></li>
+                </ul>
+              </article>
+            </aside>
+
+            <form class="contact-form" data-contact-form>
+              <h3>Demander un rendez-vous en ligne</h3>
+              <div class="form-grid">
+                <label>Prénom<input type="text" name="firstName" autocomplete="given-name" required /></label>
+                <label>Nom<input type="text" name="lastName" autocomplete="family-name" required /></label>
+                <label>Email<input type="email" name="email" autocomplete="email" required /></label>
+                <label>Téléphone<input type="tel" name="phone" autocomplete="tel" /></label>
+                <label class="form-grid__wide">Motif de la demande<select name="reason" required><option value="">Sélectionner</option><option>Premier rendez-vous</option><option>Suivi de traitement</option><option>Physiothérapie à domicile</option><option>Autre question</option></select></label>
+                <label class="form-grid__wide">Message<textarea name="message" rows="5" required></textarea></label>
+              </div>
+              <label class="consent"><input type="checkbox" name="consent" required /><span>J’accepte que mes données soient utilisées pour traiter ma demande de rendez-vous.</span></label>
+              <button class="button button--primary" type="submit">Envoyer la demande</button>
+              <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+              <p class="privacy-note">Le traitement de ce formulaire est conforme à la nouvelle loi fédérale sur la protection des données (nLPD). Vos données servent uniquement à répondre à votre demande et ne sont jamais transmises à des tiers à des fins commerciales.</p>
+            </form>
+
+            <a class="map-card" href="https://www.google.com/maps/search/?api=1&amp;query=Route+de+Chancy+59+1213+Petit-Lancy" target="_blank" rel="noreferrer" aria-label="Voir le cabinet sur la carte">
+              <img class="map-card__image" src="assets/images/map.png" alt="" loading="lazy" />
+              <span class="map-card__pin"><img src="assets/icons/pin.svg" alt="" /></span>
+              <span>Voir l’itinéraire</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq" id="faq" aria-labelledby="faq-title">
+        <div class="container faq__layout">
+          <div class="faq__intro">
+            <h2 id="faq-title">Questions<br />fréquentes</h2>
+            <p>Remboursement, prescription, séances à domicile&nbsp;: les réponses aux questions que l’on nous pose le plus souvent.</p>
+          </div>
+          <div class="accordion" data-accordion>
+            <article class="accordion__item">
+              <h3><button type="button" aria-expanded="true">Faut-il une ordonnance médicale pour consulter un physiothérapeute à Genève ?<span aria-hidden="true">−</span></button></h3>
+              <div class="accordion__panel"><p>Une prescription médicale est nécessaire pour une prise en charge par l’assurance de base. Contactez-nous si vous avez un doute sur votre situation.</p></div>
+            </article>
+            <article class="accordion__item">
+              <h3><button type="button" aria-expanded="false">Les séances de physiothérapie sont-elles remboursées ?<span aria-hidden="true">+</span></button></h3>
+              <div class="accordion__panel" hidden><p>Les prestations prescrites peuvent être prises en charge par la LAMal ou la LAA selon les conditions de votre assurance.</p></div>
+            </article>
+            <article class="accordion__item">
+              <h3><button type="button" aria-expanded="false">Proposez-vous des séances de physiothérapie à domicile ?<span aria-hidden="true">+</span></button></h3>
+              <div class="accordion__panel" hidden><p>Oui, lorsque le déplacement est difficile, nous intervenons à domicile dans le secteur de Lancy et ses environs.</p></div>
+            </article>
+            <article class="accordion__item">
+              <h3><button type="button" aria-expanded="false">Combien de temps dure une séance ?<span aria-hidden="true">+</span></button></h3>
+              <div class="accordion__panel" hidden><p>La durée dépend du type de prise en charge. Elle vous est précisée au moment de la réservation.</p></div>
+            </article>
+            <article class="accordion__item">
+              <h3><button type="button" aria-expanded="false">Comment prendre rendez-vous ?<span aria-hidden="true">+</span></button></h3>
+              <div class="accordion__panel" hidden><p>Vous pouvez réserver sur OneDoc, nous appeler ou utiliser le formulaire de contact.</p></div>
+            </article>
+            <article class="accordion__item">
+              <h3><button type="button" aria-expanded="false">Que faut-il apporter au premier rendez-vous ?<span aria-hidden="true">+</span></button></h3>
+              <div class="accordion__panel" hidden><p>Apportez votre prescription, votre carte d’assurance et tout document médical utile à votre prise en charge.</p></div>
+            </article>
+            <article class="accordion__item">
+              <h3><button type="button" aria-expanded="false">Prenez-vous en charge les enfants ?<span aria-hidden="true">+</span></button></h3>
+              <div class="accordion__panel" hidden><p>Oui, le cabinet accompagne les enfants comme les adultes, selon leurs besoins et l’indication médicale.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="mentions">
+      <div class="container site-footer__main">
+        <div class="site-footer__brand">
+          <img src="assets/images/brand-footer.png" alt="Genève Physio Lancy Sport" loading="lazy" />
+        </div>
+        <div>
+          <h2>Navigation</h2>
+          <nav aria-label="Navigation de pied de page">
+            <a href="#cabinet">Le cabinet</a>
+            <a href="#traitements">Prestations</a>
+            <a href="#equipe">Notre équipe</a>
+            <a href="#contact">Prendre rendez-vous</a>
+            <a href="#faq">FAQ</a>
+            <a href="#mentions">Mentions légales</a>
+          </nav>
+        </div>
+        <div class="site-footer__info">
+          <h2>Infos pratiques</h2>
+          <p><img src="assets/icons/clock.svg" alt="" />Lundi 07:30–19:00 · Mardi–Vendredi 08:00–19:00</p>
+          <p><img src="assets/icons/pin.svg" alt="" />Route de Chancy 59, 1213 Petit-Lancy</p>
+          <a href="tel:+41784344311"><img src="assets/icons/phone.svg" alt="" />078 434 43 11</a>
+          <a href="mailto:cabinet@genevephysio-lancysport.ch"><img src="assets/icons/email.svg" alt="" />cabinet@genevephysio-lancysport.ch</a>
+        </div>
+      </div>
+      <div class="container site-footer__legal">
+        <div><a href="#mentions">Mentions légales</a><a href="#mentions">Loi sur la protection des données</a></div>
+        <p>En cas d’urgence, appelez le 144. Ce site et son formulaire ne sont pas un canal d’urgence et ne remplacent pas un avis médical.</p>
+        <p>© <span data-year>2026</span> Genève Physio Lancy Sport</p>
+      </div>
+    </footer>
+  </body>
+</html>
