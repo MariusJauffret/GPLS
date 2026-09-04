@@ -229,6 +229,20 @@ h3 {
   box-shadow: var(--shadow);
 }
 
+.hero__actions .button {
+  border-radius: 999px;
+}
+
+.hero__actions .button--light {
+  padding: 10px 15px;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.1);
+}
+
+.hero__actions .button--light img {
+  width: 35px;
+  height: 35px;
+}
+
 .site-header {
   position: absolute;
   z-index: 20;
