@@ -1,7 +1,6 @@
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
-const treatmentsMenu = document.querySelector("[data-treatments-menu]");
-const treatmentsToggle = document.querySelector("[data-treatments-toggle]");
+const navDropdowns = [...document.querySelectorAll("[data-nav-dropdown]")];
 
 function setMenu(open) {
   if (!menuToggle || !mobileMenu) return;
@@ -10,25 +9,44 @@ function setMenu(open) {
   menuToggle.querySelector(".sr-only").textContent = open ? "Fermer le menu" : "Ouvrir le menu";
   mobileMenu.hidden = !open;
   document.body.classList.toggle("menu-open", open);
+
+  const heroVideo = document.querySelector(".hero__media video");
+  if (!heroVideo) return;
+  if (open) heroVideo.pause();
+  else if (heroSection?.getBoundingClientRect().bottom > 0) heroVideo.play().catch(() => {});
 }
 
 menuToggle?.addEventListener("click", () => {
   setMenu(menuToggle.getAttribute("aria-expanded") !== "true");
 });
 
-function setTreatmentsMenu(open) {
-  if (!treatmentsMenu || !treatmentsToggle) return;
+function setNavDropdown(wrapper, open) {
+  const toggle = wrapper.querySelector("[data-nav-toggle]");
+  if (!toggle) return;
 
-  treatmentsMenu.toggleAttribute("data-open", open);
-  treatmentsToggle.setAttribute("aria-expanded", String(open));
+  wrapper.toggleAttribute("data-open", open);
+  toggle.setAttribute("aria-expanded", String(open));
 }
 
-treatmentsToggle?.addEventListener("click", () => {
-  setTreatmentsMenu(treatmentsToggle.getAttribute("aria-expanded") !== "true");
+function closeNavDropdowns(except) {
+  navDropdowns.forEach((wrapper) => {
+    if (wrapper !== except) setNavDropdown(wrapper, false);
+  });
+}
+
+navDropdowns.forEach((wrapper) => {
+  const toggle = wrapper.querySelector("[data-nav-toggle]");
+  toggle?.addEventListener("click", () => {
+    const willOpen = toggle.getAttribute("aria-expanded") !== "true";
+    closeNavDropdowns();
+    setNavDropdown(wrapper, willOpen);
+  });
 });
 
 document.addEventListener("click", (event) => {
-  if (treatmentsMenu && !treatmentsMenu.contains(event.target)) setTreatmentsMenu(false);
+  navDropdowns.forEach((wrapper) => {
+    if (!wrapper.contains(event.target)) setNavDropdown(wrapper, false);
+  });
 });
 
 mobileMenu?.querySelectorAll("a").forEach((link) => {
@@ -36,12 +54,15 @@ mobileMenu?.querySelectorAll("a").forEach((link) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && treatmentsToggle?.getAttribute("aria-expanded") === "true") {
-    setTreatmentsMenu(false);
-    treatmentsToggle.focus();
+  if (event.key !== "Escape") return;
+
+  const openDropdown = navDropdowns.find((wrapper) => wrapper.hasAttribute("data-open"));
+  if (openDropdown) {
+    setNavDropdown(openDropdown, false);
+    openDropdown.querySelector("[data-nav-toggle]")?.focus();
   }
 
-  if (event.key === "Escape" && menuToggle?.getAttribute("aria-expanded") === "true") {
+  if (menuToggle?.getAttribute("aria-expanded") === "true") {
     setMenu(false);
     menuToggle.focus();
   }
@@ -50,6 +71,44 @@ document.addEventListener("keydown", (event) => {
 window.addEventListener("resize", () => {
   if (window.innerWidth > 767) setMenu(false);
 });
+
+const siteHeader = document.querySelector("[data-header]");
+const heroSection = document.getElementById("accueil");
+const HEADER_SCROLL_THRESHOLD = 220;
+
+if (siteHeader) {
+  let ticking = false;
+
+  const updateHeaderScrolled = () => {
+    siteHeader.classList.toggle("is-scrolled", window.scrollY > HEADER_SCROLL_THRESHOLD);
+    ticking = false;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateHeaderScrolled);
+    },
+    { passive: true }
+  );
+
+  updateHeaderScrolled();
+}
+
+const heroVideo = document.querySelector(".hero__media video");
+
+if (heroVideo && "IntersectionObserver" in window) {
+  const heroVideoObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) heroVideo.play().catch(() => {});
+      else heroVideo.pause();
+    },
+    { threshold: 0 }
+  );
+  heroVideoObserver.observe(heroVideo);
+}
 
 const processSteps = [
   "Nous évaluons votre état physique, vos douleurs et vos limitations pour comprendre précisément vos besoins.",
@@ -124,6 +183,7 @@ const specialties = [
   },
 ];
 
+const specialtyTabsContainer = document.querySelector("[data-specialty-tabs]");
 const specialtyTabs = [...document.querySelectorAll("[data-specialty]")];
 const specialtyTitle = document.querySelector("[data-specialty-title]");
 const specialtyDescription = document.querySelector("[data-specialty-description]");
@@ -131,14 +191,148 @@ const specialtyImage = document.querySelector("[data-specialty-image]");
 const specialtyCount = document.querySelector("[data-specialty-count]");
 let activeSpecialty = 0;
 
+const SPECIALTY_TRANSITION_MS = 260;
+const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+// Ghost layer for the reflow animation: a detached copy of ".specialty-tabs" so cloned buttons
+// keep their normal styling (colors, icon, padding) via the same CSS selectors, but positioned
+// with `position: fixed`, entirely outside the real grid. Real grid children are never
+// transformed directly — doing so confuses the grid's own auto-placement pass and can leave it
+// laid out incorrectly, so instead the real grid updates instantly (hidden under its ghost)
+// while only this free-floating clone animates from the old rect to the new one.
+const specialtyGhostLayer = document.createElement("div");
+specialtyGhostLayer.className = "specialty-tabs specialty-tabs__ghost-layer";
+document.body.appendChild(specialtyGhostLayer);
+const specialtyPendingCleanup = new Map();
+
+function getSpecialtyColumns() {
+  if (window.innerWidth <= 767) return 2;
+  if (window.innerWidth <= 1024) return 3;
+  return 5;
+}
+
+// The grid's own auto-placement can't give us the layout we want here: the active tab spans
+// two columns, and when it naturally sits in the last column of its row there is no room to
+// its right, so the browser instead wraps it whole to the next row's first column. What we
+// want is for it to grow left instead, staying put, while only the item that was directly
+// before it gets pushed down to the next row. We compute that placement explicitly (instead
+// of relying on grid-auto-flow) so every column/row assignment is deterministic.
+function computeSpecialtyPlacement(active, columns) {
+  const order = specialtyTabs.map((_, index) => index);
+
+  const naturalCol = active % columns;
+  const isEdge = naturalCol === columns - 1 && active > 0;
+  if (isEdge) {
+    // Process the active tab before its immediate predecessor, so the active tab claims the
+    // row's last two columns and the predecessor is the one that overflows to the next row.
+    [order[active - 1], order[active]] = [order[active], order[active - 1]];
+  }
+
+  const placement = new Array(specialtyTabs.length);
+  let col = 0;
+  let row = 1;
+  order.forEach((itemIndex) => {
+    const span = itemIndex === active ? 2 : 1;
+    if (col + span > columns) {
+      col = 0;
+      row += 1;
+    }
+    placement[itemIndex] = `${col + 1} / span ${span}`;
+    col += span;
+    placement[itemIndex] = { column: placement[itemIndex], row };
+  });
+
+  return placement;
+}
+
+function applySpecialtyLayout() {
+  const columns = getSpecialtyColumns();
+
+  // Every breakpoint gets an explicit placement, mobile included: leaving mobile to the grid's
+  // own auto-placement (relying on CSS alone for grid-column: 1 / -1) left it exposed to the
+  // same auto-placement corruption as the 5/3-column grids — the browser's auto-placement pass
+  // can end up in a bad, overlapping state when many tabs reflow at once, and unlike an explicit
+  // placement it doesn't self-correct on repaint. Computing every line explicitly sidesteps
+  // auto-placement entirely, at every breakpoint.
+  const placement = computeSpecialtyPlacement(activeSpecialty, columns);
+  specialtyTabs.forEach((tab, index) => {
+    tab.style.gridColumn = placement[index].column;
+    tab.style.gridRow = String(placement[index].row);
+  });
+}
+
+function animateSpecialtyLayout(applyChanges) {
+  if (reduceMotionQuery.matches || !specialtyTabsContainer) {
+    applyChanges();
+    return;
+  }
+
+  const beforeRects = specialtyTabs.map((tab) => tab.getBoundingClientRect());
+
+  applyChanges();
+
+  specialtyTabs.forEach((tab, index) => {
+    const before = beforeRects[index];
+    const after = tab.getBoundingClientRect();
+    const moved =
+      Math.round(before.left) !== Math.round(after.left) ||
+      Math.round(before.top) !== Math.round(after.top) ||
+      Math.round(before.width) !== Math.round(after.width) ||
+      Math.round(before.height) !== Math.round(after.height);
+    if (!moved) return;
+
+    // If this tab is still finishing a previous reflow animation, drop it immediately so the
+    // stale cleanup can't reveal the real tab mid-way through this new one.
+    const pending = specialtyPendingCleanup.get(tab);
+    if (pending) {
+      window.clearTimeout(pending.timer);
+      pending.ghost.remove();
+    }
+
+    const ghost = tab.cloneNode(true);
+    ghost.removeAttribute("id");
+    ghost.tabIndex = -1;
+    ghost.setAttribute("aria-hidden", "true");
+    ghost.style.position = "fixed";
+    ghost.style.margin = "0";
+    ghost.style.left = `${before.left}px`;
+    ghost.style.top = `${before.top}px`;
+    ghost.style.width = `${before.width}px`;
+    ghost.style.height = `${before.height}px`;
+    ghost.style.transition = "none";
+    ghost.style.pointerEvents = "none";
+    specialtyGhostLayer.appendChild(ghost);
+
+    tab.style.visibility = "hidden";
+
+    requestAnimationFrame(() => {
+      ghost.style.transition = "left var(--ease), top var(--ease), width var(--ease), height var(--ease)";
+      ghost.style.left = `${after.left}px`;
+      ghost.style.top = `${after.top}px`;
+      ghost.style.width = `${after.width}px`;
+      ghost.style.height = `${after.height}px`;
+    });
+
+    const timer = window.setTimeout(() => {
+      tab.style.visibility = "";
+      ghost.remove();
+      specialtyPendingCleanup.delete(tab);
+    }, SPECIALTY_TRANSITION_MS);
+    specialtyPendingCleanup.set(tab, { timer, ghost });
+  });
+}
+
 function showSpecialty(index, moveFocus = false) {
   activeSpecialty = (index + specialties.length) % specialties.length;
   const specialty = specialties[activeSpecialty];
 
-  specialtyTabs.forEach((tab, tabIndex) => {
-    const active = tabIndex === activeSpecialty;
-    tab.setAttribute("aria-selected", String(active));
-    tab.tabIndex = active ? 0 : -1;
+  animateSpecialtyLayout(() => {
+    specialtyTabs.forEach((tab, tabIndex) => {
+      const active = tabIndex === activeSpecialty;
+      tab.setAttribute("aria-selected", String(active));
+      tab.tabIndex = active ? 0 : -1;
+    });
+    applySpecialtyLayout();
   });
 
   if (specialtyTitle) specialtyTitle.textContent = specialty.title;
@@ -156,6 +350,14 @@ function showSpecialty(index, moveFocus = false) {
 
   if (moveFocus) specialtyTabs[activeSpecialty]?.focus();
 }
+
+applySpecialtyLayout();
+
+let specialtyResizeTimer;
+window.addEventListener("resize", () => {
+  window.clearTimeout(specialtyResizeTimer);
+  specialtyResizeTimer = window.setTimeout(applySpecialtyLayout, 150);
+});
 
 specialtyTabs.forEach((tab, index) => {
   tab.addEventListener("click", () => showSpecialty(index));
@@ -196,7 +398,7 @@ specialtyLinks.forEach((link) => {
     event.preventDefault();
     const index = Number(link.dataset.specialtyLink);
     showSpecialty(index);
-    setTreatmentsMenu(false);
+    closeNavDropdowns();
     setMenu(false);
     window.history.pushState(null, "", link.hash);
     specialtiesSection?.scrollIntoView({ behavior: "smooth", block: "start" });

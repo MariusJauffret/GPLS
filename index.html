@@ -29,12 +29,14 @@
       <nav class="desktop-nav" aria-label="Navigation principale">
         <div class="desktop-nav__primary">
           <a href="#cabinet">Le cabinet</a>
-          <div class="nav-dropdown" data-treatments-menu>
-            <button type="button" aria-expanded="false" aria-controls="treatments-dropdown" data-treatments-toggle>
+          <div class="nav-dropdown" data-nav-dropdown>
+            <button type="button" aria-expanded="false" aria-controls="treatments-dropdown" data-nav-toggle>
               Traitements
-              <span aria-hidden="true">⌄</span>
+              <span class="nav-dropdown__icon" aria-hidden="true">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
             </button>
-            <div class="treatments-dropdown" id="treatments-dropdown">
+            <div class="nav-flyout" id="treatments-dropdown">
               <a href="#domaine-reeducation-post-traumatique" data-specialty-link="0">Rééducation post-traumatique</a>
               <a href="#domaine-rhumatologie" data-specialty-link="1">Rhumatologie</a>
               <a href="#domaine-neurologie" data-specialty-link="2">Neurologie</a>
@@ -46,7 +48,18 @@
               <a href="#domaine-physiotherapie-respiratoire" data-specialty-link="8">Physiothérapie respiratoire</a>
             </div>
           </div>
-          <a href="#expertises">Expertise</a>
+          <div class="nav-dropdown" data-nav-dropdown>
+            <button type="button" aria-expanded="false" aria-controls="expertise-dropdown" data-nav-toggle>
+              Expertise
+              <span class="nav-dropdown__icon" aria-hidden="true">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+            </button>
+            <div class="nav-flyout nav-flyout--narrow" id="expertise-dropdown">
+              <a href="#expertises">Vue d’ensemble</a>
+              <a href="#expertises">Nos domaines de prise en charge</a>
+            </div>
+          </div>
           <a href="#equipe">Notre équipe</a>
         </div>
         <div class="desktop-nav__secondary">
@@ -58,7 +71,9 @@
 
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
         <span class="sr-only">Ouvrir le menu</span>
-        <img src="assets/images/menu.png" alt="" width="68" height="70" />
+        <span class="menu-toggle__icon" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
       </button>
     </header>
 
@@ -98,7 +113,7 @@
             <div>
               <a class="button button--light" href="tel:+41784344311">
                 <img src="assets/icons/phone.svg" alt="" width="22" height="22" />
-                078 434 43 11
+                <span>078 434 43 11</span>
               </a>
               <a class="button button--primary" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
                 Demander un rendez-vous
@@ -122,7 +137,9 @@
         </div>
 
         <div class="hero__media">
-          <img src="assets/images/hero.jpg.png" alt="Séance de physiothérapie au cabinet" width="920" height="1165" />
+          <video autoplay muted loop playsinline poster="assets/images/hero.jpg.png" aria-label="Séance de physiothérapie au cabinet">
+            <source src="assets/images/hero-video.mp4" type="video/mp4" />
+          </video>
         </div>
       </section>
 
