@@ -80,8 +80,13 @@
     <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
       <nav aria-label="Navigation mobile">
         <a href="#cabinet">Le cabinet</a>
-        <p class="mobile-menu__label">Traitements</p>
-        <div class="mobile-menu__treatments">
+        <button type="button" class="mobile-menu__label" aria-expanded="false" aria-controls="mobile-menu-treatments" data-collapsible-toggle>
+          Traitements
+          <span class="mobile-menu__label-icon" aria-hidden="true">
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </span>
+        </button>
+        <div class="mobile-menu__treatments" id="mobile-menu-treatments" hidden>
           <a href="#domaine-reeducation-post-traumatique" data-specialty-link="0">Rééducation post-traumatique</a>
           <a href="#domaine-rhumatologie" data-specialty-link="1">Rhumatologie</a>
           <a href="#domaine-neurologie" data-specialty-link="2">Neurologie</a>
@@ -92,12 +97,27 @@
           <a href="#domaine-geriatrie" data-specialty-link="7">Gériatrie</a>
           <a href="#domaine-physiotherapie-respiratoire" data-specialty-link="8">Physiothérapie respiratoire</a>
         </div>
-        <a href="#expertises">Expertise</a>
+        <button type="button" class="mobile-menu__label" aria-expanded="false" aria-controls="mobile-menu-expertise" data-collapsible-toggle>
+          Expertise
+          <span class="mobile-menu__label-icon" aria-hidden="true">
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </span>
+        </button>
+        <div class="mobile-menu__treatments" id="mobile-menu-expertise" hidden>
+          <a href="#expertises">Vue d’ensemble</a>
+          <a href="#expertises">Nos domaines de prise en charge</a>
+        </div>
         <a href="#equipe">Notre équipe</a>
         <a href="#contact">Contact</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="button button--primary mobile-menu__cta" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">Prendre rendez-vous</a>
+      <div class="mobile-menu__cta">
+        <a class="button button--light" href="tel:+41784344311">
+          <img src="assets/icons/phone.svg" alt="" width="22" height="22" />
+          <span>078 434 43 11</span>
+        </a>
+        <a class="button button--primary" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">Demander un rendez-vous</a>
+      </div>
     </div>
 
     <main id="main">
@@ -128,7 +148,6 @@
               <p><img src="assets/icons/shield.svg" alt="" />Vos données sont traitées conformément à la nouvelle loi sur la protection des données (nLPD).</p>
             </div>
             <div class="quick-info">
-              <div class="quick-info__partner"><img src="assets/images/physioswiss.png" alt="Physioswiss" /></div>
               <p><img src="assets/icons/pin.svg" alt="" />Route de Chancy 59<br />1213 Petit-Lancy</p>
               <p><img src="assets/icons/clock.svg" alt="" />Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</p>
               <a href="mailto:cabinet@genevephysio-lancysport.ch"><img src="assets/icons/email.svg" alt="" />cabinet@genevephysio-lancysport.ch</a>
@@ -149,7 +168,6 @@
           <p><img src="assets/icons/shield.svg" alt="" />Vos données sont traitées conformément à la nouvelle loi sur la protection des données (nLPD).</p>
         </div>
         <div class="quick-info">
-          <div class="quick-info__partner"><img src="assets/images/physioswiss.png" alt="Physioswiss" /></div>
           <p><img src="assets/icons/pin.svg" alt="" />Route de Chancy 59<br />1213 Petit-Lancy</p>
           <p><img src="assets/icons/clock.svg" alt="" />Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</p>
           <a href="mailto:cabinet@genevephysio-lancysport.ch"><img src="assets/icons/email.svg" alt="" />cabinet@genevephysio-lancysport.ch</a>
@@ -191,14 +209,21 @@
             </div>
 
             <article class="pricing-card">
-              <h3>Positions tarifaires LAMal</h3>
-              <dl>
-                <div><dt>Physiothérapie générale*</dt><dd>51.35 CHF</dd></div>
-                <div><dt>Physiothérapie complexe*</dt><dd>82.39 CHF</dd></div>
-                <div><dt>Thérapie de groupe*</dt><dd>26.75 CHF</dd></div>
-              </dl>
-              <p class="pricing-card__note">* Suppléments possibles liés au déplacement, au matériel ou au bilan de première consultation.</p>
-              <p class="pricing-card__insurance"><img src="assets/icons/shield.svg" alt="" />Sur prescription médicale, l’ensemble de nos prestations est pris en charge selon les conditions LAMal ou LAA.</p>
+              <button type="button" class="pricing-card__toggle" aria-expanded="false" aria-controls="pricing-card-details" data-collapsible-toggle>
+                <h3>Positions tarifaires LAMal</h3>
+                <span class="pricing-card__toggle-icon" aria-hidden="true">
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </span>
+              </button>
+              <div class="pricing-card__details" id="pricing-card-details" hidden>
+                <dl>
+                  <div><dt>Physiothérapie générale*</dt><dd>51.35 CHF</dd></div>
+                  <div><dt>Physiothérapie complexe*</dt><dd>82.39 CHF</dd></div>
+                  <div><dt>Thérapie de groupe*</dt><dd>26.75 CHF</dd></div>
+                </dl>
+                <p class="pricing-card__note">* Suppléments possibles liés au déplacement, au matériel ou au bilan de première consultation.</p>
+                <p class="pricing-card__insurance"><img src="assets/icons/shield.svg" alt="" />Sur prescription médicale, l’ensemble de nos prestations est pris en charge selon les conditions LAMal ou LAA.</p>
+              </div>
             </article>
           </div>
 
@@ -215,16 +240,16 @@
               <p class="eyebrow eyebrow--light eyebrow--line">Un cabinet pluridisciplinaire</p>
               <h2 id="specialties-title">Nos domaines de prise en charge.</h2>
             </div>
-            <div class="carousel-controls">
-              <button type="button" aria-label="Domaine précédent" data-specialty-prev><img src="assets/icons/arrow-left.svg" alt="" /></button>
-              <button type="button" aria-label="Domaine suivant" data-specialty-next><img src="assets/icons/arrow-right.svg" alt="" /></button>
-            </div>
           </div>
 
           <div class="specialty-feature" aria-live="polite">
             <div class="specialty-feature__media">
-              <img src="assets/images/specialty-respiratory.png" alt="Séance de rééducation post-traumatique" data-specialty-image loading="lazy" />
+              <img src="assets/images/specialties/posttrauma.png" alt="Séance de rééducation post-traumatique" data-specialty-image loading="lazy" />
               <span data-specialty-count>01 / 09</span>
+              <div class="specialty-feature__nav">
+                <button type="button" aria-label="Domaine précédent" data-specialty-prev><img src="assets/icons/arrow-left.svg" alt="" /></button>
+                <button type="button" aria-label="Domaine suivant" data-specialty-next><img src="assets/icons/arrow-right.svg" alt="" /></button>
+              </div>
             </div>
             <div class="specialty-feature__copy">
               <p class="eyebrow eyebrow--light">Domaine de prise en charge</p>
@@ -235,15 +260,15 @@
           </div>
 
           <div class="specialty-tabs" role="tablist" aria-label="Domaines de prise en charge" data-specialty-tabs>
-            <button id="domaine-reeducation-post-traumatique" type="button" role="tab" aria-selected="true" data-specialty="0"><img src="assets/images/specialty-secondary.png" alt="" /><span>Rééducation post-traumatique</span></button>
-            <button id="domaine-rhumatologie" type="button" role="tab" aria-selected="false" data-specialty="1"><img src="assets/images/specialty-secondary.png" alt="" /><span>Rhumatologie</span></button>
-            <button id="domaine-neurologie" type="button" role="tab" aria-selected="false" data-specialty="2"><img src="assets/images/specialty-secondary.png" alt="" /><span>Neurologie</span></button>
-            <button id="domaine-perinatalite" type="button" role="tab" aria-selected="false" data-specialty="3"><img src="assets/images/specialty-secondary.png" alt="" /><span>Périnatalité</span></button>
-            <button id="domaine-oncologie" type="button" role="tab" aria-selected="false" data-specialty="4"><img src="assets/images/specialty-secondary.png" alt="" /><span>Oncologie</span></button>
-            <button id="domaine-sophrologie" type="button" role="tab" aria-selected="false" data-specialty="5"><img src="assets/images/specialty-secondary.png" alt="" /><span>Sophrologie</span></button>
-            <button id="domaine-drainage-lymphatique" type="button" role="tab" aria-selected="false" data-specialty="6"><img src="assets/images/specialty-secondary.png" alt="" /><span>Drainage lymphatique manuel</span></button>
-            <button id="domaine-geriatrie" type="button" role="tab" aria-selected="false" data-specialty="7"><img src="assets/images/specialty-secondary.png" alt="" /><span>Gériatrie</span></button>
-            <button id="domaine-physiotherapie-respiratoire" type="button" role="tab" aria-selected="false" data-specialty="8"><img src="assets/images/specialty-secondary.png" alt="" /><span>Physiothérapie respiratoire</span></button>
+            <button id="domaine-reeducation-post-traumatique" type="button" role="tab" aria-selected="true" data-specialty="0"><img src="assets/images/specialties/posttrauma.png" alt="" /><span>Rééducation post-traumatique</span></button>
+            <button id="domaine-rhumatologie" type="button" role="tab" aria-selected="false" data-specialty="1"><img src="assets/images/specialties/rhumatologie.png" alt="" /><span>Rhumatologie</span></button>
+            <button id="domaine-neurologie" type="button" role="tab" aria-selected="false" data-specialty="2"><img src="assets/images/specialties/neurologie.png" alt="" /><span>Neurologie</span></button>
+            <button id="domaine-perinatalite" type="button" role="tab" aria-selected="false" data-specialty="3"><img src="assets/images/specialties/perinatalitlé.png" alt="" /><span>Périnatalité</span></button>
+            <button id="domaine-oncologie" type="button" role="tab" aria-selected="false" data-specialty="4"><img src="assets/images/specialties/oncologie.png" alt="" /><span>Oncologie</span></button>
+            <button id="domaine-sophrologie" type="button" role="tab" aria-selected="false" data-specialty="5"><img src="assets/images/specialties/sofrologie.png" alt="" /><span>Sophrologie</span></button>
+            <button id="domaine-drainage-lymphatique" type="button" role="tab" aria-selected="false" data-specialty="6"><img src="assets/images/specialties/drainagelymphatique.png" alt="" /><span>Drainage lymphatique manuel</span></button>
+            <button id="domaine-geriatrie" type="button" role="tab" aria-selected="false" data-specialty="7"><img src="assets/images/specialties/geriatrie.png" alt="" /><span>Gériatrie</span></button>
+            <button id="domaine-physiotherapie-respiratoire" type="button" role="tab" aria-selected="false" data-specialty="8"><img src="assets/images/specialties/physioresp.png" alt="" /><span>Physiothérapie respiratoire</span></button>
           </div>
         </div>
       </section>
@@ -265,10 +290,25 @@
               <img class="therapist-card__portrait" src="assets/images/team-maria.png" alt="Maria Ricaud De La Cruz" loading="lazy" />
               <div class="therapist-card__details">
                 <div>
-                  <p class="eyebrow eyebrow--light">Expertise</p>
-                  <p>Drainage lymphatique<br />Rhumatologie<br />Rééducation musculo-squelettique<br />Physiothérapie à domicile</p>
+                  <button type="button" class="therapist-card__expertise-toggle is-open" aria-expanded="true" aria-controls="expertise-maria" data-expertise-toggle>
+                    <span class="eyebrow eyebrow--light">Expertise</span>
+                    <span class="therapist-card__expertise-icon" aria-hidden="true">
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    </span>
+                  </button>
+                  <div class="therapist-card__expertise-panel" id="expertise-maria">
+                    <p>Drainage lymphatique<br />Rhumatologie<br />Rééducation musculo-squelettique<br />Physiothérapie à domicile</p>
+                  </div>
                 </div>
-                <p class="therapist-card__languages"><img src="assets/icons/language.svg" alt="" />Français · Anglais · Espagnol</p>
+                <p class="therapist-card__languages"><img src="assets/icons/language.svg" alt="" />Français Anglais Espagnol</p>
+              </div>
+              <div class="therapist-card__footer">
+                <div class="therapist-card__social">
+                  <a href="#" aria-label="LinkedIn de Maria Ricaud De La Cruz"><img src="assets/icons/linkedin.svg" alt="" /></a>
+                  <a href="#" aria-label="Instagram de Maria Ricaud De La Cruz"><img src="assets/icons/instagram.svg" alt="" /></a>
+                  <a href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous avec Maria Ricaud De La Cruz sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
+                </div>
+                <a class="therapist-card__more" href="#">En savoir plus</a>
               </div>
             </article>
 
@@ -280,10 +320,25 @@
               <img class="therapist-card__portrait" src="assets/images/team-benjamin.png" alt="Benjamin Quittanson" loading="lazy" />
               <div class="therapist-card__details">
                 <div>
-                  <p class="eyebrow eyebrow--light">Expertise</p>
-                  <p>Physiothérapie du sport<br />Physiothérapie respiratoire<br />Neurologie · Rhumatologie<br />Physiothérapie à domicile</p>
+                  <button type="button" class="therapist-card__expertise-toggle is-open" aria-expanded="true" aria-controls="expertise-benjamin" data-expertise-toggle>
+                    <span class="eyebrow eyebrow--light">Expertise</span>
+                    <span class="therapist-card__expertise-icon" aria-hidden="true">
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    </span>
+                  </button>
+                  <div class="therapist-card__expertise-panel" id="expertise-benjamin">
+                    <p>Physiothérapie du sport<br />Physiothérapie respiratoire<br />Neurologie · Rhumatologie<br />Physiothérapie à domicile</p>
+                  </div>
                 </div>
-                <p class="therapist-card__languages"><img src="assets/icons/language.svg" alt="" />Français · Anglais</p>
+                <p class="therapist-card__languages"><img src="assets/icons/language.svg" alt="" />Français Anglais</p>
+              </div>
+              <div class="therapist-card__footer">
+                <div class="therapist-card__social">
+                  <a href="#" aria-label="LinkedIn de Benjamin Quittanson"><img src="assets/icons/linkedin.svg" alt="" /></a>
+                  <a href="#" aria-label="Instagram de Benjamin Quittanson"><img src="assets/icons/instagram.svg" alt="" /></a>
+                  <a href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous avec Benjamin Quittanson sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
+                </div>
+                <a class="therapist-card__more" href="#">En savoir plus</a>
               </div>
             </article>
           </div>
@@ -295,29 +350,31 @@
           <div class="contact__intro section-copy">
             <p class="eyebrow eyebrow--line">Planifiez votre rendez-vous</p>
             <h2 id="contact-title">Contact</h2>
-            <p>Pour un premier rendez-vous ou une question sur votre prise en charge, contactez-nous directement ou utilisez le formulaire. Nous vous répondons habituellement dans les 48 heures.</p>
           </div>
 
           <div class="contact-grid">
             <aside class="contact-sidebar">
-              <article class="onedoc-card">
-                <h3>Prendre rendez-vous sur OneDoc</h3>
-                <p>Choisissez directement le créneau qui vous convient.</p>
-                <a class="onedoc-button" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
-                  <img src="assets/images/onedoc.png" alt="OneDoc" />
-                  <span>Réserver en ligne</span>
-                  <img src="assets/images/arrow-right.png" alt="" />
-                </a>
-              </article>
-
               <article class="practical-card">
                 <h3>Infos pratiques</h3>
                 <ul>
                   <li><img src="assets/icons/clock.svg" alt="" /><span>Lun. 07:30–19:00<br />Mar.–ven. 08:00–19:00</span></li>
                   <li><img src="assets/icons/pin.svg" alt="" /><span>Route de Chancy 59<br />1213 Petit-Lancy</span></li>
-                  <li><img src="assets/icons/phone.svg" alt="" /><a href="tel:+41784344311">078 434 43 11</a></li>
+                  <li><img src="assets/icons/phone-outline.svg" alt="" /><a href="tel:+41784344311">078 434 43 11</a></li>
                   <li><img src="assets/icons/email.svg" alt="" /><a href="mailto:cabinet@genevephysio-lancysport.ch">cabinet@genevephysio-lancysport.ch</a></li>
+                  <li class="practical-card__social">
+                    <a href="#" aria-label="LinkedIn (nouvel onglet)" target="_blank" rel="noreferrer"><img src="assets/icons/linkedin.svg" alt="" /><span>LinkedIn</span><svg class="practical-card__external-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+                    <a href="#" aria-label="Instagram (nouvel onglet)" target="_blank" rel="noreferrer"><img src="assets/icons/instagram.svg" alt="" /><span>Instagram</span><svg class="practical-card__external-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+                  </li>
                 </ul>
+              </article>
+
+              <article class="onedoc-card">
+                <h3>Prendre rendez-vous sur OneDoc</h3>
+                <a class="onedoc-button" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
+                  <img src="assets/images/onedoc.png" alt="OneDoc" />
+                  <span>Réserver en ligne</span>
+                  <img src="assets/images/arrow-right.png" alt="" />
+                </a>
               </article>
             </aside>
 

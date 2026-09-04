@@ -53,6 +53,25 @@ mobileMenu?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => setMenu(false));
 });
 
+document.querySelectorAll("[data-collapsible-toggle]").forEach((toggle) => {
+  const panel = document.getElementById(toggle.getAttribute("aria-controls"));
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    if (panel) panel.hidden = open;
+  });
+});
+
+document.querySelectorAll("[data-expertise-toggle]").forEach((toggle) => {
+  const panel = document.getElementById(toggle.getAttribute("aria-controls"));
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.classList.toggle("is-open", open);
+    panel?.classList.toggle("is-collapsed", !open);
+  });
+});
+
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
 
@@ -130,55 +149,55 @@ const specialties = [
   {
     title: "Rééducation post-traumatique",
     description: "Un accompagnement progressif après une blessure ou une opération pour récupérer mobilité, force et confiance dans le mouvement.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/posttrauma.png",
     alt: "Séance de rééducation post-traumatique",
   },
   {
     title: "Rhumatologie",
     description: "Une prise en charge ciblée pour réduire les douleurs articulaires, entretenir la mobilité et faciliter les gestes du quotidien.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/rhumatologie.png",
     alt: "Prise en charge en rhumatologie",
   },
   {
     title: "Neurologie",
     description: "Un travail individualisé sur la mobilité, l’équilibre et la coordination afin de préserver les capacités fonctionnelles et l’autonomie.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/neurologie.png",
     alt: "Prise en charge en neurologie",
   },
   {
     title: "Périnatalité",
     description: "Une prise en charge douce et adaptée aux changements du corps avant et après la naissance, selon les besoins et les indications de chacune.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/perinatalitlé.png",
     alt: "Prise en charge en périnatalité",
   },
   {
     title: "Oncologie",
     description: "Un suivi individualisé pour soutenir la mobilité, limiter le déconditionnement et accompagner les besoins fonctionnels pendant ou après les traitements.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/oncologie.png",
     alt: "Accompagnement physiothérapeutique en oncologie",
   },
   {
     title: "Sophrologie",
     description: "Une approche complémentaire fondée sur la respiration et la détente pour mieux vivre les tensions et retrouver un rapport plus serein au corps.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/sofrologie.png",
     alt: "Accompagnement centré sur la respiration",
   },
   {
     title: "Drainage lymphatique manuel",
     description: "Des techniques manuelles douces destinées à favoriser la circulation lymphatique et à accompagner la prise en charge des œdèmes.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/drainagelymphatique.png",
     alt: "Soin de drainage lymphatique manuel",
   },
   {
     title: "Gériatrie",
     description: "Des exercices adaptés pour préserver l’autonomie, l’équilibre et la mobilité, en tenant compte du rythme et des objectifs de chaque personne.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/geriatrie.png",
     alt: "Accompagnement physiothérapeutique en gériatrie",
   },
   {
     title: "Physiothérapie respiratoire",
     description: "Une prise en charge personnalisée pour améliorer la capacité respiratoire, faciliter le désencombrement et retrouver plus d’aisance dans les activités quotidiennes.",
-    image: "assets/images/specialty-respiratory.png",
+    image: "assets/images/specialties/physioresp.png",
     alt: "Prise en charge en physiothérapie respiratoire",
   },
 ];
@@ -336,8 +355,15 @@ function showSpecialty(index, moveFocus = false) {
   });
 
   if (specialtyTitle) specialtyTitle.textContent = specialty.title;
-  if (specialtyDescription) specialtyDescription.textContent = specialty.description;
   if (specialtyCount) specialtyCount.textContent = `${String(activeSpecialty + 1).padStart(2, "0")} / ${String(specialties.length).padStart(2, "0")}`;
+
+  if (specialtyDescription) {
+    specialtyDescription.style.opacity = "0";
+    window.setTimeout(() => {
+      specialtyDescription.textContent = specialty.description;
+      specialtyDescription.style.opacity = "1";
+    }, 180);
+  }
 
   if (specialtyImage) {
     specialtyImage.style.opacity = "0";
