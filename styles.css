@@ -250,10 +250,6 @@ h3 {
   box-shadow: var(--shadow);
 }
 
-.button--primary:hover {
-  
-}
-
 .button--light {
   background: var(--white);
   color: var(--blue-deep);
@@ -1253,10 +1249,6 @@ body.menu-open .desktop-nav__secondary {
 .contact-form h2 {
   color: var(--text);
   font-size: 26px;
-}
-
-.contact-form__title-icon {
-  display: none;
 }
 
 .practical-card ul {
@@ -2360,9 +2352,6 @@ textarea:focus {
     padding: 10px 14px;
   }
 
-  .quick-info > * + * {
-  }
-
   .quick-info > a {
     grid-column: auto;
   }
@@ -2744,17 +2733,6 @@ textarea:focus {
     font-size: 16px;
     font-weight: 300;
     letter-spacing: 0.04em;
-  }
-
-  .contact-form__title-icon {
-    display: none;
-    flex: 0 0 auto;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: var(--blue-active);
   }
 
   .contact-form .form-grid {

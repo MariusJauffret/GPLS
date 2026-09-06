@@ -269,7 +269,6 @@ const specialtyTabs = [...document.querySelectorAll("[data-specialty]")];
 const specialtyTitle = document.querySelector("[data-specialty-title]");
 const specialtyDescription = document.querySelector("[data-specialty-description]");
 const specialtyImage = document.querySelector("[data-specialty-image]");
-const specialtyCount = document.querySelector("[data-specialty-count]");
 let activeSpecialty = 0;
 
 const SPECIALTY_TRANSITION_MS = 260;
@@ -417,7 +416,6 @@ function showSpecialty(index, moveFocus = false) {
   });
 
   if (specialtyTitle) specialtyTitle.textContent = specialty.title;
-  if (specialtyCount) specialtyCount.textContent = `${String(activeSpecialty + 1).padStart(2, "0")} / ${String(specialties.length).padStart(2, "0")}`;
   specialtyMenuItems.forEach((item) => {
     item.classList.toggle("is-active", Number(item.dataset.specialtyIndex) === activeSpecialty);
   });
