@@ -166,13 +166,17 @@ h3 {
   padding-block: var(--section-space);
 }
 
-.reveal {
+/* Gated on .js-reveal, which script.js sets on <html> before it hides
+   anything. Without JS (or if script.js throws) the class is never added and
+   every .reveal block just renders normally, instead of being stranded at
+   opacity: 0 forever. */
+.js-reveal .reveal {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity var(--ease-slow), transform var(--ease-slow);
 }
 
-.reveal.is-visible {
+.js-reveal .reveal.is-visible {
   opacity: 1;
   transform: none;
 }

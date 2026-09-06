@@ -1,3 +1,38 @@
+// Scroll-reveal. Deliberately the first thing in this file: the .js-reveal gate
+// (which is what actually hides anything — see styles.css) and the observer that
+// un-hides it are wired in the same tick, so an error anywhere later in this
+// file can't strand content at opacity: 0. It also bails out before adding the
+// gate at all when it can't deliver the animation, leaving content plainly
+// visible rather than hidden.
+(() => {
+  const targets = [...document.querySelectorAll(".reveal")];
+  if (!targets.length) return;
+  if (!("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  document.documentElement.classList.add("js-reveal");
+
+  // Stagger elements that share a parent (card grids, accordion items) by the
+  // order they appear in, capped so a long list doesn't end up with a
+  // multi-second tail.
+  targets.forEach((el) => {
+    const siblings = [...el.parentElement.children].filter((child) => child.classList.contains("reveal"));
+    el.style.transitionDelay = `${Math.min(siblings.indexOf(el), 6) * 70}ms`;
+  });
+
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+  );
+  targets.forEach((el) => revealObserver.observe(el));
+})();
+
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
 const navDropdowns = [...document.querySelectorAll("[data-nav-dropdown]")];
@@ -442,6 +477,23 @@ function showSpecialty(index, moveFocus = false) {
 
 applySpecialtyLayout();
 
+// The tab thumbnails are marked loading="lazy" so a phone never downloads all
+// nine (the tab grid is display:none below 768px, and only the active tab's
+// thumbnail is ever shown above it). That alone would leave a visible gap the
+// first time a desktop visitor switches tabs, so once the page is idle we warm
+// the cache in the background — but only when the grid is actually rendered.
+if (specialtyTabsContainer?.offsetParent !== null) {
+  const warmSpecialtyThumbnails = () => {
+    specialtyTabs.forEach((tab) => {
+      const src = tab.querySelector("img")?.getAttribute("src");
+      if (src) new Image().src = src;
+    });
+  };
+
+  if ("requestIdleCallback" in window) window.requestIdleCallback(warmSpecialtyThumbnails, { timeout: 3000 });
+  else window.setTimeout(warmSpecialtyThumbnails, 1200);
+}
+
 let specialtyResizeTimer;
 window.addEventListener("resize", () => {
   window.clearTimeout(specialtyResizeTimer);
@@ -670,32 +722,3 @@ contactForm?.addEventListener("submit", (event) => {
 
 const year = document.querySelector("[data-year]");
 if (year) year.textContent = String(new Date().getFullYear());
-
-const revealTargets = [...document.querySelectorAll(".reveal")];
-
-// Stagger elements that share a parent (card grids, accordion items) by the
-// order they appear in, capped so a long list doesn't end up with a
-// multi-second tail.
-revealTargets.forEach((el) => {
-  const siblings = [...el.parentElement.children].filter((child) => child.classList.contains("reveal"));
-  const index = siblings.indexOf(el);
-  el.style.transitionDelay = `${Math.min(index, 6) * 70}ms`;
-});
-
-if (revealTargets.length) {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    revealTargets.forEach((el) => el.classList.add("is-visible"));
-  } else {
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          revealObserver.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
-    );
-    revealTargets.forEach((el) => revealObserver.observe(el));
-  }
-}
