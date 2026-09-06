@@ -166,6 +166,17 @@ h3 {
   padding-block: var(--section-space);
 }
 
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--ease-slow), transform var(--ease-slow);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
 .eyebrow {
   color: var(--blue);
   font-size: 14px;

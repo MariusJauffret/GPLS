@@ -672,3 +672,32 @@ contactForm?.addEventListener("submit", (event) => {
 
 const year = document.querySelector("[data-year]");
 if (year) year.textContent = String(new Date().getFullYear());
+
+const revealTargets = [...document.querySelectorAll(".reveal")];
+
+// Stagger elements that share a parent (card grids, accordion items) by the
+// order they appear in, capped so a long list doesn't end up with a
+// multi-second tail.
+revealTargets.forEach((el) => {
+  const siblings = [...el.parentElement.children].filter((child) => child.classList.contains("reveal"));
+  const index = siblings.indexOf(el);
+  el.style.transitionDelay = `${Math.min(index, 6) * 70}ms`;
+});
+
+if (revealTargets.length) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    revealTargets.forEach((el) => el.classList.add("is-visible"));
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+    );
+    revealTargets.forEach((el) => revealObserver.observe(el));
+  }
+}
