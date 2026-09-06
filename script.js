@@ -93,15 +93,66 @@ window.addEventListener("resize", () => {
 
 const siteHeader = document.querySelector("[data-header]");
 const heroSection = document.getElementById("accueil");
+const heroActions = document.querySelector(".hero__actions");
 const HEADER_SCROLL_THRESHOLD = 220;
+const HEADER_COMPACT_THRESHOLD = 200;
+const QUICK_ACTIONS_SCROLL_THRESHOLD = 6;
 
 if (siteHeader) {
   let ticking = false;
+  let lastScrollY = window.scrollY;
+  let scrollLocked = false;
+  let justUnlocked = false;
+  let scrollEndTimer = null;
 
   const updateHeaderScrolled = () => {
-    siteHeader.classList.toggle("is-scrolled", window.scrollY > HEADER_SCROLL_THRESHOLD);
+    const currentScrollY = window.scrollY;
+    const pastHero = (heroSection?.getBoundingClientRect().bottom ?? Infinity) <= 0;
+    siteHeader.classList.toggle("is-scrolled", currentScrollY > HEADER_SCROLL_THRESHOLD);
+    siteHeader.classList.toggle("is-compact", currentScrollY > HEADER_COMPACT_THRESHOLD);
+    siteHeader.classList.toggle("is-past-hero", pastHero);
+    if (heroActions && menuToggle) {
+      const docked = heroActions.getBoundingClientRect().top <= menuToggle.getBoundingClientRect().bottom;
+      siteHeader.classList.toggle("is-actions-docked", docked);
+    }
+
+    if (!pastHero) {
+      document.body.classList.remove("is-back-to-top-visible");
+    }
+
+    if (scrollLocked) {
+      clearTimeout(scrollEndTimer);
+      scrollEndTimer = setTimeout(() => {
+        scrollLocked = false;
+        justUnlocked = true;
+        lastScrollY = window.scrollY;
+      }, 150);
+    } else if (justUnlocked) {
+      // First scroll after a link-triggered jump settles always brings the
+      // stack back, regardless of direction; normal show/hide resumes after.
+      siteHeader.classList.remove("is-quick-actions-hidden");
+      lastScrollY = currentScrollY;
+      justUnlocked = false;
+    } else {
+      const delta = currentScrollY - lastScrollY;
+      if (Math.abs(delta) > QUICK_ACTIONS_SCROLL_THRESHOLD) {
+        siteHeader.classList.toggle("is-quick-actions-hidden", delta < 0);
+        if (pastHero) document.body.classList.toggle("is-back-to-top-visible", delta < 0);
+        lastScrollY = currentScrollY;
+      }
+    }
+
     ticking = false;
   };
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      scrollLocked = true;
+      justUnlocked = false;
+      siteHeader.classList.add("is-quick-actions-hidden");
+      clearTimeout(scrollEndTimer);
+    });
+  });
 
   window.addEventListener(
     "scroll",
@@ -115,6 +166,13 @@ if (siteHeader) {
 
   updateHeaderScrolled();
 }
+
+const backToTop = document.querySelector("[data-back-to-top]");
+
+backToTop?.addEventListener("click", () => {
+  document.body.classList.remove("is-back-to-top-visible");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 const heroVideo = document.querySelector(".hero__media video");
 
@@ -150,18 +208,21 @@ const specialties = [
     title: "Rééducation post-traumatique",
     description: "Un accompagnement progressif après une blessure ou une opération pour récupérer mobilité, force et confiance dans le mouvement.",
     image: "assets/images/specialties/posttrauma.png",
+    photo: "assets/images/specialties/posttrauma_real.png",
     alt: "Séance de rééducation post-traumatique",
   },
   {
     title: "Rhumatologie",
     description: "Une prise en charge ciblée pour réduire les douleurs articulaires, entretenir la mobilité et faciliter les gestes du quotidien.",
     image: "assets/images/specialties/rhumatologie.png",
+    photo: "assets/images/specialties/rhumatologie_real.png",
     alt: "Prise en charge en rhumatologie",
   },
   {
     title: "Neurologie",
     description: "Un travail individualisé sur la mobilité, l’équilibre et la coordination afin de préserver les capacités fonctionnelles et l’autonomie.",
     image: "assets/images/specialties/neurologie.png",
+    photo: "assets/images/specialties/neuro_real.png",
     alt: "Prise en charge en neurologie",
   },
   {
@@ -180,6 +241,7 @@ const specialties = [
     title: "Sophrologie",
     description: "Une approche complémentaire fondée sur la respiration et la détente pour mieux vivre les tensions et retrouver un rapport plus serein au corps.",
     image: "assets/images/specialties/sofrologie.png",
+    photo: "assets/images/specialties/Sofrologie_real.png",
     alt: "Accompagnement centré sur la respiration",
   },
   {
@@ -356,6 +418,9 @@ function showSpecialty(index, moveFocus = false) {
 
   if (specialtyTitle) specialtyTitle.textContent = specialty.title;
   if (specialtyCount) specialtyCount.textContent = `${String(activeSpecialty + 1).padStart(2, "0")} / ${String(specialties.length).padStart(2, "0")}`;
+  specialtyMenuItems.forEach((item) => {
+    item.classList.toggle("is-active", Number(item.dataset.specialtyIndex) === activeSpecialty);
+  });
 
   if (specialtyDescription) {
     specialtyDescription.style.opacity = "0";
@@ -368,7 +433,7 @@ function showSpecialty(index, moveFocus = false) {
   if (specialtyImage) {
     specialtyImage.style.opacity = "0";
     window.setTimeout(() => {
-      specialtyImage.src = specialty.image;
+      specialtyImage.src = specialty.photo || specialty.image;
       specialtyImage.alt = specialty.alt;
       specialtyImage.style.opacity = "1";
     }, 120);
@@ -410,6 +475,55 @@ specialtyTabs.forEach((tab, index) => {
 document.querySelector("[data-specialty-prev]")?.addEventListener("click", () => showSpecialty(activeSpecialty - 1));
 document.querySelector("[data-specialty-next]")?.addEventListener("click", () => showSpecialty(activeSpecialty + 1));
 
+const specialtyMenuList = document.querySelector("[data-specialty-menu-list]");
+const specialtyMenuItems = [];
+
+// Display order for the 2-column grid (row-major): (0,0) Rééducation
+// post-traumatique, (0,1) Drainage lymphatique manuel, (1,0) Physiothérapie
+// respiratoire, then the rest in their natural order.
+const specialtyMenuOrder = [0, 6, 8, 1, 2, 3, 4, 5, 7];
+
+if (specialtyMenuList) {
+  specialtyMenuOrder.forEach((index) => {
+    const specialty = specialties[index];
+    const item = document.createElement("button");
+    item.type = "button";
+    item.textContent = specialty.title;
+    item.dataset.specialtyIndex = String(index);
+    item.addEventListener("click", () => showSpecialty(index));
+    item.classList.toggle("is-active", index === activeSpecialty);
+    specialtyMenuList.appendChild(item);
+    specialtyMenuItems.push(item);
+  });
+}
+
+const specialtySwipeArea = document.querySelector("[data-specialty-swipe]");
+if (specialtySwipeArea) {
+  const SWIPE_THRESHOLD = 40;
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  specialtySwipeArea.addEventListener(
+    "touchstart",
+    (event) => {
+      touchStartX = event.changedTouches[0].clientX;
+      touchStartY = event.changedTouches[0].clientY;
+    },
+    { passive: true }
+  );
+
+  specialtySwipeArea.addEventListener(
+    "touchend",
+    (event) => {
+      const deltaX = event.changedTouches[0].clientX - touchStartX;
+      const deltaY = event.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;
+      showSpecialty(activeSpecialty + (deltaX < 0 ? 1 : -1), true);
+    },
+    { passive: true }
+  );
+}
+
 const specialtyLinks = [...document.querySelectorAll("[data-specialty-link]")];
 const specialtiesSection = document.querySelector("#expertises");
 
@@ -427,7 +541,10 @@ specialtyLinks.forEach((link) => {
     closeNavDropdowns();
     setMenu(false);
     window.history.pushState(null, "", link.hash);
-    specialtiesSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (specialtiesSection) {
+      const targetY = window.scrollY + specialtiesSection.getBoundingClientRect().top - 100 + 200;
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+    }
   });
 });
 
@@ -462,6 +579,72 @@ document.querySelectorAll("[data-accordion] .accordion__item").forEach((item) =>
 const contactForm = document.querySelector("[data-contact-form]");
 const formStatus = document.querySelector("[data-form-status]");
 
+// Loose, country-agnostic check: accepts any European (or wider) number —
+// national (0…) or international (+…) — regardless of spacing/grouping,
+// by counting actual digits instead of matching a fixed-length pattern.
+function isValidPhone(value) {
+  const trimmed = value.trim();
+  if (!/^[+\d\s().-]+$/.test(trimmed)) return false;
+  const digitCount = trimmed.replace(/\D/g, "").length;
+  return digitCount >= 7 && digitCount <= 15;
+}
+
+// Longest calling codes first, so a 3-digit code isn't shadowed by a 2-digit
+// one that happens to be a prefix of it.
+const phoneCountryCodes = [
+  ["351", "PT"],
+  ["352", "LU"],
+  ["353", "IE"],
+  ["358", "FI"],
+  ["420", "CZ"],
+  ["41", "CH"],
+  ["43", "AT"],
+  ["30", "GR"],
+  ["31", "NL"],
+  ["32", "BE"],
+  ["33", "FR"],
+  ["34", "ES"],
+  ["39", "IT"],
+  ["44", "UK"],
+  ["45", "DK"],
+  ["46", "SE"],
+  ["47", "NO"],
+  ["48", "PL"],
+  ["49", "GER"],
+].sort((a, b) => b[0].length - a[0].length);
+
+function detectPhoneCountry(value) {
+  const trimmed = value.trim();
+  if (trimmed.startsWith("+")) {
+    const digits = trimmed.slice(1).replace(/\D/g, "");
+    const match = phoneCountryCodes.find(([code]) => digits.startsWith(code));
+    return match ? match[1] : null;
+  }
+  if (trimmed.startsWith("0")) return "CH";
+  return null;
+}
+
+contactForm?.querySelectorAll(".form-grid__field input").forEach((field) => {
+  const isPhone = field.name === "phone";
+  const isValid = () => (isPhone ? isValidPhone(field.value) : field.checkValidity());
+  const countryBadge = field.parentElement?.querySelector("[data-phone-country]");
+
+  field.addEventListener("blur", () => {
+    const hasValue = field.value.trim() !== "";
+    const valid = hasValue && isValid();
+    if (isPhone) field.setCustomValidity(hasValue && !isValid() ? "Numéro de téléphone invalide." : "");
+    field.classList.toggle("is-valid", valid);
+    field.classList.toggle("is-invalid", hasValue && !isValid());
+    if (countryBadge) countryBadge.textContent = valid ? detectPhoneCountry(field.value) || "" : "";
+  });
+
+  field.addEventListener("input", () => {
+    if (isPhone) field.setCustomValidity("");
+    field.classList.remove("is-valid", "is-invalid");
+    if (countryBadge) countryBadge.textContent = "";
+  });
+});
+
 contactForm?.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -478,7 +661,6 @@ contactForm?.addEventListener("submit", (event) => {
       `Nom : ${fullName}`,
       `Email : ${formData.get("email")}`,
       `Téléphone : ${formData.get("phone") || "Non renseigné"}`,
-      `Motif : ${formData.get("reason")}`,
       "",
       String(formData.get("message")),
     ].join("\n"),
