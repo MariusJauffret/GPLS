@@ -1,6 +1,28 @@
 # GPLS typography review
 
-Reviewed 10 September 2026. Based on the current stylesheet and browser-computed styles at 390px mobile and 1280px desktop widths. This is an assessment and proposed direction; it does not change the site's typography.
+Reviewed 10 September 2026. The measurements below record the project before the typography update, at 390px mobile and 1280px desktop widths.
+
+**Restore point and implementation**
+
+The complete project source and assets were saved locally before editing:
+
+- Restore-point tag: `checkpoint-before-typography-2026-09-10`
+- Checkpoint commit: `0de8fe4`
+- Typography work branch: `codex/typography-consistency`
+- Installed dependencies and generated build output are excluded from the checkpoint. Dependency versions are preserved in package-lock.json.
+
+The typography update centralises the text roles in the `--type-*` properties at the beginning of styles.css. The mobile breakpoint changes those shared size values, instead of redefining each component independently.
+
+- All body copy uses **160% line height**, including compact cards and FAQ text. Headings and short action labels use **115%**. Fixed-size symbol and transport-badge glyphs retain their own alignment rules.
+- Mobile hierarchy: hero **36px**, sections **28px**, subsections **22px**, profile titles **18px**, open body **16px**, card body **14px**, actions **15px**, inputs **16px**, uppercase captions **11px**.
+- Desktop retains fluid hero and section sizes, with **18px** open body and **16px** card body.
+- White/cream surfaces use regular **400** body text and medium **500** headings. Blue/video surfaces use light **300** body text and regular **400** headings and actions.
+- White body text uses normal letter spacing; dark body text uses a slight **0.01em** spacing. Uppercase captions use **0.12em** on light surfaces and **0.10em** on dark surfaces. The hero retains its tightly spaced italic accent.
+- FAQ now shares the main section-title role. Selected-specialty and form titles share the subsection role. The repeated appointment actions share their size, weight and line height.
+- Broad form/footer descendant overrides were removed. The duplicate font import and unsupported normal 200/700 requests were removed or replaced with imported weights.
+- Expandable text panels measure their content height, so the updated line spacing and narrow-screen wrapping cannot be clipped by the old fixed height limits.
+
+The original observations and proposed values below are retained as the baseline. The implementation notes above supersede the earlier proposals where they differ.
 
 The site already has a consistent font family, Urbanist, and the beginnings of a useful hierarchy. The main opportunity is to make differences depend on the text's role and background, instead of defining them independently for every component.
 
@@ -93,7 +115,7 @@ For desktop, retain the established 18px open body and fluid hero/section headin
 
 Do not tighten all text mechanically. Uppercase captions still need space between letters, and short action labels need sufficient weight. Visually check the smaller 14px white copy before settling on 300; use 400 if it becomes too delicate. Retain the chosen sizes across backgrounds so that the hierarchy stays recognisable.
 
-Keep body line height around 1.55, card copy around 1.5, titles around 1.15–1.2 and short action labels around 1.2. A multiline FAQ question may benefit from more leading than its current 1.25.
+The user's subsequent clarification sets body line height to **1.6 throughout**, including smaller card text. Use **1.15** for headings and short action labels. Multiline FAQ questions follow the body rhythm.
 
 **How the current stylesheet produces the variation**
 

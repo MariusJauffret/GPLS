@@ -44,6 +44,7 @@ function setMenu(open) {
   menuToggle.querySelector(".sr-only").textContent = open ? "Fermer le menu" : "Ouvrir le menu";
   mobileMenu.hidden = !open;
   document.body.classList.toggle("menu-open", open);
+  if (open) refreshDisclosureSizes();
 
   const heroVideo = document.querySelector(".hero__media video");
   if (!heroVideo) return;
@@ -92,6 +93,22 @@ document.querySelector(".brand")?.addEventListener("click", () => setMenu(false)
 
 const mobileMenuToggles = [...document.querySelectorAll("[data-mobile-menu] [data-collapsible-toggle]")];
 
+// Measure the content so responsive text and loaded fonts cannot outgrow a panel.
+const sizedDisclosureSelector = ".pricing-card__details, .therapist-card__expertise-panel, .mobile-menu__treatments";
+
+function sizeDisclosure(panel) {
+  if (!panel?.matches(sizedDisclosureSelector)) return;
+  panel.style.setProperty("--disclosure-height", `${panel.scrollHeight}px`);
+}
+
+function refreshDisclosureSizes() {
+  document.querySelectorAll(sizedDisclosureSelector).forEach(sizeDisclosure);
+}
+
+window.addEventListener("resize", refreshDisclosureSizes, { passive: true });
+document.fonts?.ready.then(refreshDisclosureSizes);
+refreshDisclosureSizes();
+
 document.querySelectorAll("[data-collapsible-toggle]").forEach((toggle) => {
   const panel = document.getElementById(toggle.getAttribute("aria-controls"));
   const isMobileMenuToggle = mobileMenuToggles.includes(toggle);
@@ -107,8 +124,10 @@ document.querySelectorAll("[data-collapsible-toggle]").forEach((toggle) => {
     }
 
     toggle.setAttribute("aria-expanded", String(!open));
-    if (isMobileMenuToggle) panel?.classList.toggle("is-open", !open);
-    else if (panel) panel.hidden = open;
+    if (isMobileMenuToggle) {
+      if (!open) sizeDisclosure(panel);
+      panel?.classList.toggle("is-open", !open);
+    } else if (panel) panel.hidden = open;
   });
 });
 
@@ -118,6 +137,7 @@ document.querySelectorAll("[data-expertise-toggle]").forEach((toggle) => {
     const open = toggle.getAttribute("aria-expanded") !== "true";
     toggle.setAttribute("aria-expanded", String(open));
     toggle.classList.toggle("is-open", open);
+    if (open) sizeDisclosure(panel);
     panel?.classList.toggle("is-collapsed", !open);
   });
 });
