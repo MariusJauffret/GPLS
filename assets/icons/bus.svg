@@ -1,0 +1,8 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="mdi:bus">
+<rect width="32" height="32" rx="16" fill="#0d7ec9"/>
+<g transform="translate(16,16) scale(0.75) translate(-12.5,-12.5)">
+<path d="M6 4.5C6 3.67 6.67 3 7.5 3h10C18.33 3 19 3.67 19 4.5V16a1.5 1.5 0 0 1-1.5 1.5H18v1.75a.75.75 0 0 1-1.5 0V17.5h-8v1.75a.75.75 0 0 1-1.5 0V17.5h-.5A1.5 1.5 0 0 1 5 16V4.5h1Zm.5 0V10h12V4.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5ZM7 12.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" fill="white"/>
+</g>
+</g>
+</svg>

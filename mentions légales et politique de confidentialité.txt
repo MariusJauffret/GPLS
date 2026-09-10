@@ -1,0 +1,146 @@
+MENTIONS LÉGALES ET POLITIQUE DE CONFIDENTIALITÉ
+Genève Physio Lancy Sport
+
+Projet rédigé le 7 septembre 2026 — à compléter avant publication.
+Les indications entre crochets et les notes internes finales doivent être résolues avant mise en ligne. Ce texte décrit le site et son formulaire dans leur version actuellement examinée ; il ne constitue pas une certification de conformité.
+
+1. ÉDITEUR DU SITE ET RESPONSABLE DU TRAITEMENT
+
+Genève Physio Lancy Sport Sàrl
+[À CONFIRMER : raison sociale exacte et identité de l’entité qui exploite le cabinet et détermine l’utilisation des données.]
+Adresse : Route de Chancy 59, 1213 Petit-Lancy, Suisse
+Téléphone : +41 78 434 43 11
+E-mail : cabinet@genevephysio-lancysport.ch
+Adresse du site : [À COMPLÉTER : URL définitive]
+Numéro IDE : [À COMPLÉTER, si applicable]
+Représentation de la société : [À COMPLÉTER : nom et fonction]
+
+Pour toute question concernant vos données personnelles, vous pouvez contacter le cabinet par e-mail ou par courrier aux coordonnées ci-dessus, en précisant « Protection des données ».
+
+2. HÉBERGEMENT ET PRESTATAIRES
+
+Hébergeur du site : [À COMPLÉTER : identité et adresse]
+Pays d’hébergement et d’accès aux données : [À COMPLÉTER]
+Prestataire de messagerie du cabinet : [À COMPLÉTER : identité et pays de traitement, y compris sauvegardes et accès de support]
+
+3. OBJET DU SITE
+
+Ce site présente le cabinet, son équipe et ses prestations de physiothérapie. Les informations publiées sont générales et ne remplacent pas une consultation ni un avis médical personnalisé.
+
+Une demande envoyée par le formulaire ne vaut pas confirmation de rendez-vous. Le cabinet vous recontacte pour organiser la suite de votre demande.
+
+Le formulaire et l’e-mail ne sont pas des canaux d’urgence. En cas d’urgence médicale en Suisse, appelez le 144.
+
+4. DONNÉES DU FORMULAIRE ET FINALITÉS
+
+Nous traitons les informations que vous nous adressez :
+- prénom et nom ;
+- adresse e-mail ;
+- numéro de téléphone, si vous le renseignez ;
+- message décrivant brièvement votre demande ou le motif de consultation.
+
+Dans la version actuelle du formulaire, le prénom, le nom, l’e-mail et le message sont obligatoires. Le téléphone est facultatif. Sans les champs obligatoires, le formulaire ne peut pas être utilisé ; vous pouvez contacter le cabinet par téléphone.
+
+Ces informations servent à répondre à votre demande, vous recontacter et organiser un éventuel rendez-vous. [À CONFIRMER AVANT PUBLICATION : elles ne sont ni vendues ni utilisées pour de la prospection commerciale.]
+
+Le motif de consultation peut révéler des données de santé, qui sont des données personnelles sensibles. Limitez votre message au strict nécessaire pour organiser un premier contact. N’y inscrivez pas de diagnostic détaillé, de résultats d’examens, de numéro d’assurance ou d’autres renseignements médicaux non nécessaires. Vous pouvez simplement demander à être rappelé.
+
+5. FONCTIONNEMENT ET TRANSMISSION
+
+Le bouton d’envoi ouvre votre application de messagerie avec un e-mail prérempli à destination du cabinet. Vous devez ensuite envoyer cet e-mail pour que votre demande nous parvienne. Sans cet envoi, le cabinet ne reçoit pas votre demande par ce mécanisme.
+
+Le code actuel du formulaire ne transmet pas directement les champs à une base de données du site. Leur traitement lors de l’envoi implique votre service de messagerie et celui du cabinet. La confidentialité d’un e-mail ordinaire ne peut pas être garantie de bout en bout. Pour des informations médicales détaillées, contactez le cabinet afin de convenir d’un moyen d’échange adapté.
+
+6. CADRE DU TRAITEMENT ET CONSENTEMENT
+
+Nous traitons vos données dans le cadre de la loi fédérale suisse sur la protection des données (LPD), en fonction de votre demande et pour les finalités décrites ici.
+
+Lorsque nous nous fondons sur votre consentement, celui-ci doit être libre et éclairé ; il doit être exprès pour des données sensibles. La case du formulaire doit informer explicitement sur les éventuelles données de santé contenues dans le message, sans autoriser d’autres utilisations.
+
+Vous pouvez retirer votre consentement pour l’avenir en nous contactant. Ce retrait n’annule pas les traitements antérieurs et ne supprime pas les obligations légales de conservation éventuellement applicables.
+
+7. PERSONNES AYANT ACCÈS AUX DONNÉES
+
+[À VALIDER SELON L’ORGANISATION RÉELLE DU CABINET :]
+Seuls les membres habilités du cabinet ont accès aux demandes dans la mesure nécessaire à leurs fonctions. Des prestataires techniques, notamment d’hébergement, de messagerie ou de maintenance, peuvent traiter certaines données pour fournir leurs services, dans les limites de leurs missions et des obligations de confidentialité et de sécurité applicables.
+
+Toute autre communication doit respecter les exigences légales et, lorsque celui-ci s’applique, le secret professionnel.
+
+8. LOCALISATION ET COMMUNICATION À L’ÉTRANGER
+
+[À COMPLÉTER AVANT PUBLICATION : indiquer les États concernés par le stockage ou l’accès aux données pour chaque prestataire ; préciser, lorsque nécessaire, les garanties de protection ou l’exception légale applicable. Ne pas annoncer un stockage exclusivement suisse sans vérification.]
+
+9. DURÉE DE CONSERVATION
+
+Nous conservons les données aussi longtemps que nécessaire pour les finalités annoncées, sous réserve des obligations légales et des besoins justifiés de conservation.
+
+- Demandes sans prise en charge : [À COMPLÉTER : durée retenue à compter de la clôture de la demande].
+- Informations intégrées au dossier patient : conservation selon les obligations applicables au dossier de soins ; [À COMPLÉTER : durée et fondement applicables au cabinet].
+- E-mails, sauvegardes et journaux techniques : [À COMPLÉTER : durées et modalités de suppression].
+
+10. SÉCURITÉ
+
+[À COMPLÉTER AVEC LES MESURES EFFECTIVEMENT EN PLACE : limitation des accès, authentification des comptes, protection des postes, sauvegardes, sécurisation de la messagerie et des échanges.]
+
+11. DONNÉES TECHNIQUES, POLICES ET LIENS EXTERNES
+
+L’hébergement peut générer des journaux techniques, notamment l’adresse IP et la date d’accès, pour assurer le fonctionnement et la sécurité du site. [À CONFIRMER : données effectivement collectées, destinataires et durée.]
+
+La version examinée charge des polices depuis les domaines Google Fonts. Cela implique une connexion de votre navigateur aux serveurs de Google, qui reçoivent notamment votre adresse IP. [À COMPLÉTER : entité destinataire, pays de traitement et garanties applicables ; supprimer ou adapter cette mention si les polices sont hébergées localement.]
+
+Aucun outil de mesure d’audience ni cookie publicitaire n’a été identifié dans le code examiné. [À CONFIRMER SUR LE SITE DÉPLOYÉ : cookies et autres traceurs éventuellement ajoutés par l’hébergement ou des services tiers ; les décrire et prévoir les choix nécessaires, le cas échéant.]
+
+Le site propose des liens vers OneDoc, Google Maps et Instagram. Lorsque vous les ouvrez, les services concernés traitent des données selon leurs propres politiques de confidentialité. Les informations que vous leur communiquez, notamment pour une réservation, relèvent également du fonctionnement de ces services.
+
+12. VOS DROITS
+
+Dans les conditions prévues par la LPD, vous pouvez demander l’accès à vos données, leur rectification, leur suppression ou vous opposer à leur traitement. Lorsque les conditions légales sont réunies, vous pouvez également demander leur remise ou leur transmission dans un format électronique courant.
+
+Adressez votre demande aux coordonnées indiquées au point 1. Une vérification proportionnée de votre identité peut être nécessaire. Certaines demandes peuvent être limitées par des obligations légales de conservation ou d’autres motifs prévus par la loi.
+
+Vous pouvez également signaler une situation au Préposé fédéral à la protection des données et à la transparence (PFPDT) : https://www.edoeb.admin.ch/fr
+
+13. MISE À JOUR
+
+Cette politique sera adaptée en cas de modification du formulaire, des prestataires ou des pratiques du cabinet. La date de la version publiée sera indiquée en tête du document.
+
+
+NOTES INTERNES — NE PAS PUBLIER CETTE PARTIE
+
+A. Mention courte à placer près du bouton d’envoi
+
+« Vos coordonnées et votre message servent à répondre à votre demande et à organiser un éventuel rendez-vous. Le téléphone est facultatif. Limitez votre message aux informations nécessaires et évitez les détails médicaux. Le bouton ouvre votre messagerie : vous devrez y confirmer l’envoi. Pour en savoir plus sur les destinataires, la conservation et vos droits, consultez notre Politique de confidentialité. »
+
+Relier « Politique de confidentialité » à une page réellement accessible.
+
+B. Proposition pour la case non précochée
+
+« J’accepte que Genève Physio Lancy Sport traite mes coordonnées et mon message, y compris les éventuelles données de santé que j’y indique, pour répondre à ma demande et organiser un éventuel rendez-vous. J’ai pris connaissance de la Politique de confidentialité. »
+
+Cette formulation ne dispense pas de limiter la collecte et de sécuriser les échanges. Le mécanisme mailto actuel ne transmet pas de preuve de la case cochée : adapter le dispositif si le cabinet s’appuie sur ce consentement et doit en documenter le recueil.
+
+C. Faut-il un référent légal ?
+
+Pour un cabinet privé suisse, la LPD n’impose pas de nommer un conseiller à la protection des données. Cette désignation est facultative ; la présence d’un formulaire ou de données de santé ne la rend pas automatiquement obligatoire.
+
+En revanche, le responsable du traitement doit être identifié avec des coordonnées permettant de le contacter. Il s’agit normalement de l’entité qui exploite le cabinet, si elle décide des finalités et des moyens du traitement. Il est utile de confier le suivi des demandes à un membre de la direction ou à une personne désignée, sans nécessairement créer un poste de juriste ou de délégué.
+
+Si le RGPD européen s’applique aussi aux activités du cabinet, une analyse complémentaire est nécessaire : il prévoit notamment un délégué obligatoire lorsque les activités de base comportent un traitement à grande échelle de données sensibles. La simple accessibilité du site depuis l’Union européenne ne suffit pas, à elle seule, à établir cette application.
+
+D. Points à résoudre avant publication
+
+Compléter les champs entre crochets, vérifier les pratiques réelles, et mettre la politique à disposition depuis le formulaire et le pied de page. Les liens actuels vers « #mentions » ne pointent pas vers une section juridique existante. Le texte actuel affirmant la conformité à la LPD ne suffit pas à démontrer cette conformité.
+
+E. Sources officielles consultées le 7 septembre 2026
+
+PFPDT — Devoir d’informer :
+https://www.edoeb.admin.ch/fr/devoir-dinformer
+
+PFPDT — Questions fréquentes, notamment conseiller à la protection des données, santé et RGPD :
+https://www.edoeb.admin.ch/fr/faq-protection-des-donnees
+
+PFPDT — Droit d’accès :
+https://www.edoeb.admin.ch/fr/droit-dacces
+
+CNIL — Désignation d’un délégué à la protection des données :
+https://www.cnil.fr/fr/le-delegue-la-protection-des-donnees-dpo/devenir-delegue-la-protection-des-donnees
