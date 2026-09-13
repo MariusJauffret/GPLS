@@ -75,9 +75,11 @@
       <div class="mobile-quick-actions">
         <a class="mobile-quick-actions__button" href="tel:+41784344311" aria-label="Appeler le cabinet">
           <img src="assets/icons/phone.svg" alt="" width="35" height="35" />
+          <span class="mobile-quick-actions__label">078 434 43 11</span>
         </a>
         <a class="mobile-quick-actions__button" href="#formulaire" aria-label="Prendre rendez-vous en ligne">
           <img src="assets/icons/calendar-check.svg" alt="" width="22" height="22" />
+          <span class="mobile-quick-actions__label">RDV</span>
         </a>
       </div>
 
@@ -90,6 +92,7 @@
     </header>
 
     <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+      <img class="mobile-menu__brand" src="assets/logos/logo-2-petrolaccent.png" alt="Genève Physio Lancy Sport" />
       <nav aria-label="Navigation mobile">
         <a href="#cabinet">Le cabinet</a>
         <button type="button" class="mobile-menu__label" aria-expanded="false" aria-controls="mobile-menu-treatments" data-collapsible-toggle>
@@ -128,21 +131,22 @@
         </button>
         <div class="mobile-menu__treatments" id="mobile-menu-contact">
           <a href="#contact">Infos pratiques</a>
-          <a href="#acces-transport" data-access-link>Accès et transport</a>
+          <a href="#acces-transport" data-access-link>Transports et accès</a>
           <a href="#rendez-vous-en-ligne">Rendez-vous en ligne</a>
         </div>
         <a href="#faq">FAQ</a>
       </nav>
-      <div class="mobile-menu__cta">
-        <a class="button button--light" href="tel:+41784344311">
-          <img src="assets/icons/phone.svg" alt="" width="22" height="22" />
-          <span>078 434 43 11</span>
-        </a>
-        <a class="button button--primary" href="#formulaire">
-          Demander un rendez-vous
-          <img class="button--primary__calendar-icon" src="assets/icons/calendar-check.svg" alt="" width="20" height="20" />
-        </a>
-      </div>
+    </div>
+
+    <div class="mobile-menu-actions" hidden data-mobile-menu-actions>
+      <a class="mobile-quick-actions__button" href="tel:+41784344311" aria-label="Appeler le cabinet">
+        <img src="assets/icons/phone.svg" alt="" width="25" height="25" />
+        <span class="mobile-quick-actions__label">078 434 43 11</span>
+      </a>
+      <a class="mobile-quick-actions__button" href="#formulaire" aria-label="Prendre rendez-vous en ligne">
+        <img src="assets/icons/calendar-check.svg" alt="" width="25" height="25" />
+        <span class="mobile-quick-actions__label">RDV</span>
+      </a>
     </div>
 
     <main id="main">
@@ -207,10 +211,71 @@
           <div class="about__copy section-copy reveal">
             <p class="eyebrow eyebrow--line">Cabinet de Petit-Lancy</p>
             <h2 id="about-title">Le Cabinet</h2>
-            <div class="rich-text">
-              <p>Notre cabinet accompagne adultes et enfants de tous âges dans le traitement des douleurs, la rééducation après une opération ou un accident, et la récupération de la mobilité au quotidien.</p>
-              <p>Chaque suivi commence par un bilan complet, suivi d’un plan de traitement discuté avec vous.</p>
-              <p>Lorsque le déplacement est difficile, nous nous rendons à votre domicile, dans le secteur de Lancy et ses environs.</p>
+            <div class="rich-text about__intro">
+              <p>Genève Physio Lancy Sport est un cabinet de physiothérapie situé à Genève au Petit-Lancy. Le cabinet est né d’une volonté de créer un lieu où les thérapeutes disposent du temps et de la disponibilité nécessaires pour écouter chaque patient et construire avec lui une prise en charge adaptée. Ouvert le 1er mars 2025, il a été fondé par Benjamin Quittanson et Amandine Locquet. Maria Ricaud De La Cruz a ensuite rejoint l’équipe avant de devenir associée aux côtés de Benjamin.</p>
+            </div>
+
+            <div class="about-accordion">
+              <section class="about-accordion__item">
+                <h3 class="about-accordion__heading">
+                  <span class="about-accordion__desktop-title">Relation thérapeutique et disciplinarité</span>
+                  <button class="about-accordion__toggle" type="button" aria-expanded="false" aria-controls="about-empathy" data-about-toggle>
+                    <span>Approche et prise en charge</span>
+                    <span class="about-accordion__toggle-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" role="img">
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </span>
+                  </button>
+                </h3>
+                <div class="about-accordion__panel is-collapsed" id="about-empathy">
+                  <div class="about-accordion__content">
+                    <p>Notre approche repose avant tout sur l’écoute et l'empathie. Nous prenons le temps de comprendre les difficultés, les inquiétudes et les objectifs de chaque patient afin d’adapter les séances à sa situation et à son rythme.</p>
+                    <p>Nos thérapeutes associent des approches complémentaires : techniques manuelles, mobilité, posture, équilibre et exercices fonctionnels. Ils collaborent pour assurer un suivi riche et optimale. Nous associons également physiothérapeutes et coachs sportifs pour un suivi complet dans le cadre de la physiothérapie du sport.</p>
+                    <p>Si la situation nécessite une autre compétence, nous orientons le patient vers le professionnel de santé approprié.</p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="about-accordion__item">
+                <h3 class="about-accordion__heading">
+                  <span class="about-accordion__desktop-title">Expertise et spécialités</span>
+                  <button class="about-accordion__toggle" type="button" aria-expanded="false" aria-controls="about-expertise" data-about-toggle>
+                    <span>Expertise et spécialités</span>
+                    <span class="about-accordion__toggle-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" role="img">
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </span>
+                  </button>
+                </h3>
+                <div class="about-accordion__panel is-collapsed" id="about-expertise">
+                  <div class="about-accordion__content">
+                    <p>Nous y accueillons des patients aux profils et aux besoins variés : douleurs du quotidien, récupération après une opération ou un traumatisme, troubles de l’équilibre, affections neurologiques ou respiratoires, accompagnement lié à l’âge et reprise d’une activité physique. Nous traitons le plus fréquemment des lombalgies, cervicalgies, problèmes d’épaule, maladie de Parkinson, troubles de l’équilibre, sarcopénie ainsi que des entorses de cheville et de genou.</p>
+                    <p>Nos physiothérapeutes se forment continuellement et se spécialisent. Le cabinet propose notamment des spécialités en physiothérapie de l’épaule, en neurologie ainsi qu'une prise en charge holistique en physiothérapie du sport.</p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="about-accordion__item">
+                <h3 class="about-accordion__heading">
+                  <span class="about-accordion__desktop-title">Physiothérapie en cabinet ou à domicile</span>
+                  <button class="about-accordion__toggle" type="button" aria-expanded="false" aria-controls="about-home-care" data-about-toggle>
+                    <span>Physiothérapie en cabinet ou à domicile</span>
+                    <span class="about-accordion__toggle-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" role="img">
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </span>
+                  </button>
+                </h3>
+                <div class="about-accordion__panel is-collapsed" id="about-home-care">
+                  <div class="about-accordion__content">
+                    <p>Nous intervenons en cabinet ou bien à domicile dans le canton de Genève jusqu’à Nyon (Vaud). Nous bénéficions de physiothérapeutes très expérimentés dans la prise en charge à domicile en traitements de physiothérapie complexe.</p>
+                    <p>Le cabinet se trouve au rez-de-chaussée, l’accès pour personnes à mobilité réduite est disponible, nous pouvons aussi vous y accompagner depuis l’extérieur.</p>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>
@@ -232,23 +297,25 @@
               <p class="process__description" data-process-description>Nous évaluons votre état physique, vos douleurs et vos limitations pour comprendre précisément vos besoins.</p>
             </div>
 
-            <article class="pricing-card type-on-dark reveal">
+            <article class="pricing-card pricing-card--tariffs type-on-dark reveal">
               <button type="button" class="pricing-card__toggle" aria-expanded="false" aria-controls="pricing-card-details" data-expertise-toggle>
                 <span class="eyebrow eyebrow--light">Positions tarifaires LAMal</span>
                 <span class="pricing-card__toggle-icon" aria-hidden="true">
                   <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                 </span>
               </button>
-              <div class="pricing-card__details is-collapsed" id="pricing-card-details">
+            </article>
+            <div class="pricing-card__details pricing-card__details--tariffs is-collapsed" id="pricing-card-details">
+              <div class="pricing-card__details-block">
                 <dl>
                   <div><dt>Traitement de physiothérapie générale*</dt><dd>51.35 CHF</dd></div>
                   <div><dt>Traitement physiothérapie complexe*</dt><dd>82.39 CHF</dd></div>
                   <div><dt>Thérapie de groupe*</dt><dd>26.75 CHF</dd></div>
                 </dl>
                 <p class="pricing-card__note">*Suppléments possibles liés au déplacement, matériel, ou bilan de première consultation.</p>
-                <p class="pricing-card__insurance">Prestations prise en charge par l’assurance maladie de base (LAMal) ou par l’assurance accident (LAA).</p>
               </div>
-            </article>
+              <p class="pricing-card__insurance">Prestations prise en charge par l’assurance maladie de base (LAMal) ou par l’assurance accident (LAA).</p>
+            </div>
           </div>
 
           <div class="treatments-intro__media">
@@ -283,10 +350,10 @@
                   <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                 </span>
               </button>
-              <div class="specialty-feature__list-panel is-collapsed" id="specialty-list-panel">
-                <div class="specialty-feature__list-clip">
-                  <div class="specialty-feature__list-items" data-specialty-menu-list></div>
-                </div>
+            </div>
+            <div class="specialty-feature__list-panel is-collapsed" id="specialty-list-panel">
+              <div class="specialty-feature__list-clip">
+                <div class="specialty-feature__list-items" data-specialty-menu-list></div>
               </div>
             </div>
             <div class="specialty-feature__copy">
@@ -318,29 +385,55 @@
           <div class="team__intro section-copy reveal">
             <p class="eyebrow eyebrow--line">Rencontrez nos thérapeutes</p>
             <h2 id="team-title">Notre Équipe</h2>
-            <p>Tous nos physiothérapeutes sont diplômés et reconnus par la LAMal. Ils effectuent régulièrement des formations dans leurs domaines de spécialisation et développent continuellement leurs compétences.</p>
+            <p>Notre équipe est composée de 2 physiothérapeutes, 1 coach sportif et une secrétaire. Nos physiothérapeutes sont diplômés et reconnus par la LAMal ; ils se forment continuellement dans leurs domaines de spécialisation afin de faire évoluer leurs compétences. Notre coach sportif, également diplômé, se forme régulièrement et collabore étroitement avec nos physiothérapeutes pour offrir une prise en charge complète et coordonnée.</p>
           </div>
 
           <div class="team-grid">
-            <article class="therapist-card reveal">
+            <article class="therapist-card reveal" id="equipe-maria">
               <div class="therapist-card__identity">
                 <h3>Maria Ricaud De La Cruz</h3>
                 <p>Physiothérapeute</p>
+             
               </div>
               <img class="therapist-card__portrait" src="assets/images/team-maria.png" alt="Maria Ricaud De La Cruz" loading="lazy" />
+              <div class="therapist-card__aside">
+                <p class="therapist-card__languages"><img src="assets/team-members-icons/langues-icon.png" alt="" />Français Anglais Espagnol</p>
+              </div>
               <div class="therapist-card__details type-on-dark">
-                <div>
-                  <button type="button" class="therapist-card__expertise-toggle" aria-expanded="false" aria-controls="expertise-maria" data-expertise-toggle>
-                    <span class="eyebrow eyebrow--light">Expertise</span>
-                    <span class="therapist-card__expertise-icon" aria-hidden="true">
-                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                    </span>
-                  </button>
-                  <div class="therapist-card__expertise-panel is-collapsed" id="expertise-maria">
-                    <p>Drainage lymphatique<br />Rhumatologie<br />Rééducation musculo-squelettique<br />Physiothérapie à domicile</p>
+                <div class="expertise-switch" data-expertise-switch>
+                  <div class="expertise-switch__bar">
+                    <button type="button" class="expertise-switch__tab expertise-switch__tab--expertise" data-expertise-tab="expertise" aria-expanded="false" aria-controls="expertise-maria">
+                      <span class="expertise-switch__label">Expertise</span>
+                      <span class="expertise-switch__icon" aria-hidden="true">
+                        <svg class="expertise-switch__ico expertise-switch__ico--chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5 8 6l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        <svg class="expertise-switch__ico expertise-switch__ico--close" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+                      </span>
+                    </button>
+                    <button type="button" class="expertise-switch__tab expertise-switch__tab--more" data-expertise-tab="more" aria-expanded="false" aria-controls="more-maria">
+                      <span class="expertise-switch__label">Parcours</span>
+                      <span class="expertise-switch__icon" aria-hidden="true">
+                        <svg class="expertise-switch__ico expertise-switch__ico--chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5 8 6l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        <svg class="expertise-switch__ico expertise-switch__ico--close" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="expertise-switch__panel">
+                    <div class="expertise-switch__content" id="expertise-maria" data-panel="expertise" role="region" aria-label="Expertise de Maria Ricaud De La Cruz">
+                      <div class="expertise-switch__block">
+                        <p>Drainage lymphatique<br />Rhumatologie<br />Neurologie<br />Rééducation musculo-squelettique<br />Physiothérapie à domicile</p>
+                      </div>
+                    </div>
+                    <div class="expertise-switch__content" id="more-maria" data-panel="more" role="region" aria-label="En savoir plus sur Maria Ricaud De La Cruz">
+                      <div class="expertise-switch__block">
+                        <p>Maria a réalisé ses études au Mexique, où elle obtient un bachelor en physiothérapie puis un master en administration hospitalière. Elle débute sa carrière comme professeure de pratique clinique, avant de prendre la responsabilité d'une clinique de physiothérapie.</p>
+                        <p>Son parcours est marqué par trois années passées au sein d'une fondation pour enfants en situation de handicap, où elle prend en charge des enfants atteints de troubles moteurs et neurologiques.</p>
+                      </div>
+                      <div class="expertise-switch__block">
+                        <p>Sa pratique associe mouvements actifs et techniques manuelles, avec un travail ciblé sur la posture, le renforcement musculaire et la mobilité. Convaincue que l'écoute et la collaboration sont les clés d'une rééducation durable, elle place le patient au centre de sa prise en charge, avec une approche fonctionnelle et sur-mesure.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <p class="therapist-card__languages"><img src="assets/icons/language.svg" alt="" />Français Anglais Espagnol</p>
               </div>
               <div class="therapist-card__footer">
                 <div class="therapist-card__social">
@@ -351,30 +444,109 @@
               </div>
             </article>
 
-            <article class="therapist-card reveal">
+            <article class="therapist-card reveal" id="equipe-benjamin">
               <div class="therapist-card__identity">
                 <h3>Benjamin Quittanson</h3>
                 <p>Physiothérapeute</p>
               </div>
               <img class="therapist-card__portrait" src="assets/images/team-benjamin.png" alt="Benjamin Quittanson" loading="lazy" />
+              <div class="therapist-card__aside">
+                <p class="therapist-card__languages"><img src="assets/team-members-icons/langues-icon.png" alt="" />Français Anglais</p>
+              </div>
               <div class="therapist-card__details type-on-dark">
-                <div>
-                  <button type="button" class="therapist-card__expertise-toggle" aria-expanded="false" aria-controls="expertise-benjamin" data-expertise-toggle>
-                    <span class="eyebrow eyebrow--light">Expertise</span>
-                    <span class="therapist-card__expertise-icon" aria-hidden="true">
-                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                    </span>
-                  </button>
-                  <div class="therapist-card__expertise-panel is-collapsed" id="expertise-benjamin">
-                    <p>Physiothérapie du sport<br />Physiothérapie respiratoire<br />Neurologie · Rhumatologie<br />Physiothérapie à domicile</p>
+                <div class="expertise-switch" data-expertise-switch>
+                  <div class="expertise-switch__bar">
+                    <button type="button" class="expertise-switch__tab expertise-switch__tab--expertise" data-expertise-tab="expertise" aria-expanded="false" aria-controls="expertise-benjamin">
+                      <span class="expertise-switch__label">Expertise</span>
+                      <span class="expertise-switch__icon" aria-hidden="true">
+                        <svg class="expertise-switch__ico expertise-switch__ico--chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5 8 6l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        <svg class="expertise-switch__ico expertise-switch__ico--close" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+                      </span>
+                    </button>
+                    <button type="button" class="expertise-switch__tab expertise-switch__tab--more" data-expertise-tab="more" aria-expanded="false" aria-controls="more-benjamin">
+                      <span class="expertise-switch__label">Parcours</span>
+                      <span class="expertise-switch__icon" aria-hidden="true">
+                        <svg class="expertise-switch__ico expertise-switch__ico--chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5 8 6l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        <svg class="expertise-switch__ico expertise-switch__ico--close" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="expertise-switch__panel">
+                    <div class="expertise-switch__content" id="expertise-benjamin" data-panel="expertise" role="region" aria-label="Expertise de Benjamin Quittanson">
+                      <div class="expertise-switch__block">
+                        <p>Physiothérapie du sport<br />Physiothérapie respiratoire<br />Neurologie<br />Rhumatologie<br />Géritatrie<br />Physiothérapie à domicile</p>
+                      </div>
+                    </div>
+                    <div class="expertise-switch__content" id="more-benjamin" data-panel="more" role="region" aria-label="En savoir plus sur Benjamin Quittanson">
+                      <div class="expertise-switch__block">
+                        <p>Benjamin obtient son Bachelor of Science HES-SO en Physiothérapie à Genève et se spécialise en physiothérapie de l'épaule aux HUG auprès du Dr. Nicolas Holzer.</p><p>Il débute sa carrière chez GenèvePhysio, où il exerce pendant deux ans auprès d'une patientèle large et exigeante : oncologie pédiatrique et adulte, physiothérapie respiratoire tous publics, tétraplégie etc... Ne refusant jamais un patient, y compris les cas les plus complexes. Il développe au cours de ces deux ans une expertise poussée en gériatrie et physiothérapie à domcile.</p>
+                      </div>
+                      <div class="expertise-switch__block">
+                        <p>Cette expérience l'amène à développer une approche centrée sur une relation thérapeutique privilégiée. Aujourd'hui encore, il continue de suivre certains de ses tout premiers patients.</p>
+                      </div>
+                      <div class="expertise-switch__block">
+                        <p>En 2025, il fonde Genève Physio Lancy Sport autours de ses valeurs et convictions. Lui-même sportif passionné, il accompagne le Judo Kwaï Lancy et renforce la prise en charge en physiothérapie du sport grâce à l'arrivée d'un coach sportif au sein de l'équipe du cabinet.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <p class="therapist-card__languages"><img src="assets/icons/language.svg" alt="" />Français Anglais</p>
               </div>
               <div class="therapist-card__footer">
                 <div class="therapist-card__social">
                   <a href="/#accueil" aria-label="LinkedIn de Benjamin Quittanson"><img src="assets/icons/linkedin.svg" alt="" /></a>
                   <a href="https://www.onedoc.ch/fr/physiotherapeute/lancy/pcyth/benjamin-quittanson" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous avec Benjamin Quittanson sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
+                </div>
+              </div>
+            </article>
+
+            <article class="therapist-card reveal" id="equipe-coach">
+              <div class="therapist-card__identity">
+                <h3>Work in progress</h3>
+                <p>Coach sportif</p>
+              </div>
+              <img class="therapist-card__portrait" src="assets/images/placeholder-team-cropped.png" alt="Work in progress" loading="lazy" />
+              <div class="therapist-card__aside">
+                <p class="therapist-card__languages"><img src="assets/team-members-icons/langues-icon.png" alt="" />Français Anglais</p>
+              </div>
+              <div class="therapist-card__details type-on-dark">
+                <div class="expertise-switch" data-expertise-switch>
+                  <div class="expertise-switch__bar">
+                    <button type="button" class="expertise-switch__tab expertise-switch__tab--expertise" data-expertise-tab="expertise" aria-expanded="false" aria-controls="expertise-coach">
+                      <span class="expertise-switch__label">Expertise</span>
+                      <span class="expertise-switch__icon" aria-hidden="true">
+                        <svg class="expertise-switch__ico expertise-switch__ico--chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5 8 6l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        <svg class="expertise-switch__ico expertise-switch__ico--close" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+                      </span>
+                    </button>
+                    <button type="button" class="expertise-switch__tab expertise-switch__tab--more" data-expertise-tab="more" aria-expanded="false" aria-controls="more-coach">
+                      <span class="expertise-switch__label">Parcours</span>
+                      <span class="expertise-switch__icon" aria-hidden="true">
+                        <svg class="expertise-switch__ico expertise-switch__ico--chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5 8 6l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        <svg class="expertise-switch__ico expertise-switch__ico--close" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="expertise-switch__panel">
+                    <div class="expertise-switch__content" id="expertise-coach" data-panel="expertise" role="region" aria-label="Expertise du coach">
+                      <div class="expertise-switch__block">
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus consequuntur tenetur, adipisci ab at rem similique, nisi minima, aliquid incidunt in nostrum deserunt amet eum eveniet quas quos doloribus? Fuga.</p>
+                      </div>
+                    </div>
+                    <div class="expertise-switch__content" id="more-coach" data-panel="more" role="region" aria-label="En savoir plus sur le coach">
+                      <div class="expertise-switch__block">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      </div>
+                      <div class="expertise-switch__block">
+                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="therapist-card__footer">
+                <div class="therapist-card__social">
+                  <a href="/#accueil" aria-label="LinkedIn de Work in progress"><img src="assets/icons/linkedin.svg" alt="" /></a>
+                  <a href="https://www.onedoc.ch/fr/physiotherapeute/lancy/pcyth/benjamin-quittanson" target="_blank" rel="noreferrer" class="onedoc" aria-label="Prendre rendez-vous avec Work in progress sur OneDoc"><img src="assets/images/onedoc-logo-3.jpg" alt="" /></a>
                 </div>
               </div>
             </article>
@@ -401,44 +573,50 @@
                 </ul>
               </article>
 
-              <article class="pricing-card access-card reveal" id="acces-transport">
-                <button type="button" class="pricing-card__toggle" aria-expanded="false" aria-controls="access-card-details" data-expertise-toggle>
-                  <span class="eyebrow">Transports et accès</span>
-                  <span class="pricing-card__toggle-icon" aria-hidden="true">
-                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                  </span>
-                </button>
-                <ul class="access-card__list pricing-card__details is-collapsed" id="access-card-details">
-                  <li>
-                    <span class="access-card__icon"><img class="access-card__list-logo" src="assets/access-icons/tpg-logo.png" alt="TPG" /></span>
-                    <span>
-                      Petit Lancy, Boissons<br />
-                      Lignes
-                      <span class="tpg-line" style="background:#78003c">21</span>
-                      <span class="tpg-line" style="background:#5a1e82">22</span>
-                      <span class="tpg-line" style="background:#b82f89">23</span>
-                      <span class="tpg-line" style="background:#82419e">28</span>
-                      <br />
-                      Les Esserts<br />
-                      Lignes
-                      <span class="tpg-line" style="background:#5a1e82">14</span>
-                      <span class="tpg-line tpg-line--dark" style="background:#89cbbe">40</span>
-                      <span class="tpg-line" style="background:#00b0a4">42</span>
-                      A4
+              <div class="access-card-group">
+                <article class="pricing-card access-card reveal" id="acces-transport">
+                  <button type="button" class="pricing-card__toggle" aria-expanded="false" aria-controls="access-card-details" data-expertise-toggle>
+                    <span class="eyebrow">Transports et accès</span>
+                    <span class="pricing-card__toggle-icon" aria-hidden="true">
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                     </span>
+                  </button>
+                </article>
+                <ul class="access-card__list pricing-card__details is-collapsed" id="access-card-details">
+                  <li class="access-card__group">
+                    <div class="access-card__row">
+                      <span class="access-card__icon"><img src="assets/access-icons/acces-icons-3/bus.png" alt="" /></span>
+                      <span>
+                        Petit Lancy, Boissons<br />
+                        <span class="tpg-line" style="background:#78003c">21</span>
+                        <span class="tpg-line" style="background:#5a1e82">22</span>
+                        <span class="tpg-line" style="background:#b82f89">23</span>
+                        <span class="tpg-line" style="background:#82419e">28</span>
+                        <br />
+                        Les Esserts<br />
+                        <span class="tpg-line" style="background:#5a1e82">14</span>
+                        <span class="tpg-line tpg-line--dark" style="background:#89cbbe">40</span>
+                        <span class="tpg-line" style="background:#00b0a4">42</span>
+                        A4
+                      </span>
+                    </div>
+                    <div class="access-card__row">
+                      <span class="access-card__icon"><img src="assets/access-icons/acces-icons-3/voiture.png" alt="" /></span>
+                      <span>Places de parking à proximité<br>Parking Lancy-Onex</span>
+                    </div>
+                    <div class="access-card__row">
+                      <span class="access-card__icon"><img src="assets/access-icons/acces-icons-3/etage.png" alt="" /></span>
+                      <span>Le cabinet se trouve au rez-de-chaussée, notre logo se trouve sur la porte.</span>
+                    </div>
                   </li>
-                  <li><span class="access-card__icon"><img class="access-card__icon--parking" src="assets/access-icons/parking-0d7ec9.png" alt="" /></span><span>Places de parking à proximité<br>Parking Lancy-Onex</span></li>
-                  <li><span class="access-card__icon"><img src="assets/access-icons/wheelchair-0d7ec9.png" alt="" /></span><span>Accès pour personnes à mobilité réduite disponible. Possibilité d’accompagner un patient depuis l’extérieur.</span></li>
-                  <li>
-                    <span class="access-card__icon"><img class="access-card__list-logo" src="assets/access-icons/rez-de-chaussee.png" alt="" /></span>
-                    <span>Le cabinet se trouve au rez-de-chaussée, notre logo se trouve sur la porte.</span>
-                  </li>
+                  <li class="access-card__row"><span class="access-card__icon"><img src="assets/access-icons/acces-icons-3/mobilite-reduite.png" alt="" /></span><span>Accès pour personnes à mobilité réduite disponible. Possibilité d’accompagner un patient depuis l’extérieur.</span></li>
                 </ul>
-              </article>
+              </div>
 
               <div class="online-booking type-on-dark" id="rendez-vous-en-ligne">
                 <p class="online-booking__eyebrow eyebrow eyebrow--light">Planifiez votre rendez-vous en ligne</p>
                 <h2 class="online-booking__title">Rendez-vous en ligne</h2>
+                <p class="online-booking__description">Vous pouvez planifier un rendez-vous en ligne à travers le formulaire de contact ci-dessous ou sur OneDoc.</p>
                 <article class="onedoc-card reveal">
                   <h3>Prendre rendez-vous sur OneDoc</h3>
                   <a class="onedoc-button" href="https://www.onedoc.ch/fr/cabinet-de-physiotherapie/lancy/ebdiy/geneve-physio-lancy-sport" target="_blank" rel="noreferrer">
@@ -461,7 +639,7 @@
 
             <form class="contact-form" id="formulaire" data-contact-form>
               <h2 class="contact-form__title">Formulaire de contact</h2>
-              <p class="contact-form__intro">Contactez nous à travers le formulaire, nous vous répondrons dans les 48h.</p>
+              <p class="contact-form__intro">Nous nous ferons un plaisir de vous répondre dans les 24h.</p>
               <div class="form-grid">
                 <label><span class="form-grid__label-text">Prénom</span><input type="text" name="firstName" autocomplete="given-name" placeholder="Prénom" required /></label>
                 <label><span class="form-grid__label-text">Nom</span><input type="text" name="lastName" autocomplete="family-name" placeholder="Nom" required /></label>
@@ -500,32 +678,32 @@
           </div>
           <div class="accordion" data-accordion>
             <article class="accordion__item reveal">
-              <h3><button type="button" aria-expanded="false">Faut-il une ordonnance médicale pour consulter un physiothérapeute à Genève ?<span aria-hidden="true">+</span></button></h3>
-              <div class="accordion__panel" hidden><p>Une prescription médicale est nécessaire pour une prise en charge par l’assurance de base. Contactez-nous si vous avez un doute sur votre situation.</p></div>
+              <h3><button class="accordion__toggle" type="button" aria-expanded="false" aria-controls="faq-prescription"><span class="accordion__label">Faut-il une ordonnance médicale pour consulter un physiothérapeute à Genève ?</span><span class="accordion__toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="img"><path d="m6 9 6 6 6-6" /></svg></span></button></h3>
+              <div class="accordion__panel is-collapsed" id="faq-prescription"><p>Une prescription médicale est nécessaire pour une prise en charge par l’assurance de base. Contactez-nous si vous avez un doute sur votre situation.</p></div>
             </article>
             <article class="accordion__item reveal">
-              <h3><button type="button" aria-expanded="false">Les séances de physiothérapie sont-elles remboursées ?<span aria-hidden="true">+</span></button></h3>
-              <div class="accordion__panel" hidden><p>Les prestations prescrites peuvent être prises en charge par la LAMal ou la LAA selon les conditions de votre assurance.</p></div>
+              <h3><button class="accordion__toggle" type="button" aria-expanded="false" aria-controls="faq-remboursement"><span class="accordion__label">Les séances de physiothérapie sont-elles remboursées ?</span><span class="accordion__toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="img"><path d="m6 9 6 6 6-6" /></svg></span></button></h3>
+              <div class="accordion__panel is-collapsed" id="faq-remboursement"><p>Les prestations prescrites peuvent être prises en charge par la LAMal ou la LAA selon les conditions de votre assurance.</p></div>
             </article>
             <article class="accordion__item reveal">
-              <h3><button type="button" aria-expanded="false">Proposez-vous des séances de physiothérapie à domicile ?<span aria-hidden="true">+</span></button></h3>
-              <div class="accordion__panel" hidden><p>Oui, lorsque le déplacement est difficile, nous intervenons à domicile dans le secteur de Lancy et ses environs.</p></div>
+              <h3><button class="accordion__toggle" type="button" aria-expanded="false" aria-controls="faq-domicile"><span class="accordion__label">Proposez-vous des séances de physiothérapie à domicile ?</span><span class="accordion__toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="img"><path d="m6 9 6 6 6-6" /></svg></span></button></h3>
+              <div class="accordion__panel is-collapsed" id="faq-domicile"><p>Oui, lorsque le déplacement est difficile, nous intervenons à domicile dans le secteur de Lancy et ses environs.</p></div>
             </article>
             <article class="accordion__item reveal">
-              <h3><button type="button" aria-expanded="false">Combien de temps dure une séance ?<span aria-hidden="true">+</span></button></h3>
-              <div class="accordion__panel" hidden><p>La durée dépend du type de prise en charge. Elle vous est précisée au moment de la réservation.</p></div>
+              <h3><button class="accordion__toggle" type="button" aria-expanded="false" aria-controls="faq-duree"><span class="accordion__label">Combien de temps dure une séance ?</span><span class="accordion__toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="img"><path d="m6 9 6 6 6-6" /></svg></span></button></h3>
+              <div class="accordion__panel is-collapsed" id="faq-duree"><p>La durée dépend du type de prise en charge. Elle vous est précisée au moment de la réservation.</p></div>
             </article>
             <article class="accordion__item reveal">
-              <h3><button type="button" aria-expanded="false">Comment prendre rendez-vous ?<span aria-hidden="true">+</span></button></h3>
-              <div class="accordion__panel" hidden><p>Vous pouvez réserver sur OneDoc, nous appeler ou utiliser le formulaire de contact.</p></div>
+              <h3><button class="accordion__toggle" type="button" aria-expanded="false" aria-controls="faq-rendez-vous"><span class="accordion__label">Comment prendre rendez-vous ?</span><span class="accordion__toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="img"><path d="m6 9 6 6 6-6" /></svg></span></button></h3>
+              <div class="accordion__panel is-collapsed" id="faq-rendez-vous"><p>Vous pouvez réserver sur OneDoc, nous appeler ou utiliser le formulaire de contact.</p></div>
             </article>
             <article class="accordion__item reveal">
-              <h3><button type="button" aria-expanded="false">Que faut-il apporter au premier rendez-vous ?<span aria-hidden="true">+</span></button></h3>
-              <div class="accordion__panel" hidden><p>Apportez votre prescription, votre carte d’assurance et tout document médical utile à votre prise en charge.</p></div>
+              <h3><button class="accordion__toggle" type="button" aria-expanded="false" aria-controls="faq-premier-rendez-vous"><span class="accordion__label">Que faut-il apporter au premier rendez-vous ?</span><span class="accordion__toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="img"><path d="m6 9 6 6 6-6" /></svg></span></button></h3>
+              <div class="accordion__panel is-collapsed" id="faq-premier-rendez-vous"><p>Apportez votre prescription, votre carte d’assurance et tout document médical utile à votre prise en charge.</p></div>
             </article>
             <article class="accordion__item reveal">
-              <h3><button type="button" aria-expanded="false">Prenez-vous en charge les enfants ?<span aria-hidden="true">+</span></button></h3>
-              <div class="accordion__panel" hidden><p>Oui, le cabinet accompagne les enfants comme les adultes, selon leurs besoins et l’indication médicale.</p></div>
+              <h3><button class="accordion__toggle" type="button" aria-expanded="false" aria-controls="faq-enfants"><span class="accordion__label">Prenez-vous en charge les enfants ?</span><span class="accordion__toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="img"><path d="m6 9 6 6 6-6" /></svg></span></button></h3>
+              <div class="accordion__panel is-collapsed" id="faq-enfants"><p>Oui, le cabinet accompagne les enfants comme les adultes, selon leurs besoins et l’indication médicale.</p></div>
             </article>
           </div>
         </div>
@@ -535,7 +713,7 @@
     <footer class="site-footer type-on-dark" id="mentions">
       <div class="container site-footer__main">
         <div class="site-footer__brand">
-          <img src="assets/logos/logo-blanc.png" alt="Genève Physio Lancy Sport" loading="lazy" />
+          <img src="assets/logos/logo-2-blanc.png" alt="Genève Physio Lancy Sport" loading="lazy" />
         </div>
         <div>
           <nav aria-label="Navigation de pied de page">

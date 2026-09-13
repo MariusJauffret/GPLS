@@ -17,7 +17,7 @@ The typography update centralises the text roles in the `--type-*` properties at
 - Mobile hierarchy: hero **36px**, sections **28px**, subsections **22px**, profile titles **18px**, open body **16px**, card body **14px**, actions **15px**, inputs **16px**, uppercase captions **11px**.
 - Desktop retains fluid hero and section sizes, with **18px** open body and **16px** card body.
 - White/cream surfaces use regular **400** body text and medium **500** headings. Blue/video surfaces use light **300** body text and regular **400** headings and actions.
-- White body text uses normal letter spacing; dark body text uses a slight **0.01em** spacing. Uppercase captions use **0.12em** on light surfaces and **0.10em** on dark surfaces. The hero retains its tightly spaced italic accent.
+- White text on coloured/video surfaces uses **0.04em** letter spacing, as requested, across body text, headings, captions and actions. Dark body text retains **0.01em**, and uppercase captions on light surfaces retain **0.12em**. The desktop hero on cream retains its tightly spaced italic accent.
 - FAQ now shares the main section-title role. Selected-specialty and form titles share the subsection role. The repeated appointment actions share their size, weight and line height.
 - Broad form/footer descendant overrides were removed. The duplicate font import and unsupported normal 200/700 requests were removed or replaced with imported weights.
 - Expandable text panels measure their content height, so the updated line spacing and narrow-screen wrapping cannot be clipped by the old fixed height limits.

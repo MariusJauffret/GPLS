@@ -35,15 +35,123 @@
 
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
+const mobileMenuActions = document.querySelector("[data-mobile-menu-actions]");
+const mobileMenuNav = mobileMenu?.querySelector("nav");
 const navDropdowns = [...document.querySelectorAll("[data-nav-dropdown]")];
+let menuScrollPosition = 0;
+let mobileMenuScrollBuffer = 0;
+let mobileMenuScrollFrame = 0;
+let mobileMenuScrollLocked = false;
+let mobileMenuScrollAnimationFrame = 0;
+let mobileMenuScrollRevision = 0;
+
+function setMobileMenuScrollBuffer(height) {
+  mobileMenuScrollBuffer = Math.max(0, height);
+  mobileMenu?.style.setProperty("--mobile-menu-scroll-buffer", `${mobileMenuScrollBuffer}px`);
+}
+
+function trimMobileMenuScrollBuffer() {
+  if (!mobileMenu || !mobileMenuScrollBuffer) return;
+
+  const requiredBuffer = Math.max(0, mobileMenu.scrollTop - getMobileMenuNaturalScrollLimit());
+
+  if (requiredBuffer < mobileMenuScrollBuffer) setMobileMenuScrollBuffer(requiredBuffer);
+}
+
+function getMobileMenuNaturalScrollLimit() {
+  if (!mobileMenu || !mobileMenuNav) return 0;
+  const styles = getComputedStyle(mobileMenu);
+  // scrollHeight is at least clientHeight, so measure the content itself when it fits.
+  const contentHeight = mobileMenuNav.getBoundingClientRect().height - mobileMenuScrollBuffer;
+  return Math.max(0, contentHeight + parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom) - mobileMenu.clientHeight);
+}
+
+function cancelMobileMenuScrollAdjustment() {
+  mobileMenuScrollRevision += 1;
+  cancelAnimationFrame(mobileMenuScrollAnimationFrame);
+  mobileMenuScrollAnimationFrame = 0;
+  mobileMenuScrollLocked = false;
+}
+
+async function settleMobileMenuScroll() {
+  const revision = mobileMenuScrollRevision;
+  // Keep enough space through every active collapse, including rapid successive taps.
+  const transitions = [...mobileMenu.querySelectorAll(".mobile-menu__treatments")]
+    .flatMap((panel) => panel.getAnimations());
+  await Promise.all(transitions.map((transition) => transition.finished.catch(() => {})));
+  if (revision !== mobileMenuScrollRevision || mobileMenu.hidden) return;
+
+  const startTop = mobileMenu.scrollTop;
+  const targetTop = Math.min(startTop, getMobileMenuNaturalScrollLimit());
+  if (startTop - targetTop < 1 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    mobileMenu.scrollTop = targetTop;
+    setMobileMenuScrollBuffer(0);
+    mobileMenuScrollLocked = false;
+    return;
+  }
+
+  // Ease back only after the item has folded; release the spacer once the scroll fits.
+  const startTime = performance.now();
+  const step = (now) => {
+    const progress = Math.min(1, (now - startTime) / 360);
+    const eased = (1 - Math.cos(Math.PI * progress)) / 2;
+    mobileMenu.scrollTop = startTop + (targetTop - startTop) * eased;
+    if (progress < 1) mobileMenuScrollAnimationFrame = requestAnimationFrame(step);
+    else {
+      mobileMenuScrollAnimationFrame = 0;
+      mobileMenuScrollLocked = false;
+      setMobileMenuScrollBuffer(0);
+    }
+  };
+  mobileMenuScrollAnimationFrame = requestAnimationFrame(step);
+}
+
+// A deliberate scroll takes over immediately from the automatic adjustment.
+["wheel", "touchstart", "keydown"].forEach((eventName) => {
+  mobileMenu?.addEventListener(eventName, cancelMobileMenuScrollAdjustment, { passive: true });
+});
+
+mobileMenu?.addEventListener(
+  "scroll",
+  () => {
+    if (mobileMenuScrollLocked || !mobileMenuScrollBuffer || mobileMenuScrollFrame) return;
+    mobileMenuScrollFrame = requestAnimationFrame(() => {
+      mobileMenuScrollFrame = 0;
+      trimMobileMenuScrollBuffer();
+    });
+  },
+  { passive: true },
+);
 
 function setMenu(open) {
   if (!menuToggle || !mobileMenu) return;
 
+  const wasOpen = document.body.classList.contains("menu-open");
+
+  if (open && !wasOpen) {
+    menuScrollPosition = window.scrollY;
+    document.body.style.setProperty("--menu-scroll-offset", `${-menuScrollPosition}px`);
+  }
+
   menuToggle.setAttribute("aria-expanded", String(open));
   menuToggle.querySelector(".sr-only").textContent = open ? "Fermer le menu" : "Ouvrir le menu";
+  if (!open && wasOpen) {
+    cancelMobileMenuScrollAdjustment();
+    setMobileMenuScrollBuffer(0);
+  }
   mobileMenu.hidden = !open;
+  if (mobileMenuActions) mobileMenuActions.hidden = !open;
+  document.documentElement.classList.toggle("menu-open", open);
   document.body.classList.toggle("menu-open", open);
+
+  if (!open && wasOpen) {
+    document.body.style.removeProperty("--menu-scroll-offset");
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, menuScrollPosition);
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+  }
+
   if (open) refreshDisclosureSizes();
 
   const heroVideo = document.querySelector(".hero__media video");
@@ -89,12 +197,16 @@ mobileMenu?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => setMenu(false));
 });
 
+document.querySelectorAll(".mobile-quick-actions a, .mobile-menu-actions a").forEach((link) => {
+  link.addEventListener("click", () => setMenu(false));
+});
+
 document.querySelector(".brand")?.addEventListener("click", () => setMenu(false));
 
 const mobileMenuToggles = [...document.querySelectorAll("[data-mobile-menu] [data-collapsible-toggle]")];
 
 // Measure the content so responsive text and loaded fonts cannot outgrow a panel.
-const sizedDisclosureSelector = ".pricing-card__details, .therapist-card__expertise-panel, .mobile-menu__treatments";
+const sizedDisclosureSelector = ".pricing-card__details, .mobile-menu__treatments, .about-accordion__panel, .accordion__panel";
 
 function sizeDisclosure(panel) {
   if (!panel?.matches(sizedDisclosureSelector)) return;
@@ -115,24 +227,117 @@ document.querySelectorAll("[data-collapsible-toggle]").forEach((toggle) => {
   toggle.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") === "true";
 
-    if (!open && isMobileMenuToggle) {
-      mobileMenuToggles.forEach((other) => {
-        if (other === toggle) return;
-        other.setAttribute("aria-expanded", "false");
-        document.getElementById(other.getAttribute("aria-controls"))?.classList.remove("is-open");
-      });
-    }
-
     toggle.setAttribute("aria-expanded", String(!open));
     if (isMobileMenuToggle) {
+      cancelMobileMenuScrollAdjustment();
       if (!open) sizeDisclosure(panel);
+      else if (panel && mobileMenu && mobileMenu.scrollTop > 0) {
+        setMobileMenuScrollBuffer(mobileMenuScrollBuffer + panel.getBoundingClientRect().height);
+      }
+      mobileMenuScrollLocked = mobileMenuScrollBuffer > 0;
       panel?.classList.toggle("is-open", !open);
+      if (panel && mobileMenuScrollBuffer) settleMobileMenuScroll();
     } else if (panel) panel.hidden = open;
   });
 });
 
 document.querySelectorAll("[data-expertise-toggle]").forEach((toggle) => {
   const panel = document.getElementById(toggle.getAttribute("aria-controls"));
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.classList.toggle("is-open", open);
+    if (open) sizeDisclosure(panel);
+    panel?.classList.toggle("is-collapsed", !open);
+  });
+});
+
+// Therapist card "Expertise / En savoir plus" three-state switch.
+const expertiseSwitches = [...document.querySelectorAll("[data-expertise-switch]")];
+
+function sizeExpertisePanel(sw, state = sw.dataset.state) {
+  if (!state) return;
+  const panel = sw.querySelector(".expertise-switch__panel");
+  const content = sw.querySelector(`.expertise-switch__content[data-panel="${state}"]`);
+  if (panel && content) panel.style.setProperty("--panel-height", `${content.scrollHeight}px`);
+}
+
+// Measure the "more" tab's natural width so its resting state hugs its own label
+// (which varies per card), while keeping the width transition animatable.
+function sizeMoreTab(sw) {
+  const more = sw.querySelector(".expertise-switch__tab--more");
+  if (!more) return;
+  more.style.transition = "none";
+  more.style.width = "max-content";
+  const hug = Math.ceil(more.getBoundingClientRect().width);
+  more.style.width = "";
+  sw.style.setProperty("--xp-more-rest-width", `${hug}px`);
+  more.getBoundingClientRect();
+  more.style.transition = "";
+}
+
+expertiseSwitches.forEach((sw) => {
+  const bar = sw.querySelector(".expertise-switch__bar");
+  const panel = sw.querySelector(".expertise-switch__panel");
+  const tabs = [...sw.querySelectorAll("[data-expertise-tab]")];
+  const contents = [...sw.querySelectorAll(".expertise-switch__content")];
+
+  const setState = (state) => {
+    if (state) {
+      // Read geometry before changing state. Hidden content is independently sized.
+      const panelIsVisible = panel.getBoundingClientRect().height > 0;
+      sizeExpertisePanel(sw, state);
+      // Start with the selected color when closed; crossfade if interrupted or open.
+      sw.toggleAttribute("data-animate-panel-color", panelIsVisible);
+      sw.dataset.panelTone = state;
+    }
+    // Retain the current tone on close, including any crossfade already in flight.
+    if (state) sw.dataset.state = state;
+    else delete sw.dataset.state;
+    tabs.forEach((tab) => tab.setAttribute("aria-expanded", String(tab.dataset.expertiseTab === state)));
+    contents.forEach((content) => {
+      const active = content.dataset.panel === state;
+      content.inert = !active;
+      content.setAttribute("aria-hidden", String(!active));
+    });
+  };
+
+  setState(null);
+  sizeMoreTab(sw);
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const next = tab.dataset.expertiseTab;
+      setState(sw.dataset.state === next ? null : next);
+    });
+  });
+
+  // A tap outside the bar collapses the switch back to its resting state.
+  document.addEventListener("click", (event) => {
+    if (sw.dataset.state && !bar.contains(event.target)) setState(null);
+  });
+});
+
+window.addEventListener(
+  "resize",
+  () => expertiseSwitches.forEach((sw) => {
+    sizeExpertisePanel(sw);
+    sizeMoreTab(sw);
+  }),
+  { passive: true },
+);
+document.fonts?.ready.then(() =>
+  expertiseSwitches.forEach((sw) => {
+    sizeExpertisePanel(sw);
+    sizeMoreTab(sw);
+  }),
+);
+
+const aboutToggles = [...document.querySelectorAll("[data-about-toggle]")];
+
+aboutToggles.forEach((toggle) => {
+  const panel = document.getElementById(toggle.getAttribute("aria-controls"));
+
   toggle.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") !== "true";
     toggle.setAttribute("aria-expanded", String(open));
@@ -151,6 +356,17 @@ document.querySelector("[data-access-link]")?.addEventListener("click", (event) 
     const targetY = window.scrollY + card.getBoundingClientRect().top - 165;
     window.scrollTo({ top: targetY, behavior: "smooth" });
   }
+});
+
+document.querySelectorAll("[data-team-link]").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    const card = document.getElementById(link.getAttribute("href").slice(1));
+    if (card) {
+      const targetY = window.scrollY + card.getBoundingClientRect().top - 50;
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+    }
+  });
 });
 
 document.addEventListener("keydown", (event) => {
@@ -187,6 +403,12 @@ if (siteHeader) {
   let scrollEndTimer = null;
 
   const updateHeaderScrolled = () => {
+    // Locking the page for the menu resets scrollY to zero. Preserve the header's
+    // state so restoring that position on close isn't mistaken for scrolling down.
+    if (document.body.classList.contains("menu-open")) {
+      ticking = false;
+      return;
+    }
     const currentScrollY = window.scrollY;
     const pastHero = (heroSection?.getBoundingClientRect().bottom ?? Infinity) <= 0;
     siteHeader.classList.toggle("is-scrolled", currentScrollY > HEADER_SCROLL_THRESHOLD);
@@ -213,7 +435,7 @@ if (siteHeader) {
     } else {
       const delta = currentScrollY - lastScrollY;
       if (Math.abs(delta) > QUICK_ACTIONS_SCROLL_THRESHOLD) {
-        siteHeader.classList.toggle("is-quick-actions-hidden", delta < 0);
+        siteHeader.classList.toggle("is-quick-actions-hidden", delta > 0);
         lastScrollY = currentScrollY;
       }
     }
@@ -574,7 +796,7 @@ function showSpecialty(index, moveFocus = false) {
     specialtyDescriptionTimer = window.setTimeout(() => {
       specialtyDescription.textContent = specialty.description;
       specialtyDescription.style.opacity = "1";
-    }, reduceMotionQuery.matches ? 0 : 180);
+    }, reduceMotionQuery.matches ? 0 : 100);
   }
   if (specialtyImage) {
     window.clearTimeout(specialtyImageTimer);
@@ -583,7 +805,7 @@ function showSpecialty(index, moveFocus = false) {
       specialtyImage.src = specialty.photo || specialty.image;
       specialtyImage.alt = specialty.alt;
       specialtyImage.style.opacity = "1";
-    }, reduceMotionQuery.matches ? 0 : 120);
+    }, reduceMotionQuery.matches ? 0 : 80);
   }
 
   if (moveFocus) specialtyTabs[activeSpecialty]?.focus();
@@ -739,25 +961,13 @@ activateSpecialtyFromHash();
 document.querySelectorAll("[data-accordion] .accordion__item").forEach((item) => {
   const button = item.querySelector("button");
   const panel = item.querySelector(".accordion__panel");
-  const symbol = button?.querySelector("span");
 
   button?.addEventListener("click", () => {
-    const open = button.getAttribute("aria-expanded") === "true";
-
-    document.querySelectorAll("[data-accordion] .accordion__item").forEach((otherItem) => {
-      const otherButton = otherItem.querySelector("button");
-      const otherPanel = otherItem.querySelector(".accordion__panel");
-      const otherSymbol = otherButton?.querySelector("span");
-      otherButton?.setAttribute("aria-expanded", "false");
-      if (otherPanel) otherPanel.hidden = true;
-      if (otherSymbol) otherSymbol.textContent = "+";
-    });
-
-    if (!open) {
-      button.setAttribute("aria-expanded", "true");
-      if (panel) panel.hidden = false;
-      if (symbol) symbol.textContent = "−";
-    }
+    const open = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(open));
+    button.classList.toggle("is-open", open);
+    if (open) sizeDisclosure(panel);
+    panel?.classList.toggle("is-collapsed", !open);
   });
 });
 

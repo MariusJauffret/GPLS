@@ -2,7 +2,7 @@
   /* Bleus — échelle à 6 marches */
   --blue-50: #f2f7fb;
   --blue-100: #dbe9f4;
-  --blue-500: #0d7ec9;
+  --blue-500: #0D7BC5;
   --blue-700: #005488;
   --blue-800: #0b3f66;
   --blue-950: #06263f;
@@ -11,6 +11,7 @@
   --blue: var(--blue-700);
   --blue-active: var(--blue-500);
   --blue-deep: var(--blue-950);
+  --turquoise: #006f88;
 
   /* Neutres */
   --white: #ffffff;
@@ -43,6 +44,9 @@
   --type-tracking-heading: 0;
   --type-tracking-display: -0.03em;
   --type-tracking-caption: 0.12em;
+  --type-tracking-action: 0;
+  --type-tracking-on-color: 0.04em;
+  --type-tracking-on-color-heading: 0.02em;
 
   /* Rayons — 3 valeurs, pas plus */
   --radius: 10px;
@@ -85,8 +89,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+html.menu-open,
 body.menu-open {
   overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body.menu-open {
+  position: fixed;
+  top: var(--menu-scroll-offset, 0);
+  right: 0;
+  left: 0;
+  width: 100%;
 }
 
 /* Surface variants affect weight and tracking, not the text's size or role. */
@@ -98,9 +112,11 @@ body.menu-open {
   --type-weight-heading: 400;
   --type-weight-action: 400;
   --type-weight-caption: 400;
-  --type-tracking-body: 0em;
-  --type-tracking-heading: -0.01em;
-  --type-tracking-caption: 0.10em;
+  --type-tracking-body: var(--type-tracking-on-color);
+  --type-tracking-heading: 0.0em;
+  --type-tracking-display: var(--type-tracking-on-color);
+  --type-tracking-caption: var(--type-tracking-on-color);
+  --type-tracking-action: var(--type-tracking-on-color);
 }
 
 .type-on-dark {
@@ -256,6 +272,23 @@ h3 {
   color: var(--white);
 }
 
+button.pricing-card__toggle,
+button.specialty-feature__list-toggle {
+  padding: 0 0px;
+}
+
+button[data-expertise-toggle] {
+  min-height: 40px;
+}
+
+button[data-expertise-toggle] > .eyebrow {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: var(--type-tracking-heading);
+  text-transform: none;
+}
+
 .section-copy > .eyebrow + h2 {
   margin-top: 30px;
 }
@@ -263,6 +296,12 @@ h3 {
 .section-copy > h2 + p,
 .section-copy > h2 + .rich-text {
   margin-top: 30px;
+}
+
+#team-title + p {
+  margin-top: 26px;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .rich-text {
@@ -282,7 +321,7 @@ h3 {
   cursor: pointer;
   font-size: var(--type-action);
   font-weight: var(--type-weight-action);
-  letter-spacing: 0;
+  letter-spacing: var(--type-tracking-action);
   line-height: var(--type-leading-heading);
   transition: background-color var(--ease), color var(--ease), transform var(--ease), box-shadow var(--ease);
 }
@@ -304,6 +343,7 @@ h3 {
 }
 
 .button--light {
+  --type-tracking-action: 0;
   background: var(--white);
   color: var(--blue-deep);
   box-shadow: var(--shadow);
@@ -421,7 +461,7 @@ body.menu-open .site-header {
   font-family: inherit;
   font-size: var(--type-action);
   font-weight: var(--type-weight-action);
-  letter-spacing: 0;
+  letter-spacing: var(--type-tracking-action);
   line-height: var(--type-leading-heading);
   white-space: nowrap;
 }
@@ -454,6 +494,7 @@ body.menu-open .site-header {
 
 .desktop-nav__secondary {
   --type-weight-action: 400;
+  --type-tracking-action: var(--type-tracking-on-color);
   color: var(--white);
   transition: color 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -461,6 +502,7 @@ body.menu-open .site-header {
 .site-header.is-scrolled .desktop-nav__secondary,
 body.menu-open .desktop-nav__secondary {
   --type-weight-action: 500;
+  --type-tracking-action: 0;
   color: var(--blue-deep);
 }
 
@@ -539,6 +581,7 @@ body.menu-open .desktop-nav__secondary {
 
 .menu-toggle,
 .mobile-menu,
+.mobile-menu-actions,
 .mobile-quick-actions {
   display: none;
 }
@@ -729,12 +772,13 @@ body.menu-open .desktop-nav__secondary {
   color: var(--white);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--type-tracking-on-color);
   text-transform: uppercase;
 }
 
 .section-divider__label {
   color: var(--white);
+  letter-spacing: var(--type-tracking-on-color);
   font-size: clamp(20px, 3vw, 28px);
   font-weight: 500;
 }
@@ -775,6 +819,29 @@ body.menu-open .desktop-nav__secondary {
 
 .about__copy {
   max-width: 528px;
+}
+
+.about-accordion {
+  display: grid;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.about-accordion__heading {
+  margin: 0;
+}
+
+.about-accordion__toggle {
+  display: none;
+}
+
+.about-accordion__panel {
+  margin-top: 22px;
+}
+
+.about-accordion__content {
+  display: grid;
+  gap: 22px;
 }
 
 .treatments-intro {
@@ -821,6 +888,7 @@ body.menu-open .desktop-nav__secondary {
 .process__tabs button[aria-selected="true"] {
   background: var(--blue-active);
   color: var(--white);
+  letter-spacing: var(--type-tracking-on-color);
 }
 
 .process__tabs img {
@@ -837,7 +905,7 @@ body.menu-open .desktop-nav__secondary {
 
 .pricing-card {
   margin-top: 46px;
-  padding: 20px;
+  padding: 10px 20px;
   border-radius: var(--radius-card);
   overflow: hidden;
   background: var(--blue);
@@ -879,24 +947,49 @@ body.menu-open .desktop-nav__secondary {
 
 .pricing-card__details {
   overflow: hidden;
-  max-height: var(--disclosure-height, 1000px);
-  margin-top: 20px;
-  transition: max-height var(--ease), margin-top var(--ease);
+  max-height: calc(var(--disclosure-height, 1000px) + 20px);
+  margin-top: 4px;
+  padding-bottom: 10px;
+  transition: max-height var(--ease), margin-top var(--ease), padding-bottom var(--ease);
 }
 
 .pricing-card__details.is-collapsed {
   max-height: 0;
   margin-top: 0;
+  padding-bottom: 0;
 }
 
-.pricing-card dl > div {
+.pricing-card__details--tariffs {
+  display: grid;
+  gap: 4px;
+  margin-top: 4px;
+  color: var(--white);
+  font-size: 15px;
+}
+
+.pricing-card__details--tariffs .pricing-card__note,
+.pricing-card__details--tariffs .pricing-card__insurance {
+  font-size: 15px;
+}
+
+.pricing-card__details--tariffs.is-collapsed {
+  margin-top: 0;
+}
+
+.pricing-card__details-block {
+  border-radius: var(--radius-card);
+  background: var(--blue);
+  padding: 20px;
+}
+
+.pricing-card__details dl > div {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 18px;
   padding-block: 5px;
 }
 
-.pricing-card dd {
+.pricing-card__details dd {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -904,6 +997,7 @@ body.menu-open .desktop-nav__secondary {
 .pricing-card__note {
   margin-top: 14px;
   font-size: var(--type-detail);
+  letter-spacing: var(--type-tracking-body);
 }
 
 .pricing-card__insurance {
@@ -912,6 +1006,10 @@ body.menu-open .desktop-nav__secondary {
   background: var(--blue-active);
   padding: 20px;
   font-size: var(--type-card);
+}
+
+.pricing-card__details--tariffs .pricing-card__insurance {
+  margin-top: 0;
 }
 
 .contact-sidebar .access-card {
@@ -926,19 +1024,31 @@ body.menu-open .desktop-nav__secondary {
 
 .access-card__list {
   display: grid;
-  gap: 16px;
+  gap: 4px;
   margin-bottom: 0;
-  padding: 0;
+  padding: 0 0 10px;
   list-style: none;
 }
 
 .access-card__list li {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  border-radius: var(--radius-card);
+  background: var(--white);
+  padding: 14px 16px;
+  color: #46525c;
   font-size: var(--type-card);
   line-height: var(--type-leading-body);
   font-weight: var(--type-weight-body);
+}
+
+.access-card__row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.access-card__group {
+  display: flex;
+  flex-direction: column;
 }
 
 .tpg-line {
@@ -952,41 +1062,35 @@ body.menu-open .desktop-nav__secondary {
   color: var(--white);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0;
+  letter-spacing: var(--type-tracking-on-color);
   line-height: 1;
   vertical-align: middle;
 }
 
 .tpg-line--dark {
   color: var(--ink);
+  letter-spacing: 0;
 }
 
 .access-card__list img {
   display: block;
-  width: 30px;
+  width: 54px;
   height: auto;
   max-width: 100%;
   max-height: 100%;
   flex: 0 0 auto;
   object-fit: contain;
-}
-
-.access-card__list .access-card__icon--parking {
-  width: 26px;
+  border-radius: 5px;
 }
 
 /* Shared slots keep the text aligned; each image retains its natural proportions. */
 .access-card__list .access-card__icon {
   display: flex;
-  flex: 0 0 55px;
-  width: 55px;
-  height: 36px;
+  flex: 0 0 auto;
+  width: 80px;
+  height: 80px;
   align-items: center;
   justify-content: center;
-}
-
-.access-card__list .access-card__list-logo {
-  width: 40px;
 }
 
 .treatments-intro__media {
@@ -1044,11 +1148,11 @@ body.menu-open .desktop-nav__secondary {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity var(--ease), transform var(--ease-slow);
+  transition: opacity 160ms cubic-bezier(0.22, 1, 0.36, 1), transform var(--ease-slow);
 }
 
 [data-specialty-description] {
-  transition: opacity 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .specialty-feature__nav {
@@ -1116,7 +1220,8 @@ body.menu-open .desktop-nav__secondary {
   margin-top: 22px;
 }
 
-.specialty-feature__list {
+.specialty-feature__list,
+.specialty-feature__list-panel {
   display: none;
 }
 
@@ -1288,9 +1393,9 @@ body.menu-open .desktop-nav__secondary {
 .therapist-card::before {
   content: "";
   position: absolute;
-  z-index: -1;
+  z-index: 2;
   top: 80px;
-  left: 0;
+  left: 10px;
   width: clamp(82px, 9.83vw, 131px);
   aspect-ratio: 1;
   background: url("assets/logos/logo-2-petrolaccent.png") center / contain no-repeat;
@@ -1312,8 +1417,8 @@ body.menu-open .desktop-nav__secondary {
 
 .therapist-card__portrait {
   display: block;
-  width: min(100%, 495px);
-  height: clamp(385px, 25vw, 546px);
+  width: min(100%, 421px);
+  height: clamp(327px, 21.25vw, 464px);
   margin: 26px auto 0;
   object-fit: contain;
   object-position: bottom;
@@ -1324,78 +1429,244 @@ body.menu-open .desktop-nav__secondary {
   right: 0;
   bottom: 70px;
   display: grid;
-  width: min(340px, 68%);
+  width: min(340px, 92%);
   gap: 10px;
   color: var(--white);
 }
 
 .therapist-card__details > div {
-  padding: 20px;
+  padding: 10px 20px;
   border-radius: var(--radius-card);
   overflow: hidden;
   background: var(--blue-active);
   box-shadow: var(--shadow);
 }
 
-.therapist-card__expertise-toggle {
+/* Expertise / En savoir plus switch (3 states: rest, expertise, more) */
+.therapist-card__details > .expertise-switch {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+  /* Animate real dimensions so the labels cannot change the width curve. */
+  --xp-tab-padding: 16px;
+  --xp-collapsed-width: calc(2 * var(--xp-tab-padding) + 12px);
+  /* Resting width of the "En savoir plus" tab — sized to hug its label. */
+  --xp-more-rest-width: 152px;
+  --xp-color-motion: 0s;
+  --xp-ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --xp-ease-in: cubic-bezier(0.5, 0, 0.75, 0.35);
+  --xp-open: 420ms var(--xp-ease-out);
+  --xp-close: 340ms var(--xp-ease-in);
+}
+
+.expertise-switch__bar {
   display: flex;
-  width: 100%;
+  gap: 0px;
+}
+
+.expertise-switch__tab {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  width: 50%;
+  min-width: 0;
+  min-height: 60px;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  padding: 10px var(--xp-tab-padding);
   border: 0;
-  background: transparent;
-  color: inherit;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  color: var(--white);
   cursor: pointer;
   font: inherit;
+  font-size: 15px;
+  line-height: 1.3;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: width var(--xp-close), background-color var(--xp-close), color var(--xp-close);
 }
 
-.therapist-card__expertise-icon {
+.expertise-switch[data-state] .expertise-switch__tab {
+  transition: width var(--xp-open), background-color var(--xp-open), color var(--xp-open);
+}
+
+/* Flatten the inner edges so the two tabs read as one joined segmented control.
+   At rest, "En savoir plus" hugs its label and "Expertise" takes the rest;
+   these explicit widths keep the open/close width transition smooth. */
+.expertise-switch__tab--expertise {
+  background: var(--blue-active);
+  border-radius: var(--radius-card) 0 0 var(--radius-card);
+  width: calc(100% - var(--xp-more-rest-width));
+}
+
+.expertise-switch__tab--more {
+  background: var(--blue);
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  width: var(--xp-more-rest-width);
+}
+
+.expertise-switch__label {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding-right: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity var(--xp-close);
+}
+
+.expertise-switch[data-state] .expertise-switch__label {
+  transition: opacity var(--xp-open);
+}
+
+/* When one tab is active, the other keeps only its arrow (a comfortable tap target to expand it). */
+.expertise-switch[data-state="expertise"] .expertise-switch__tab--more .expertise-switch__label,
+.expertise-switch[data-state="more"] .expertise-switch__tab--expertise .expertise-switch__label {
+  opacity: 0;
+}
+
+.expertise-switch__icon {
+  position: absolute;
+  top: 50%;
+  right: var(--xp-tab-padding);
   display: inline-flex;
   flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  transform: rotate(-90deg);
-  transition: transform var(--ease);
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%);
 }
 
-.therapist-card__expertise-toggle.is-open .therapist-card__expertise-icon {
+.expertise-switch__ico {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  transition: opacity var(--xp-close), transform var(--xp-close);
+}
+
+.expertise-switch[data-state] .expertise-switch__ico {
+  transition: opacity var(--xp-open), transform var(--xp-open);
+}
+
+.expertise-switch__ico--close {
+  opacity: 0;
+  transform: rotate(-45deg);
+}
+
+.expertise-switch__tab[aria-expanded="true"] .expertise-switch__ico--chevron {
+  opacity: 0;
+  transform: rotate(45deg);
+}
+
+.expertise-switch__tab[aria-expanded="true"] .expertise-switch__ico--close {
+  opacity: 1;
   transform: rotate(0deg);
 }
 
-.therapist-card__expertise-panel {
+/* Fixed endpoints preserve the equal split and the existing arrow-only width. */
+.expertise-switch[data-state="expertise"] .expertise-switch__tab--expertise,
+.expertise-switch[data-state="more"] .expertise-switch__tab--more {
+  width: calc(100% - var(--xp-collapsed-width));
+}
+
+.expertise-switch[data-state="expertise"] .expertise-switch__tab--more,
+.expertise-switch[data-state="more"] .expertise-switch__tab--expertise {
+  width: var(--xp-collapsed-width);
+}
+
+/* The panel itself is a transparent, clipping container — the colour lives only
+   in the blocks, so the gaps between them show through to the surface behind. */
+.expertise-switch__panel {
+  position: relative;
   overflow: hidden;
-  max-height: var(--disclosure-height, 1000px);
-  margin-top: 12px;
-  transition: max-height var(--ease), margin-top var(--ease);
-}
-
-.therapist-card__expertise-panel p {
-  font-size: var(--type-card);
-}
-
-.therapist-card__expertise-panel.is-collapsed {
-  max-height: 0;
+  height: 0;
   margin-top: 0;
+  transition: height var(--xp-close), margin-top var(--xp-close);
+}
+
+.expertise-switch[data-state="expertise"] .expertise-switch__panel,
+.expertise-switch[data-state="more"] .expertise-switch__panel {
+  height: var(--panel-height, 0px);
+  margin-top: 6px;
+  transition: height var(--xp-open), margin-top var(--xp-open);
+}
+
+.expertise-switch__content {
+  /* Each block retains its own natural height, including while hidden. */
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  visibility: hidden;
+  /* The outgoing content sits on top and fades away to reveal the incoming one
+     (already opaque) underneath — no colour flash, no background peek. */
+  z-index: 1;
+  transition: opacity 260ms var(--xp-ease-in), visibility 0s linear 260ms;
+}
+
+/* Break dense copy into airy sub-cards — add as many blocks as the content needs.
+   Each block carries the tab's colour; the panel behind it stays transparent. */
+.expertise-switch__block {
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+/* Colour is fixed per content, so an incoming block never wears the other tab's
+   colour — the smooth transition comes from the reveal crossfade below. */
+.expertise-switch__content[data-panel="expertise"] .expertise-switch__block {
+  background: var(--blue-active);
+}
+
+.expertise-switch__content[data-panel="more"] .expertise-switch__block {
+  background: var(--blue);
+}
+
+.expertise-switch__content p {
+  margin: 0;
+  font-size: var(--type-card);
+  letter-spacing: var(--type-tracking-body);
+}
+
+.expertise-switch__content p + p {
+  margin-top: 0.65em;
+}
+
+.expertise-switch[data-state="expertise"] .expertise-switch__content[data-panel="expertise"],
+.expertise-switch[data-state="more"] .expertise-switch__content[data-panel="more"] {
+  opacity: 1;
+  visibility: visible;
+  /* Incoming content stays opaque underneath; the outgoing one reveals it. */
+  z-index: 0;
+  transition: opacity 140ms var(--xp-ease-out), visibility 0s;
+}
+
+/* Left-column info cards — only shown in the mobile layout. */
+.therapist-card__aside {
+  display: none;
 }
 
 .therapist-card__languages {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: var(--blue);
-  padding: 14px 20px;
+  gap: 14px;
+  background: var(--turquoise);
+  padding: 16px 18px;
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow);
+  color: var(--white);
   font-size: var(--type-card);
+  line-height: 1.35;
+  letter-spacing: var(--type-tracking-body);
 }
 
 .therapist-card__languages img {
-  width: 24px;
-  height: 24px;
+  width: 15px;
+  height: 15px;
   flex: 0 0 auto;
-  filter: brightness(0) invert(1);
 }
 
 .therapist-card__footer {
@@ -1485,7 +1756,8 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .online-booking__eyebrow,
-.online-booking__title {
+.online-booking__title,
+.online-booking__description {
   display: none;
 }
 
@@ -1507,7 +1779,7 @@ body.menu-open .desktop-nav__secondary {
   color: var(--white);
   font-size: var(--type-action);
   font-weight: var(--type-weight-action);
-  letter-spacing: 0;
+  letter-spacing: var(--type-tracking-on-color);
   line-height: var(--type-leading-body);
 }
 
@@ -1624,7 +1896,7 @@ body.menu-open .desktop-nav__secondary {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px 10px;
-  margin-top: 22px;
+  margin-top: 0px;
 }
 
 .form-grid label {
@@ -1707,7 +1979,7 @@ body.menu-open .desktop-nav__secondary {
   color: var(--white);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--type-tracking-on-color);
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -1787,7 +2059,13 @@ textarea:focus {
 }
 
 .contact-form .contact-form__title {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.contact-form__intro {
+  margin-bottom: 16px;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-body);
 }
 
 .contact-form > .button {
@@ -1887,6 +2165,7 @@ textarea:focus {
 
 .faq {
   background: var(--white);
+  overflow-anchor: none;
 }
 
 .faq__layout {
@@ -1901,7 +2180,7 @@ textarea:focus {
 }
 
 .accordion__item {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 0;
 }
 
 .accordion__item h3 {
@@ -1909,37 +2188,147 @@ textarea:focus {
 }
 
 .accordion__item button {
-  display: grid;
+  position: relative;
+  display: flex;
   width: 100%;
-  grid-template-columns: 1fr 30px;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
   border: 0;
+  border-bottom: 1px solid var(--text);
   padding: 20px 0;
   background: transparent;
   color: var(--text);
   cursor: pointer;
   text-align: left;
   font-size: var(--type-body);
-  font-weight: var(--type-weight-action);
+  font-weight: 400;
   letter-spacing: var(--type-tracking-body);
   line-height: var(--type-leading-body);
+  transition: color var(--ease);
 }
 
-.accordion__item button span {
-  display: grid;
+.accordion__item button::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: var(--blue-active);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.accordion__label {
+  background: linear-gradient(90deg, var(--blue-active) 0 50%, var(--text) 50% 100%);
+  background-position: 100% 0;
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background-position 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .accordion__item button:hover {
+    color: var(--blue-active);
+  }
+
+  .accordion__item button:hover .accordion__label {
+    background-position: 0 0;
+  }
+}
+
+.accordion__item button[aria-expanded="true"] {
+  color: var(--blue-active);
+}
+
+.accordion__item button[aria-expanded="true"]::after {
+  transform: scaleX(1);
+}
+
+.accordion__item button[aria-expanded="true"] .accordion__label {
+  background-position: 0 0;
+}
+
+.accordion__toggle-icon {
+  position: relative;
+  display: inline-flex;
   width: 30px;
   height: 30px;
-  place-items: center;
-  border-radius: 50%;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-90deg);
+  transition: background-color 180ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.accordion__toggle-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  transition: opacity 120ms ease;
+}
+
+.accordion__toggle-icon::before,
+.accordion__toggle-icon::after {
+  position: absolute;
+  width: 14px;
+  height: 1.5px;
+  background: var(--white);
+  content: "";
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.accordion__item button.is-open .accordion__toggle-icon {
   background: var(--blue-active);
-  color: var(--white);
-  font-size: 20px;
+  transform: rotate(180deg);
+  transition-delay: 280ms;
+}
+
+.accordion__item button.is-open .accordion__toggle-icon svg {
+  opacity: 0;
+  transition-delay: 300ms;
+}
+
+.accordion__item button.is-open .accordion__toggle-icon::before {
+  opacity: 1;
+  transform: rotate(45deg);
+  transition-delay: 380ms;
+}
+
+.accordion__item button.is-open .accordion__toggle-icon::after {
+  opacity: 1;
+  transform: rotate(-45deg);
+  transition-delay: 380ms;
 }
 
 .accordion__panel {
-  padding: 0 50px 22px 0;
+  overflow: hidden;
+  max-height: calc(var(--disclosure-height, 1000px) + 20px);
+  margin-top: 18px;
+  padding-right: 50px;
+  opacity: 1;
   font-size: var(--type-body);
+  transition: max-height 240ms cubic-bezier(0.4, 0, 0.2, 1),
+    margin-top 240ms cubic-bezier(0.4, 0, 0.2, 1), opacity 180ms ease;
+}
+
+.accordion__panel p {
+  padding-bottom: 22px;
+}
+
+.accordion__panel.is-collapsed {
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
 }
 
 .site-footer {
@@ -1961,7 +2350,7 @@ textarea:focus {
 }
 
 .site-footer__brand img {
-  width: 220px;
+  width: 150px;
   height: auto;
 }
 
@@ -2101,10 +2490,172 @@ textarea:focus {
   }
 }
 
+/* Desktop mirrors the mobile form treatment (blue card, placeholder-only
+   fields, custom checkbox, collapsible privacy note, blue-active button).
+   Kept as a rounded card in its grid column — not full-bleed — with the
+   two-column field layout that suits the wider viewport. Children are
+   reordered (fields -> consent -> privacy note -> button -> status) via
+   `order`, matching the mobile frame without touching the DOM/markup order. */
+@media (min-width: 768px) {
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  .contact-form h2 {
+    color: var(--white);
+  }
+
+  .contact-form .form-grid {
+    order: 1;
+    row-gap: 12px;
+  }
+
+  .contact-form .form-grid label {
+    color: var(--white);
+  }
+
+  /* Fold the label into the placeholder, as on mobile. */
+  .contact-form .form-grid__label-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .contact-form .form-grid input,
+  .contact-form .form-grid select,
+  .contact-form textarea {
+    border: 1px solid transparent;
+    border-radius: var(--radius-card);
+    padding: 14px 16px;
+    background: var(--blue-800);
+    color: var(--white);
+  }
+
+  .contact-form .form-grid input.is-invalid,
+  .contact-form .form-grid select.is-invalid {
+    background: #7d2f30;
+  }
+
+  /* Reserve room for the validity checkmark / phone controls. */
+  .contact-form .form-grid__field input {
+    padding-right: 34px;
+  }
+
+  .contact-form .form-grid__field--phone input {
+    padding-right: 68px;
+  }
+
+  .contact-form .form-grid input::placeholder,
+  .contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .contact-form .form-grid select option {
+    color: var(--ink);
+  }
+
+  .contact-form .consent {
+    order: 3;
+    color: var(--white);
+    letter-spacing: var(--type-tracking-body);
+  }
+
+  .contact-form .consent input {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+  }
+
+  .contact-form .consent input:checked {
+    background: var(--blue);
+    border-color: var(--white);
+  }
+
+  .contact-form .consent input:checked::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    width: 6px;
+    height: 11px;
+    border: solid var(--white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .contact-form .privacy-note {
+    order: 3;
+    padding: 16px;
+    border-radius: var(--radius-card);
+    background: var(--blue-active);
+    color: var(--white);
+    letter-spacing: var(--type-tracking-body);
+  }
+
+  .contact-form .privacy-note__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .contact-form .privacy-note__toggle-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    transform: rotate(-90deg);
+    transition: transform var(--ease);
+  }
+
+  .contact-form .privacy-note__toggle[aria-expanded="true"] .privacy-note__toggle-icon {
+    transform: rotate(0deg);
+  }
+
+  .contact-form .privacy-note__details[hidden] {
+    display: none;
+  }
+
+  .contact-form .privacy-note__details {
+    margin-top: 10px;
+  }
+
+  .contact-form > .button {
+    order: 4;
+    margin-top: 15px;
+    background: var(--blue-active);
+  }
+
+  .contact-form .form-status {
+    order: 5;
+    color: var(--white);
+    letter-spacing: var(--type-tracking-body);
+  }
+}
+
 @media (max-width: 767px) {
   :root {
     --page-gutter: 24px;
-    --section-space: 56px;
+    --section-space: 36px;
     --type-display: 36px;
     --type-section: 28px;
     --type-subsection: 22px;
@@ -2119,16 +2670,21 @@ textarea:focus {
     scroll-padding-top: 0;
   }
 
-  /* These surfaces become blue/video-backed only in the mobile layout. */
+  /* These surfaces become blue/video-backed only in the mobile layout, so they
+     can't use the always-on .type-on-dark class — they mirror its treatment here.
+     Keep in sync with the .type-on-dark surface-variant block near the top. */
   .hero__copy,
-  .contact-form {
+  .contact-form,
+  .mobile-menu {
     --type-weight-body: 300;
     --type-weight-heading: 400;
     --type-weight-action: 400;
     --type-weight-caption: 400;
-    --type-tracking-body: 0em;
-    --type-tracking-heading: -0.01em;
-    --type-tracking-caption: 0.10em;
+    --type-tracking-body: var(--type-tracking-on-color);
+    --type-tracking-heading: var(--type-tracking-on-color-heading);
+    --type-tracking-display: var(--type-tracking-on-color);
+    --type-tracking-caption: var(--type-tracking-on-color);
+    --type-tracking-action: var(--type-tracking-on-color);
     font-weight: var(--type-weight-body);
     letter-spacing: var(--type-tracking-body);
   }
@@ -2139,15 +2695,15 @@ textarea:focus {
 
   .section-copy > h2 + p,
   .section-copy > h2 + .rich-text {
-    margin-top: 24px;
+    margin-top: 26px;
   }
 
   .eyebrow--line {
-    gap: 0;
+    display: none;
   }
 
-  .eyebrow--line::before {
-    display: none;
+  .section-copy > .eyebrow--line + h2 {
+    margin-top: 0;
   }
 
   .site-header {
@@ -2178,11 +2734,14 @@ textarea:focus {
   }
 
   body.menu-open .site-header .brand {
-    width: 77px;
+    position: absolute;
+    left: 50%;
+    width: 82px;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transition: opacity var(--ease-slow), width 0s linear 0s, visibility 0s linear 0s;
+    transform: translateX(-50%);
+    transition: opacity var(--ease-slow);
   }
 
   .brand__color {
@@ -2193,14 +2752,20 @@ textarea:focus {
     opacity: 1;
   }
 
-  .site-header.is-scrolled .brand__color,
-  body.menu-open .brand__color {
+  .site-header.is-scrolled .brand__color {
     opacity: 1;
   }
 
-  .site-header.is-scrolled .brand__white,
-  body.menu-open .brand__white {
+  .site-header.is-scrolled .brand__white {
     opacity: 0;
+  }
+
+  body.menu-open .site-header .brand__color {
+    opacity: 0;
+  }
+
+  body.menu-open .site-header .brand__white {
+    opacity: 1;
   }
 
   .menu-toggle {
@@ -2214,8 +2779,9 @@ textarea:focus {
   }
 
   body.menu-open .site-header .menu-toggle {
-    color: var(--blue-deep);
-    background: transparent;
+    color: var(--blue-100);
+    background: var(--blue-800);
+    border: 2px solid rgb(219 233 244 / 35%);
     box-shadow: none;
   }
 
@@ -2277,12 +2843,12 @@ textarea:focus {
     visibility: visible;
     pointer-events: auto;
     transform: scale(1);
-    transition: opacity 320ms cubic-bezier(0.34, 1.56, 0.64, 1) 110ms,
-      transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1) 110ms, visibility 0s linear 0s;
+    transition: opacity 460ms cubic-bezier(0.22, 1, 0.36, 1) 110ms,
+      transform 460ms cubic-bezier(0.22, 1, 0.36, 1) 110ms, visibility 0s linear 0s;
   }
 
-  /* Retracts upward into itself while scrolling up, comes back down on scroll
-     down (`is-quick-actions-hidden`, toggled in script.js by scroll direction).
+  /* Retracts upward into itself while scrolling down, comes back on scroll
+     up (`is-quick-actions-hidden`, toggled in script.js by scroll direction).
      Only meaningful once already docked — before that the stack is already
      hidden via the rule above. */
   .site-header.is-actions-docked.is-quick-actions-hidden .mobile-quick-actions {
@@ -2336,6 +2902,10 @@ textarea:focus {
     height: 48px;
   }
 
+  .mobile-quick-actions__label {
+    display: none;
+  }
+
   .mobile-quick-actions__button:first-child {
     background: #f4efe9;
   }
@@ -2355,8 +2925,89 @@ textarea:focus {
     filter: brightness(0) invert(1);
   }
 
+  body.menu-open .site-header {
+    gap: 8px;
+    background: var(--blue-950);
+  }
+
   body.menu-open .mobile-quick-actions {
     display: none;
+  }
+
+  /* The menu footer has its own layer; closing it never morphs into the dock. */
+  .mobile-menu-actions {
+    position: fixed;
+    z-index: 101;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: auto;
+    margin: 0;
+    padding: 14px 24px max(18px, env(safe-area-inset-bottom));
+    border-radius: 0;
+    background: var(--blue-950);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    transition: none;
+  }
+
+  .mobile-menu-actions[hidden] {
+    display: none;
+  }
+
+  .mobile-menu-actions .mobile-quick-actions__button {
+    display: inline-flex;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: var(--radius-pill);
+    min-width: 0;
+    padding: 0 12px;
+    font-size: var(--type-detail);
+    font-weight: var(--type-weight-action);
+    line-height: 1;
+    transition: background-color var(--ease);
+  }
+
+  .mobile-menu-actions .mobile-quick-actions__button:first-child {
+    background: var(--blue-800);
+    color: var(--blue-50);
+  }
+
+  .mobile-menu-actions .mobile-quick-actions__button:first-child img,
+  .mobile-menu-actions .mobile-quick-actions__button:last-child img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .mobile-menu-actions .mobile-quick-actions__button:last-child {
+    background: var(--blue-active);
+    color: var(--white);
+  }
+
+  .mobile-menu-actions .mobile-quick-actions__button:last-child img {
+    filter: brightness(0) invert(1);
+  }
+
+  .mobile-menu-actions .mobile-quick-actions__button:first-child:active {
+    background: var(--blue-700);
+  }
+
+  .mobile-menu-actions .mobile-quick-actions__button:last-child:active {
+    background: var(--blue-700);
+  }
+
+  .mobile-menu-actions .mobile-quick-actions__label {
+    display: inline;
+    white-space: nowrap;
   }
 
   .desktop-nav {
@@ -2382,6 +3033,8 @@ textarea:focus {
     height: 16px;
     flex-direction: column;
     justify-content: space-between;
+    transition: transform var(--ease);
+    transform-origin: center;
   }
 
   .menu-toggle__icon span {
@@ -2389,7 +3042,17 @@ textarea:focus {
     height: 2px;
     border-radius: 2px;
     background: currentColor;
-    transition: background-color var(--ease), transform 240ms var(--ease), opacity 240ms var(--ease);
+    transition: background-color var(--ease);
+  }
+
+  .menu-toggle__icon span:nth-child(3) {
+    width: 55%;
+    align-self: flex-end;
+    transition: background-color var(--ease), width var(--ease);
+  }
+
+  body.menu-open .menu-toggle__icon {
+    transform: rotate(90deg);
   }
 
   body.menu-open .menu-toggle__icon span:nth-child(1) {
@@ -2401,19 +3064,23 @@ textarea:focus {
   }
 
   body.menu-open .menu-toggle__icon span:nth-child(3) {
+    width: 100%;
     transform: translateY(-7px) rotate(-45deg);
   }
 
   .mobile-menu {
     position: fixed;
     z-index: 19;
-    inset: 90px 0 0;
+    inset: 90px 0 calc(64px + max(18px, env(safe-area-inset-bottom)));
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    padding: 0 24px 30px;
-    background: var(--white);
-    color: var(--blue);
+    overscroll-behavior: contain;
+    overflow-anchor: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 24px 14px;
+    background: var(--blue-950);
+    color: var(--blue-50);
     transform: translateX(0);
   }
 
@@ -2421,9 +3088,15 @@ textarea:focus {
     display: none;
   }
 
+  .mobile-menu__brand {
+    display: none;
+  }
+
   .mobile-menu nav {
     display: grid;
-    gap: 6px;
+    flex-shrink: 0;
+    gap: 0;
+    padding-bottom: var(--mobile-menu-scroll-buffer, 0px);
   }
 
   .mobile-menu nav a {
@@ -2432,16 +3105,25 @@ textarea:focus {
     font-size: var(--type-card-title);
     font-weight: var(--type-weight-action);
     line-height: var(--type-leading-heading);
+    letter-spacing: var(--type-tracking-action);
     transition: background-color var(--ease);
   }
 
-  .mobile-menu nav a:active {
-    background: var(--blue-50);
+  .mobile-menu nav > a,
+  .mobile-menu__label {
+    background: var(--blue-800);
+    margin-bottom: 6px;
+  }
+
+  .mobile-menu nav a:active,
+  .mobile-menu__label:active {
+    background: var(--blue-700);
   }
 
   @media (hover: hover) {
-    .mobile-menu nav a:hover {
-      background: var(--blue-50);
+    .mobile-menu nav a:hover,
+    .mobile-menu__label:hover {
+      background: var(--blue-700);
     }
   }
 
@@ -2454,36 +3136,21 @@ textarea:focus {
     border: 0;
     border-radius: var(--radius);
     padding: 16px 14px;
-    background: transparent;
-    color: var(--blue);
+    color: var(--blue-50);
     font-family: inherit;
     font-size: var(--type-card-title);
     font-weight: var(--type-weight-action);
     line-height: var(--type-leading-heading);
+    letter-spacing: var(--type-tracking-action);
     cursor: pointer;
     text-align: left;
     transition: background-color var(--ease);
   }
 
-  @media (hover: hover) {
-    .mobile-menu__label:hover {
-      background: var(--blue-50);
-    }
-  }
-
   .mobile-menu__label[aria-expanded="true"] {
-    background: var(--blue-active);
+    background: var(--blue-700);
     color: var(--white);
-  }
-
-  .mobile-menu__label[aria-controls="mobile-menu-expertise"][aria-expanded="true"] {
-    background: var(--blue-800);
-    color: var(--white);
-  }
-
-  .mobile-menu__label[aria-controls="mobile-menu-contact"][aria-expanded="true"] {
-    background: var(--cream);
-    color: var(--blue-deep);
+    letter-spacing: var(--type-tracking-on-color);
   }
 
   .mobile-menu__label-icon {
@@ -2512,7 +3179,7 @@ textarea:focus {
 
   .mobile-menu__treatments.is-open {
     max-height: calc(var(--disclosure-height, 1000px) + 10px);
-    padding-bottom: 10px;
+    padding-bottom: 6px;
     opacity: 1;
   }
 
@@ -2527,39 +3194,37 @@ textarea:focus {
     border: 0;
     border-radius: var(--radius);
     padding: 10px 12px;
-    background: var(--blue-50);
+    background: rgb(219 233 244 / 8%);
+    color: var(--blue-100);
     font-size: var(--type-small);
     font-weight: var(--type-weight-action);
     line-height: var(--type-leading-body);
   }
 
-  .mobile-menu__cta {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .mobile-menu nav .mobile-menu__treatments a:active {
+    background: var(--blue-700);
   }
 
-  .mobile-menu__cta .button {
-    width: 100%;
-    min-height: 52px;
-    gap: 8px;
-    padding-inline: 20px;
+  @media (hover: hover) {
+    .mobile-menu nav .mobile-menu__treatments a:hover,
+    .mobile-menu-actions .mobile-quick-actions__button:first-child:hover,
+    body.menu-open .site-header .menu-toggle:hover {
+      background: var(--blue-700);
+    }
+
+    .mobile-menu-actions .mobile-quick-actions__button:last-child:hover {
+      background: var(--blue-700);
+    }
   }
 
-  .mobile-menu__cta .button--light {
-    background: var(--cream);
-    box-shadow: 0 4px 12px rgba(8, 43, 79, 0.12);
+  .mobile-menu :focus-visible,
+  .mobile-menu-actions :focus-visible,
+  body.menu-open .site-header :focus-visible {
+    outline-color: var(--blue-100);
   }
 
-  .mobile-menu__cta .button--light img {
-    width: 22px;
-    height: 22px;
-  }
-
-  .mobile-menu__cta .button--primary img {
-    width: 18px;
-    height: 18px;
-    filter: brightness(0) invert(1);
+  .mobile-menu__treatments a:focus-visible {
+    outline-offset: -3px;
   }
 
   .hero {
@@ -2606,6 +3271,8 @@ textarea:focus {
   .hero h1 {
     margin-top: 10px;
     color: var(--white);
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
   .hero__actions {
@@ -2614,7 +3281,9 @@ textarea:focus {
   }
 
   .hero__actions > span {
+    display: none;
     color: rgba(255, 255, 255, 0.85);
+    letter-spacing: var(--type-tracking-body);
   }
 
   .hero__actions > div {
@@ -2631,6 +3300,7 @@ textarea:focus {
   }
 
   .hero__actions .button--light {
+    --type-tracking-action: var(--type-tracking-on-color);
     border: 1px solid rgba(255, 255, 255, 0.45);
     background: transparent;
     color: var(--white);
@@ -2678,6 +3348,7 @@ textarea:focus {
 
   .about {
     min-height: 0;
+    overflow-anchor: none;
   }
 
   .about__layout,
@@ -2690,12 +3361,177 @@ textarea:focus {
     order: -1;
   }
 
+  .about-accordion {
+    gap: 28px;
+    margin-top: 34px;
+  }
+
+  .about-accordion__item {
+    color: var(--text);
+  }
+
+  .about-accordion__desktop-title {
+    display: none;
+  }
+
+  .about-accordion__toggle {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 46px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    border: 0;
+    border-bottom: 1px solid var(--text);
+    border-radius: 0;
+    padding: 0 0 10px;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: var(--type-tracking-heading);
+    line-height: 1.3;
+    text-align: left;
+    transition: color var(--ease);
+  }
+
+  .about-accordion__toggle::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 1px;
+    background: var(--blue-active);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .about-accordion__toggle > span:first-child {
+    background: linear-gradient(90deg, var(--blue-active) 0 50%, var(--text) 50% 100%);
+    background-position: 100% 0;
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: background-position 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) {
+    .about-accordion__toggle:hover {
+      border-color: var(--blue-active);
+      color: var(--blue-active);
+    }
+
+    .about-accordion__toggle:hover > span:first-child {
+      background-position: 0 0;
+    }
+  }
+
+  .about-accordion__toggle[aria-expanded="true"] {
+    background: transparent;
+    color: var(--blue-active);
+    letter-spacing: var(--type-tracking-heading);
+  }
+
+  .about-accordion__toggle[aria-expanded="true"]::after {
+    transform: scaleX(1);
+  }
+
+  .about-accordion__toggle[aria-expanded="true"] > span:first-child {
+    background-position: 0 0;
+  }
+
+  .about-accordion__toggle-icon {
+    position: relative;
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-90deg);
+    transition: background-color 180ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .about-accordion__toggle-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+    transition: opacity 120ms ease;
+  }
+
+  .about-accordion__toggle-icon::before,
+  .about-accordion__toggle-icon::after {
+    position: absolute;
+    width: 14px;
+    height: 1.5px;
+    background: var(--white);
+    content: "";
+    opacity: 0;
+    transition: opacity var(--ease);
+  }
+
+  .about-accordion__toggle.is-open .about-accordion__toggle-icon {
+    transform: rotate(180deg);
+    background: var(--blue-active);
+    transition-delay: 280ms;
+  }
+
+  .about-accordion__toggle.is-open .about-accordion__toggle-icon svg {
+    opacity: 0;
+    transition-delay: 300ms;
+  }
+
+  .about-accordion__toggle.is-open .about-accordion__toggle-icon::before {
+    opacity: 1;
+    transform: rotate(45deg);
+    transition-delay: 380ms;
+  }
+
+  .about-accordion__toggle.is-open .about-accordion__toggle-icon::after {
+    opacity: 1;
+    transform: rotate(-45deg);
+    transition-delay: 380ms;
+  }
+
+  .about-accordion__panel {
+    overflow: hidden;
+    max-height: calc(var(--disclosure-height, 1000px) + 20px);
+    margin-top: 18px;
+    opacity: 1;
+    transition: max-height 240ms cubic-bezier(0.4, 0, 0.2, 1),
+      margin-top 240ms cubic-bezier(0.4, 0, 0.2, 1), opacity 180ms ease;
+  }
+
+  .about-accordion__panel.is-collapsed {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+  }
+
+  .about-accordion__content {
+    gap: 22px;
+    padding: 0 0 4px;
+    color: var(--text);
+    font-weight: var(--type-weight-body);
+    letter-spacing: var(--type-tracking-body);
+  }
+
   .about__gallery img {
     aspect-ratio: 1 / 1.75;
   }
 
   .treatments-intro__copy > p:not(.eyebrow) {
-    margin-top: 24px;
+    margin-top: 26px;
   }
 
   .process {
@@ -2723,7 +3559,7 @@ textarea:focus {
 
   .pricing-card {
     margin-top: 34px;
-    padding: 20px 20px;
+    padding: 10px 20px;
   }
 
   .treatments-intro__media {
@@ -2740,7 +3576,7 @@ textarea:focus {
   }
 
   .specialties__heading h2 {
-    margin-top: 20px;
+    margin-top: 0px;
   }
 
   .specialty-feature {
@@ -2761,6 +3597,7 @@ textarea:focus {
   .specialty-feature__list {
     display: block;
     margin-top: 12px;
+    padding: 10px 20px;
     border-radius: var(--radius-card);
     background: var(--blue-800);
     overflow: hidden;
@@ -2774,7 +3611,6 @@ textarea:focus {
     gap: 10px;
     border: 0;
     background: transparent;
-    padding: 20px 20px;
     color: var(--white);
     cursor: pointer;
     font: inherit;
@@ -2797,10 +3633,12 @@ textarea:focus {
   .specialty-feature__list-panel {
     display: grid;
     grid-template-rows: 1fr;
+    margin-top: 6px;
     opacity: 1;
     visibility: visible;
-    transition: grid-template-rows 380ms cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 240ms ease, visibility 0s;
+    transition: grid-template-rows 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      margin-top 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 160ms ease, visibility 0s;
   }
 
   .specialty-feature__list-clip {
@@ -2811,17 +3649,20 @@ textarea:focus {
   .specialty-feature__list-items {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    padding: 0 12px 16px;
+    gap: 6px;
+    margin-top: 0px;
+    padding: 0 0 10px;
   }
 
   .specialty-feature__list-panel.is-collapsed {
     grid-template-rows: 0fr;
+    margin-top: 0;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: grid-template-rows 380ms cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 200ms ease, visibility 0s linear 380ms;
+    transition: grid-template-rows 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      margin-top 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 140ms ease, visibility 0s linear 260ms;
   }
 
   .specialty-feature__list-panel button {
@@ -2831,8 +3672,8 @@ textarea:focus {
     align-items: center;
     border: 0;
     border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.08);
-    padding: 10px 12px;
+    background: var(--blue-800);
+    padding: 10px 20px;
     color: var(--white);
     font: inherit;
     font-size: var(--type-small);
@@ -2874,44 +3715,79 @@ textarea:focus {
   }
 
   .team__intro > p:last-child {
-    margin-top: 24px;
+    margin-top: 16px;
   }
 
   .team-grid {
     grid-template-columns: 1fr;
-    gap: 64px;
-    margin-top: 54px;
+    gap: 24px;
+    margin-top: 40px;
   }
 
   .therapist-card {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Portrait and info card share one cell so the portrait can be centered
+       while the languages card overlays its lower-left, kept on top. */
+    grid-template-areas:
+      "identity"
+      "media"
+      "details"
+      "footer";
+    align-items: start;
     min-height: 0;
+    padding-bottom: 20px;
   }
 
   .therapist-card__identity {
-    order: 1;
+    grid-area: identity;
+  }
+
+  .therapist-card__identity h3 {
+    font-size: 18px;
   }
 
   .therapist-card__portrait {
-    order: 2;
-    height: 420px;
+    grid-area: media;
+    height: 357px;
+    width: 100%;
+    margin: 26px 0 0;
+    z-index: 1;
+    background-color: var(--blue-50);
+    padding-top: 30px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+
+  /* Info card (languages) set aside for now. */
+  .therapist-card__aside {
+    grid-area: media;
+    align-self: end;
+    justify-self: start;
+    z-index: 2;
+    display: none;
+    width: 180px;
+    margin-bottom: 8px;
   }
 
   .therapist-card__footer {
-    order: 4;
+    grid-area: footer;
     position: static;
-    margin-top: 20px;
+    margin-top: 10px;
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
   }
 
   .therapist-card__details {
-    order: 3;
+    grid-area: details;
     position: static;
     width: 100%;
-    margin-top: 24px;
+    margin-top: 0px;
+  }
+
+  .therapist-card__details > .expertise-switch {
+    --xp-tab-padding: 14px;
   }
 
   .contact {
@@ -2919,7 +3795,7 @@ textarea:focus {
   }
 
   .contact__intro > p:last-child {
-    margin-top: 24px;
+    margin-top: 16px;
   }
 
   .contact-grid {
@@ -2957,7 +3833,7 @@ textarea:focus {
     font-size: var(--type-body);
   }
 
-  .contact-sidebar .access-card {
+  .contact-sidebar .access-card-group {
     order: 1;
   }
 
@@ -2975,14 +3851,19 @@ textarea:focus {
   }
 
   .online-booking__eyebrow {
-    display: block;
-    margin: 0 0 10px;
+    display: none;
   }
 
   .online-booking__title {
     display: block;
-    margin: 0 0 30px;
+    margin: 0 0 24px;
     color: var(--white);
+  }
+
+  .online-booking__description {
+    display: block;
+    max-width: 650px;
+    margin: 0 0 30px;
   }
 
   .onedoc-card {
@@ -3014,6 +3895,7 @@ textarea:focus {
     display: block;
     color: var(--white);
     font-size: var(--type-small);
+    letter-spacing: var(--type-tracking-body);
     font-weight: var(--type-weight-body);
     line-height: var(--type-leading-body);
   }
@@ -3058,15 +3940,9 @@ textarea:focus {
     color: var(--white);
   }
 
-  .contact-form__intro {
-    order: 0;
-    color: var(--white);
-    font-size: var(--type-body);
-  }
-
   .contact-form .form-grid {
     order: 1;
-    row-gap: 15px;
+    row-gap: 6px;
   }
 
   .contact-form .form-grid label:nth-child(1),
@@ -3129,6 +4005,7 @@ textarea:focus {
     border-radius: var(--radius-card);
     background: var(--blue-active);
     color: var(--white);
+    letter-spacing: var(--type-tracking-body);
   }
 
   .contact-form .privacy-note__toggle {
@@ -3165,6 +4042,7 @@ textarea:focus {
   .contact-form .consent {
     order: 3;
     color: var(--white);
+    letter-spacing: var(--type-tracking-body);
   }
 
   .contact-form .consent input {
@@ -3205,6 +4083,7 @@ textarea:focus {
   .contact-form .form-status {
     order: 5;
     color: var(--white);
+    letter-spacing: var(--type-tracking-body);
   }
 
   .map-card {
@@ -3221,17 +4100,24 @@ textarea:focus {
   }
 
   .accordion__item button {
-    grid-template-columns: 30px 1fr;
-    gap: 12px;
-    padding: 17px 0;
+    min-height: 46px;
+    gap: 14px;
+    padding: 0 0 10px;
+    font-size: 15px;
+    letter-spacing: var(--type-tracking-heading);
   }
 
-  .accordion__item button span {
-    order: -1;
+  .accordion {
+    display: grid;
+    gap: 28px;
   }
 
   .accordion__panel {
     padding-right: 0;
+  }
+
+  .accordion__panel p {
+    padding-bottom: 4px;
   }
 
   .site-footer {
@@ -3244,7 +4130,7 @@ textarea:focus {
   }
 
   .site-footer__brand img {
-    width: 220px;
+    width: 160px;
   }
 
   .site-footer__info {
@@ -3266,6 +4152,10 @@ textarea:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .expertise-switch * {
+    transition-delay: 0s !important;
+  }
+
   *,
   *::before,
   *::after {
