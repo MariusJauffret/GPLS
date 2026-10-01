@@ -230,21 +230,6 @@ h3 {
   padding-block: var(--section-space);
 }
 
-/* Gated on .js-reveal, which script.js sets on <html> before it hides
-   anything. Without JS (or if script.js throws) the class is never added and
-   every .reveal block just renders normally, instead of being stranded at
-   opacity: 0 forever. */
-.js-reveal .reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity var(--ease-slow), transform var(--ease-slow);
-}
-
-.js-reveal .reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
 .eyebrow {
   color: var(--blue);
   font-size: var(--type-caption);
@@ -1391,6 +1376,7 @@ body.menu-open .desktop-nav__secondary {
 }
 
 .therapist-card::before {
+  display: none;
   content: "";
   position: absolute;
   z-index: 2;
@@ -3068,163 +3054,274 @@ textarea:focus {
     transform: translateY(-7px) rotate(-45deg);
   }
 
+  /* Mobile menu — direction 2C (light). Full-screen sheet: fixed header band,
+     scrolling nav, pinned footer. The sheet itself never scrolls; only .nav does.
+     Colours are scoped tokens so this direction stays self-contained. */
   .mobile-menu {
+    --mm-ink: #0b3f66;
+    --mm-brand: #005488;
+    --mm-accent: #0d7bc5;
+    --mm-divider: #eceef1;
+    --mm-outline: #dde3e9;
+    --mm-secondary: #3c5e78;
+    --mm-status: #12656b;
     position: fixed;
-    z-index: 19;
-    inset: 90px 0 calc(64px + max(18px, env(safe-area-inset-bottom)));
+    z-index: 200;
+    inset: 0;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    overflow-anchor: none;
-    -webkit-overflow-scrolling: touch;
-    padding: 10px 24px 14px;
-    background: var(--blue-950);
-    color: var(--blue-50);
-    transform: translateX(0);
+    overflow: hidden;
+    background: #ffffff;
+    color: var(--mm-ink);
+  }
+
+  .mobile-menu:not([hidden]) {
+    animation: mobileMenuIn 220ms ease-out;
+  }
+
+  @keyframes mobileMenuIn {
+    from {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .mobile-menu[hidden] {
     display: none;
   }
 
-  .mobile-menu__brand {
-    display: none;
-  }
-
-  .mobile-menu nav {
-    display: grid;
-    flex-shrink: 0;
-    gap: 0;
-    padding-bottom: var(--mobile-menu-scroll-buffer, 0px);
-  }
-
-  .mobile-menu nav a {
-    border-radius: var(--radius);
-    padding: 16px 14px;
-    font-size: var(--type-card-title);
-    font-weight: var(--type-weight-action);
-    line-height: var(--type-leading-heading);
-    letter-spacing: var(--type-tracking-action);
-    transition: background-color var(--ease);
-  }
-
-  .mobile-menu nav > a,
-  .mobile-menu__label {
-    background: var(--blue-800);
-    margin-bottom: 6px;
-  }
-
-  .mobile-menu nav a:active,
-  .mobile-menu__label:active {
-    background: var(--blue-700);
-  }
-
-  @media (hover: hover) {
-    .mobile-menu nav a:hover,
-    .mobile-menu__label:hover {
-      background: var(--blue-700);
-    }
-  }
-
-  .mobile-menu__label {
+  /* Header band */
+  .mobile-menu__header {
+    flex: 0 0 auto;
     display: flex;
-    width: 100%;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    padding: 22px 24px 26px;
+    background: var(--mm-brand);
+  }
+
+  .mobile-menu__logo {
+    height: 64px;
+    width: auto;
+  }
+
+  .mobile-menu__close {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
     border: 0;
-    border-radius: var(--radius);
-    padding: 16px 14px;
-    color: var(--blue-50);
-    font-family: inherit;
-    font-size: var(--type-card-title);
-    font-weight: var(--type-weight-action);
-    line-height: var(--type-leading-heading);
-    letter-spacing: var(--type-tracking-action);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 1;
     cursor: pointer;
+  }
+
+  /* Scroll region */
+  .mobile-menu__nav {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 24px 0;
+  }
+
+  /* Top-level items (leaf <a> and parent <button> share this) */
+  .mobile-menu__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16px;
+    padding: 19px 4px;
+    border: 0;
+    border-bottom: 1px solid var(--mm-divider);
+    background: none;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: var(--mm-ink);
     text-align: left;
-    transition: background-color var(--ease);
+    text-decoration: none;
+    cursor: pointer;
   }
 
-  .mobile-menu__label[aria-expanded="true"] {
-    background: var(--blue-700);
-    color: var(--white);
-    letter-spacing: var(--type-tracking-on-color);
+  .mobile-menu__nav > .mobile-menu__item:last-child {
+    border-bottom: 0;
   }
 
-  .mobile-menu__label-icon {
+  .mobile-menu__item:active,
+  .mobile-menu__submenu a:active {
+    background: rgba(13, 123, 197, 0.06);
+  }
+
+  /* Current page marker (opt-in via .is-current) */
+  .mobile-menu__item.is-current {
+    font-weight: 700;
+    box-shadow: inset 2px 0 var(--mm-accent);
+  }
+
+  .mobile-menu__chevron {
     display: inline-flex;
     flex: 0 0 auto;
-    align-items: center;
-    justify-content: center;
-    transition: transform var(--ease);
+    color: var(--mm-accent);
+    transition: transform 180ms ease-out;
   }
 
-  .mobile-menu__label[aria-expanded="true"] .mobile-menu__label-icon {
+  .mobile-menu__item--parent[aria-expanded="true"] {
+    padding: 19px 4px 12px;
+    font-weight: 700;
+    border-bottom-color: transparent;
+  }
+
+  .mobile-menu__item--parent[aria-expanded="true"] .mobile-menu__chevron {
     transform: rotate(180deg);
   }
 
-  .mobile-menu__treatments {
+  /* Accordion submenu — height animates via grid-template-rows */
+  .mobile-menu__submenu {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-content: start;
-    gap: 5px;
-    max-height: 0;
-    padding-bottom: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height var(--ease-slow), padding-bottom var(--ease-slow), opacity var(--ease-slow);
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 180ms ease-out;
   }
 
-  .mobile-menu__treatments.is-open {
-    max-height: calc(var(--disclosure-height, 1000px) + 10px);
-    padding-bottom: 6px;
-    opacity: 1;
+  .mobile-menu__submenu.is-open {
+    grid-template-rows: 1fr;
   }
 
-  .mobile-menu__treatments:not(.is-open) a {
-    pointer-events: none;
-  }
-
-  .mobile-menu nav .mobile-menu__treatments a {
+  .mobile-menu__submenu-inner {
     display: flex;
-    min-height: 58px;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+    visibility: hidden;
+    margin-left: 6px;
+    padding: 0 0 16px 16px;
+    border-left: 2px solid var(--mm-accent);
+  }
+
+  .mobile-menu__submenu.is-open .mobile-menu__submenu-inner {
+    visibility: visible;
+  }
+
+  .mobile-menu__submenu a {
+    padding: 9px 0;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--mm-secondary);
+    text-decoration: none;
+  }
+
+  /* Item after an open submenu regains a separating rule on top */
+  .mobile-menu__item--parent[aria-expanded="true"] + .mobile-menu__submenu + .mobile-menu__item {
+    border-top: 1px solid var(--mm-divider);
+  }
+
+  /* Footer */
+  .mobile-menu__footer {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 24px max(12px, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--mm-divider);
+  }
+
+  .mobile-menu__status {
+    display: flex;
     align-items: center;
-    border: 0;
-    border-radius: var(--radius);
-    padding: 10px 12px;
-    background: rgb(219 233 244 / 8%);
-    color: var(--blue-100);
-    font-size: var(--type-small);
-    font-weight: var(--type-weight-action);
-    line-height: var(--type-leading-body);
+    gap: 8px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--mm-status);
   }
 
-  .mobile-menu nav .mobile-menu__treatments a:active {
-    background: var(--blue-700);
+  .mobile-menu__status-dot {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--mm-status);
   }
 
-  @media (hover: hover) {
-    .mobile-menu nav .mobile-menu__treatments a:hover,
-    .mobile-menu-actions .mobile-quick-actions__button:first-child:hover,
-    body.menu-open .site-header .menu-toggle:hover {
-      background: var(--blue-700);
+  /* Expanded (any submenu open) drops the status line to protect vertical space */
+  .mobile-menu.is-expanded .mobile-menu__status {
+    display: none;
+  }
+
+  .mobile-menu__footer-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .mobile-menu__cta {
+    display: flex;
+    flex: 1.35 1 0;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--mm-accent);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .mobile-menu__phone {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 56px;
+    border-radius: 14px;
+    border: 1.5px solid var(--mm-outline);
+    background: transparent;
+    color: var(--mm-ink);
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .mobile-menu__phone img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .mobile-menu :focus-visible {
+    outline: 2px solid var(--mm-accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu:not([hidden]) {
+      animation: none;
     }
 
-    .mobile-menu-actions .mobile-quick-actions__button:last-child:hover {
-      background: var(--blue-700);
+    .mobile-menu__submenu {
+      transition: none;
     }
-  }
 
-  .mobile-menu :focus-visible,
-  .mobile-menu-actions :focus-visible,
-  body.menu-open .site-header :focus-visible {
-    outline-color: var(--blue-100);
-  }
-
-  .mobile-menu__treatments a:focus-visible {
-    outline-offset: -3px;
+    .mobile-menu__chevron {
+      transition: none;
+    }
   }
 
   .hero {

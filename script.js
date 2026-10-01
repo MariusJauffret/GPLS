@@ -1,38 +1,3 @@
-// Scroll-reveal. Deliberately the first thing in this file: the .js-reveal gate
-// (which is what actually hides anything — see styles.css) and the observer that
-// un-hides it are wired in the same tick, so an error anywhere later in this
-// file can't strand content at opacity: 0. It also bails out before adding the
-// gate at all when it can't deliver the animation, leaving content plainly
-// visible rather than hidden.
-(() => {
-  const targets = [...document.querySelectorAll(".reveal")];
-  if (!targets.length) return;
-  if (!("IntersectionObserver" in window)) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  document.documentElement.classList.add("js-reveal");
-
-  // Stagger elements that share a parent (card grids, accordion items) by the
-  // order they appear in, capped so a long list doesn't end up with a
-  // multi-second tail.
-  targets.forEach((el) => {
-    const siblings = [...el.parentElement.children].filter((child) => child.classList.contains("reveal"));
-    el.style.transitionDelay = `${Math.min(siblings.indexOf(el), 6) * 70}ms`;
-  });
-
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
-  );
-  targets.forEach((el) => revealObserver.observe(el));
-})();
-
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
 const mobileMenuActions = document.querySelector("[data-mobile-menu-actions]");
@@ -152,7 +117,12 @@ function setMenu(open) {
     document.documentElement.style.scrollBehavior = previousScrollBehavior;
   }
 
-  if (open) refreshDisclosureSizes();
+  if (open) {
+    refreshDisclosureSizes();
+    requestAnimationFrame(() => mobileMenu.querySelector("[data-menu-close]")?.focus());
+  } else {
+    closeMobileMenuAccordions();
+  }
 
   const heroVideo = document.querySelector(".hero__media video");
   if (!heroVideo) return;
@@ -162,6 +132,56 @@ function setMenu(open) {
 
 menuToggle?.addEventListener("click", () => {
   setMenu(menuToggle.getAttribute("aria-expanded") !== "true");
+});
+
+// --- Mobile menu (direction 2C): single-open accordion, close button, focus trap ---
+const mobileMenuAccordions = mobileMenu ? [...mobileMenu.querySelectorAll("[data-menu-accordion]")] : [];
+
+function setMobileMenuAccordion(button, open) {
+  button.setAttribute("aria-expanded", String(open));
+  document.getElementById(button.getAttribute("aria-controls"))?.classList.toggle("is-open", open);
+}
+
+function closeMobileMenuAccordions() {
+  mobileMenuAccordions.forEach((button) => setMobileMenuAccordion(button, false));
+  mobileMenu?.classList.remove("is-expanded");
+}
+
+mobileMenuAccordions.forEach((button) => {
+  button.addEventListener("click", () => {
+    const willOpen = button.getAttribute("aria-expanded") !== "true";
+    mobileMenuAccordions.forEach((other) => {
+      if (other !== button) setMobileMenuAccordion(other, false);
+    });
+    setMobileMenuAccordion(button, willOpen);
+    mobileMenu?.classList.toggle("is-expanded", willOpen);
+  });
+});
+
+mobileMenu?.querySelector("[data-menu-close]")?.addEventListener("click", () => {
+  setMenu(false);
+  menuToggle?.focus();
+});
+
+// Keep keyboard focus inside the sheet while it is open.
+mobileMenu?.addEventListener("keydown", (event) => {
+  if (event.key !== "Tab") return;
+  const focusables = [...mobileMenu.querySelectorAll("a[href], button:not([disabled])")].filter((el) => {
+    const styles = getComputedStyle(el);
+    if (styles.visibility === "hidden" || styles.display === "none") return false;
+    const rect = el.getBoundingClientRect();
+    return rect.width > 0 || rect.height > 0;
+  });
+  if (!focusables.length) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 });
 
 function setNavDropdown(wrapper, open) {
