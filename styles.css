@@ -672,29 +672,12 @@ body.menu-open .desktop-nav__secondary {
   text-decoration: none;
 }
 
-.address-directions {
-  display: block;
-  width: fit-content;
-  margin-top: 8px;
-  font-size: var(--type-detail);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.address-link__hint {
-  display: block;
-  margin-top: 8px;
-  font-size: var(--type-detail);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
 .quick-info > .address-link {
   align-items: flex-start;
 }
 
 .quick-info .address-link__pin {
-  /* Center against two address lines, excluding the directions hint. */
+  /* Center against the two address lines. */
   margin-top: max(0px, calc(1lh - 19px));
 }
 /* End address links trial. */
@@ -836,6 +819,16 @@ body.menu-open .desktop-nav__secondary {
 
 .treatments-intro__copy > p:not(.eyebrow) {
   margin-top: 30px;
+}
+
+/* Cancellation policy under the LAMal tariffs: a real h3 (blue, card-title
+   size) so it reads as a heading, spaced like the paragraphs above it. */
+.treatments-cancellation {
+  margin-top: 30px;
+}
+
+.treatments-cancellation h3 + p {
+  margin-top: 8px;
 }
 
 .process {
@@ -2329,7 +2322,7 @@ textarea:focus {
 
 .site-footer__main {
   display: grid;
-  grid-template-columns: 1.05fr 0.85fr 1.5fr;
+  grid-template-columns: 0.8fr 1.7fr 1.3fr;
   gap: clamp(40px, 5vw, 90px);
 }
 
@@ -2338,10 +2331,22 @@ textarea:focus {
   height: auto;
 }
 
-.site-footer nav {
+/* Two link groups stacked ("Notre cabinet" first), each laid out on 2 columns. */
+.site-footer__links {
+  display: grid;
+  align-content: start;
+  gap: 30px;
+}
+
+.site-footer__nav {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px 24px;
+}
+
+.site-footer__nav h2 {
+  grid-column: 1 / -1;
+  margin-bottom: 6px;
 }
 
 .site-footer a:hover {
@@ -2359,16 +2364,17 @@ textarea:focus {
   margin-bottom: 6px;
 }
 
+/* Each icon is centred against its text, however many lines it runs on. */
 .site-footer__info p,
 .site-footer__info a {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
 }
 
 .site-footer__info img {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   flex: 0 0 auto;
 }
 
@@ -2425,6 +2431,20 @@ textarea:focus {
 @media (max-width: 1024px) {
   :root {
     --page-gutter: 40px;
+  }
+
+  /* Footer logo hidden on tablet and mobile for now. The practical infos
+     come first, then the link lists. */
+  .site-footer__brand {
+    display: none;
+  }
+
+  .site-footer__main {
+    grid-template-columns: 1fr 1.4fr;
+  }
+
+  .site-footer__info {
+    order: -1;
   }
 
   .desktop-nav__secondary a:last-child {
@@ -3474,6 +3494,10 @@ textarea:focus {
     margin-top: 26px;
   }
 
+  .treatments-cancellation {
+    margin-top: 26px;
+  }
+
   .process {
     margin-top: 34px;
   }
@@ -4192,10 +4216,6 @@ textarea:focus {
 
   .site-footer__brand img {
     width: 112px;
-  }
-
-  .site-footer__info {
-    margin-top: 20px;
   }
 
   .site-footer__legal {
