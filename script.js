@@ -818,7 +818,8 @@ function showSpecialty(index, moveFocus = false, fromCarousel = false) {
     specialtyDescription.style.opacity = "0";
     specialtyDescriptionTimer = window.setTimeout(() => {
       specialtyDescription.textContent = specialty.description;
-      specialtyDescription.style.opacity = "1";
+      // Clearing the inline value fades back to the stylesheet's opacity (1).
+      specialtyDescription.style.opacity = "";
     }, reduceMotionQuery.matches ? 0 : 100);
   }
   // On phones the carousel slides carry the images; the single feature image is hidden.
@@ -966,8 +967,8 @@ function syncSpecialtyFromTrack() {
   if (index !== activeSpecialty) showSpecialty(index, false, true);
 }
 
-// The title and description change length from one domain to the next; reserve
-// the tallest one so the content below doesn't jump while swiping.
+// Titles change length from one domain to the next; reserve the tallest one
+// so the content below doesn't jump while swiping.
 function reserveTallestText(element, texts) {
   if (!element) return;
   element.style.minHeight = "";
@@ -986,7 +987,6 @@ function reserveTallestText(element, texts) {
 
 function reserveSpecialtyTextHeight() {
   reserveTallestText(specialtyTitle, specialties.map((specialty) => specialty.title));
-  reserveTallestText(specialtyDescription, specialties.map((specialty) => specialty.description));
 }
 
 if (specialtyTrack) {
