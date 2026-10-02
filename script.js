@@ -870,11 +870,46 @@ function updateSpecialtyCarousel(scrollTrack) {
 
 // Slide videos: only the active one plays, and only while the carousel is on
 // screen, the menu is closed and the visitor hasn't asked for reduced motion.
-// Every other video stays paused on its poster (preload="none", so nothing is
-// downloaded until a video is first played).
+// Every other video stays paused on its poster (the video's first frame).
 let specialtyCarouselOnScreen = false;
+// True from about one screen before the carousel scrolls into view.
+let specialtyCarouselNear = false;
+
+// Warm-up: once the carousel is near, the active video and its two neighbours
+// start buffering so they play straight away instead of stalling on swipe.
+// preload="auto" covers most browsers; iOS Safari mostly ignores it, so a
+// muted play() + immediate pause() is what actually gets it buffering there.
+// Skipped when the visitor has turned on Data Saver.
+function primeSpecialtyVideos() {
+  if (!specialtyCarouselNear || !specialtyMobileQuery.matches || navigator.connection?.saveData) return;
+  [activeSpecialty - 1, activeSpecialty, activeSpecialty + 1].forEach((index) => {
+    const video = specialtySlides[index]?.querySelector("video");
+    if (!video || video.dataset.primed) return;
+    video.dataset.primed = "true";
+    video.preload = "auto";
+    if (reduceMotionQuery.matches) {
+      video.load();
+      return;
+    }
+    // Left to settle on its own: pausing before play() resolves would abort it.
+    video.dataset.priming = "true";
+    video.play().then(() => {
+      if (!isSpecialtyVideoLive(index)) video.pause();
+    }).catch(() => {}).finally(() => {
+      delete video.dataset.priming;
+    });
+  });
+}
+
+function isSpecialtyVideoLive(index) {
+  return index === activeSpecialty
+    && specialtyCarouselOnScreen
+    && specialtyMobileQuery.matches
+    && !document.body.classList.contains("menu-open");
+}
 
 function syncSpecialtyVideos() {
+  primeSpecialtyVideos();
   const visible = specialtyCarouselOnScreen
     && specialtyMobileQuery.matches
     && !document.body.classList.contains("menu-open");
@@ -888,7 +923,7 @@ function syncSpecialtyVideos() {
     } else {
       // Leaving a video always mutes it again, so coming back never surprises
       // anyone with sound.
-      video.pause();
+      if (!video.dataset.priming) video.pause();
       video.muted = true;
     }
   });
@@ -1008,6 +1043,11 @@ if (specialtyTrack) {
       specialtyCarouselOnScreen = entry.isIntersecting;
       syncSpecialtyVideos();
     }, { threshold: 0.25 }).observe(specialtyTrack);
+    new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      specialtyCarouselNear = true;
+      primeSpecialtyVideos();
+    }, { rootMargin: "0px 0px 100% 0px" }).observe(specialtyTrack);
   }
   reduceMotionQuery.addEventListener("change", syncSpecialtyVideos);
 
