@@ -1,6 +1,5 @@
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
-const mobileMenuActions = document.querySelector("[data-mobile-menu-actions]");
 const mobileMenuNav = mobileMenu?.querySelector("nav");
 const navDropdowns = [...document.querySelectorAll("[data-nav-dropdown]")];
 let menuScrollPosition = 0;
@@ -105,7 +104,6 @@ function setMenu(open) {
     setMobileMenuScrollBuffer(0);
   }
   mobileMenu.hidden = !open;
-  if (mobileMenuActions) mobileMenuActions.hidden = !open;
   document.documentElement.classList.toggle("menu-open", open);
   document.body.classList.toggle("menu-open", open);
 
@@ -123,6 +121,8 @@ function setMenu(open) {
   } else {
     closeMobileMenuAccordions();
   }
+
+  syncSpecialtyVideos();
 
   const heroVideo = document.querySelector(".hero__media video");
   if (!heroVideo) return;
@@ -144,7 +144,6 @@ function setMobileMenuAccordion(button, open) {
 
 function closeMobileMenuAccordions() {
   mobileMenuAccordions.forEach((button) => setMobileMenuAccordion(button, false));
-  mobileMenu?.classList.remove("is-expanded");
 }
 
 mobileMenuAccordions.forEach((button) => {
@@ -154,7 +153,6 @@ mobileMenuAccordions.forEach((button) => {
       if (other !== button) setMobileMenuAccordion(other, false);
     });
     setMobileMenuAccordion(button, willOpen);
-    mobileMenu?.classList.toggle("is-expanded", willOpen);
   });
 });
 
@@ -217,7 +215,7 @@ mobileMenu?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => setMenu(false));
 });
 
-document.querySelectorAll(".mobile-quick-actions a, .mobile-menu-actions a").forEach((link) => {
+document.querySelectorAll(".mobile-quick-actions a").forEach((link) => {
   link.addEventListener("click", () => setMenu(false));
 });
 
@@ -523,17 +521,20 @@ const specialties = [
     alt: "Séance de rééducation post-traumatique",
   },
   {
-    title: "Rhumatologie",
-    description: "Une prise en charge ciblée pour réduire les douleurs articulaires, entretenir la mobilité et faciliter les gestes du quotidien.",
-    image: "assets/images/specialties/rhumatologie.png",
-    photo: "assets/images/specialties/rhumatologie_real.png",
-    alt: "Prise en charge en rhumatologie",
+    title: "Physiothérapie respiratoire",
+    description: "Une prise en charge personnalisée pour améliorer la capacité respiratoire, faciliter le désencombrement et retrouver plus d’aisance dans les activités quotidiennes.",
+    image: "assets/images/specialties/physioresp.png",
+    video: "assets/images/physioresp-center.mp4",
+    poster: "assets/images/specialties/physioresp-center-poster.webp",
+    alt: "Prise en charge en physiothérapie respiratoire",
   },
   {
     title: "Neurologie",
     description: "Un travail individualisé sur la mobilité, l’équilibre et la coordination afin de préserver les capacités fonctionnelles et l’autonomie.",
     image: "assets/images/specialties/neurologie.png",
     photo: "assets/images/specialties/neuro_real.png",
+    video: "assets/images/neuro-gpls.mp4",
+    poster: "assets/images/specialties/neuro-gpls-poster.webp",
     alt: "Prise en charge en neurologie",
   },
   {
@@ -556,22 +557,23 @@ const specialties = [
     alt: "Accompagnement centré sur la respiration",
   },
   {
-    title: "Drainage lymphatique manuel",
-    description: "Des techniques manuelles douces destinées à favoriser la circulation lymphatique et à accompagner la prise en charge des œdèmes.",
-    image: "assets/images/specialties/drainagelymphatique.png",
-    alt: "Soin de drainage lymphatique manuel",
-  },
-  {
     title: "Gériatrie",
     description: "Des exercices adaptés pour préserver l’autonomie, l’équilibre et la mobilité, en tenant compte du rythme et des objectifs de chaque personne.",
     image: "assets/images/specialties/geriatrie.png",
     alt: "Accompagnement physiothérapeutique en gériatrie",
   },
   {
-    title: "Physiothérapie respiratoire",
-    description: "Une prise en charge personnalisée pour améliorer la capacité respiratoire, faciliter le désencombrement et retrouver plus d’aisance dans les activités quotidiennes.",
-    image: "assets/images/specialties/physioresp.png",
-    alt: "Prise en charge en physiothérapie respiratoire",
+    title: "Rhumatologie",
+    description: "Une prise en charge ciblée pour réduire les douleurs articulaires, entretenir la mobilité et faciliter les gestes du quotidien.",
+    image: "assets/images/specialties/rhumatologie.png",
+    photo: "assets/images/specialties/rhumatologie_real.png",
+    alt: "Prise en charge en rhumatologie",
+  },
+  {
+    title: "Drainage lymphatique manuel",
+    description: "Des techniques manuelles douces destinées à favoriser la circulation lymphatique et à accompagner la prise en charge des œdèmes.",
+    image: "assets/images/specialties/drainagelymphatique.png",
+    alt: "Soin de drainage lymphatique manuel",
   },
 ];
 
@@ -580,7 +582,8 @@ const specialtyTabs = [...document.querySelectorAll("[data-specialty]")];
 const specialtyTitle = document.querySelector("[data-specialty-title]");
 const specialtyDescription = document.querySelector("[data-specialty-description]");
 const specialtyImage = document.querySelector("[data-specialty-image]");
-let activeSpecialty = 0;
+// Domain shown by default (keep the matching markup in index.html in sync).
+let activeSpecialty = specialties.findIndex((specialty) => specialty.title === "Physiothérapie respiratoire");
 
 const SPECIALTY_TRANSITION_MS = 260;
 const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -792,7 +795,7 @@ function animateSpecialtyLayout(applyChanges) {
   });
 }
 
-function showSpecialty(index, moveFocus = false) {
+function showSpecialty(index, moveFocus = false, fromCarousel = false) {
   activeSpecialty = (index + specialties.length) % specialties.length;
   const specialty = specialties[activeSpecialty];
 
@@ -818,7 +821,8 @@ function showSpecialty(index, moveFocus = false) {
       specialtyDescription.style.opacity = "1";
     }, reduceMotionQuery.matches ? 0 : 100);
   }
-  if (specialtyImage) {
+  // On phones the carousel slides carry the images; the single feature image is hidden.
+  if (specialtyImage && !specialtyMobileQuery.matches) {
     window.clearTimeout(specialtyImageTimer);
     specialtyImage.style.opacity = "0";
     specialtyImageTimer = window.setTimeout(() => {
@@ -828,7 +832,208 @@ function showSpecialty(index, moveFocus = false) {
     }, reduceMotionQuery.matches ? 0 : 80);
   }
 
+  updateSpecialtyCarousel(!fromCarousel);
+
   if (moveFocus) specialtyTabs[activeSpecialty]?.focus();
+}
+
+// Phone-only carousel: a native scroll-snap track (no loop) whose slides are
+// built from `specialties`. Scrolling the track drives showSpecialty();
+// anything else that calls showSpecialty() scrolls the track.
+const specialtyMobileQuery = window.matchMedia("(max-width: 767px)");
+const specialtyTrack = document.querySelector("[data-specialty-track]");
+const specialtySlides = [];
+// Index a programmatic scroll is heading to; intermediate slides crossed on the
+// way are ignored so the text doesn't flicker through every domain in between.
+let specialtyScrollTarget = null;
+let specialtyScrollIdleTimer;
+let specialtyScrollFrame;
+
+function scrollSpecialtyTrackTo(index, smooth = true) {
+  const slide = specialtySlides[index];
+  if (!slide) return;
+  const left = slide.offsetLeft - specialtySlides[0].offsetLeft;
+  if (Math.abs(specialtyTrack.scrollLeft - left) < 2) return;
+  specialtyScrollTarget = index;
+  specialtyTrack.scrollTo({ left, behavior: smooth && !reduceMotionQuery.matches ? "smooth" : "auto" });
+}
+
+function updateSpecialtyCarousel(scrollTrack) {
+  specialtySlides.forEach((slide, index) => {
+    slide.classList.toggle("is-active", index === activeSpecialty);
+    slide.classList.toggle("is-before", index < activeSpecialty);
+    slide.classList.toggle("is-after", index > activeSpecialty);
+  });
+  syncSpecialtyVideos();
+  if (scrollTrack && specialtyMobileQuery.matches) scrollSpecialtyTrackTo(activeSpecialty);
+}
+
+// Slide videos: only the active one plays, and only while the carousel is on
+// screen, the menu is closed and the visitor hasn't asked for reduced motion.
+// Every other video stays paused on its poster (preload="none", so nothing is
+// downloaded until a video is first played).
+let specialtyCarouselOnScreen = false;
+
+function syncSpecialtyVideos() {
+  const visible = specialtyCarouselOnScreen
+    && specialtyMobileQuery.matches
+    && !document.body.classList.contains("menu-open");
+  specialtySlides.forEach((slide, index) => {
+    const video = slide.querySelector("video");
+    if (!video) return;
+    if (visible && index === activeSpecialty) {
+      // With reduced motion nothing autoplays, but a video the visitor started
+      // with the sound button is left alone.
+      if (!reduceMotionQuery.matches) video.play().catch(() => {});
+    } else {
+      // Leaving a video always mutes it again, so coming back never surprises
+      // anyone with sound.
+      video.pause();
+      video.muted = true;
+    }
+  });
+}
+
+const SPECIALTY_SOUND_ICONS = `
+  <svg class="specialty-carousel__sound-off" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 7.5h3L10 4v12l-4-3.5H3z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /><path d="M13.5 7.5l5 5M18.5 7.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+  <svg class="specialty-carousel__sound-on" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 7.5h3L10 4v12l-4-3.5H3z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /><path d="M13.5 7a4 4 0 0 1 0 6M15.8 4.8a7 7 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>`;
+
+// Sound toggle for a video slide. Browsers only allow unmuting from a tap, so
+// the click handler is where the sound comes on; if the video wasn't playing
+// (reduced motion, iOS Low Power Mode) the same tap starts it.
+function createSpecialtySoundButton(video) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "specialty-carousel__sound";
+  button.innerHTML = SPECIALTY_SOUND_ICONS;
+  const render = () => {
+    const soundOn = !video.muted;
+    button.setAttribute("aria-pressed", String(soundOn));
+    button.setAttribute("aria-label", soundOn ? "Couper le son" : "Activer le son");
+  };
+  button.addEventListener("click", () => {
+    video.muted = !video.muted;
+    if (!video.muted && video.paused) video.play().catch(() => {});
+  });
+  video.addEventListener("volumechange", render);
+  render();
+  return button;
+}
+
+function syncSpecialtyFromTrack() {
+  const step = specialtySlides[1].offsetLeft - specialtySlides[0].offsetLeft;
+  // Outside the phone layout the track is display:none (step 0), and hiding it
+  // resets its scroll, which still fires a scroll event — ignore that.
+  if (!specialtyMobileQuery.matches || step <= 0) return;
+  const index = Math.max(0, Math.min(specialtySlides.length - 1, Math.round(specialtyTrack.scrollLeft / step)));
+  if (specialtyScrollTarget !== null && index !== specialtyScrollTarget) return;
+  if (index === specialtyScrollTarget) specialtyScrollTarget = null;
+  if (index !== activeSpecialty) showSpecialty(index, false, true);
+}
+
+// The title and description change length from one domain to the next; reserve
+// the tallest one so the content below doesn't jump while swiping.
+function reserveTallestText(element, texts) {
+  if (!element) return;
+  element.style.minHeight = "";
+  if (!specialtyMobileQuery.matches) return;
+  const probe = element.cloneNode(false);
+  probe.removeAttribute("id");
+  probe.style.cssText = `position:absolute;visibility:hidden;pointer-events:none;width:${element.clientWidth}px;`;
+  element.parentElement.appendChild(probe);
+  const tallest = Math.max(...texts.map((text) => {
+    probe.textContent = text;
+    return probe.offsetHeight;
+  }));
+  probe.remove();
+  element.style.minHeight = `${tallest}px`;
+}
+
+function reserveSpecialtyTextHeight() {
+  reserveTallestText(specialtyTitle, specialties.map((specialty) => specialty.title));
+  reserveTallestText(specialtyDescription, specialties.map((specialty) => specialty.description));
+}
+
+if (specialtyTrack) {
+  specialties.forEach((specialty, index) => {
+    const slide = document.createElement("div");
+    slide.className = "specialty-carousel__slide";
+    slide.setAttribute("role", "group");
+    slide.setAttribute("aria-roledescription", "diapositive");
+    slide.setAttribute("aria-label", `${index + 1} sur ${specialties.length} : ${specialty.title}`);
+    let media;
+    if (specialty.video) {
+      // muted + playsinline (as attributes, for iOS) are what allow autoplay.
+      media = document.createElement("video");
+      media.muted = true;
+      media.setAttribute("muted", "");
+      media.setAttribute("playsinline", "");
+      media.loop = true;
+      media.preload = "none";
+      media.poster = specialty.poster;
+      media.src = specialty.video;
+      media.setAttribute("aria-label", specialty.alt);
+    } else {
+      media = document.createElement("img");
+      media.src = specialty.photo || specialty.image;
+      media.alt = specialty.alt;
+      media.loading = "lazy";
+      media.decoding = "async";
+    }
+    // The depth effect (scale/opacity) lives on this inner card: Safari snaps
+    // to the transformed box, so transforming the slide itself shifts where it stops.
+    const card = document.createElement("div");
+    card.className = "specialty-carousel__card";
+    card.appendChild(media);
+    if (specialty.video) card.appendChild(createSpecialtySoundButton(media));
+    slide.appendChild(card);
+    specialtyTrack.appendChild(slide);
+    specialtySlides.push(slide);
+  });
+
+  specialtyTrack.addEventListener("scroll", () => {
+    window.cancelAnimationFrame(specialtyScrollFrame);
+    specialtyScrollFrame = window.requestAnimationFrame(syncSpecialtyFromTrack);
+    // Safety net if a programmatic scroll is interrupted by the user before
+    // reaching its target: once scrolling settles, follow wherever it stopped.
+    window.clearTimeout(specialtyScrollIdleTimer);
+    specialtyScrollIdleTimer = window.setTimeout(() => {
+      specialtyScrollTarget = null;
+      syncSpecialtyFromTrack();
+    }, 150);
+  }, { passive: true });
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => {
+      specialtyCarouselOnScreen = entry.isIntersecting;
+      syncSpecialtyVideos();
+    }, { threshold: 0.25 }).observe(specialtyTrack);
+  }
+  reduceMotionQuery.addEventListener("change", syncSpecialtyVideos);
+
+  updateSpecialtyCarousel(false);
+  if (specialtyMobileQuery.matches) scrollSpecialtyTrackTo(activeSpecialty, false);
+  reserveSpecialtyTextHeight();
+  document.fonts?.ready.then(reserveSpecialtyTextHeight);
+  let specialtyCarouselWidth = window.innerWidth;
+  window.addEventListener("resize", () => {
+    if (window.innerWidth === specialtyCarouselWidth) return;
+    specialtyCarouselWidth = window.innerWidth;
+    reserveSpecialtyTextHeight();
+    if (specialtyMobileQuery.matches) scrollSpecialtyTrackTo(activeSpecialty, false);
+  });
+  // Entering/leaving the phone layout: drop or restore the reserved heights,
+  // and show the active domain's image in the single (non-phone) feature image.
+  specialtyMobileQuery.addEventListener("change", () => {
+    reserveSpecialtyTextHeight();
+    syncSpecialtyVideos();
+    if (specialtyMobileQuery.matches) {
+      scrollSpecialtyTrackTo(activeSpecialty, false);
+    } else if (specialtyImage) {
+      specialtyImage.src = specialties[activeSpecialty].photo || specialties[activeSpecialty].image;
+      specialtyImage.alt = specialties[activeSpecialty].alt;
+    }
+  });
 }
 
 applySpecialtyLayout();
@@ -898,14 +1103,9 @@ document.querySelector("[data-specialty-next]")?.addEventListener("click", () =>
 const specialtyMenuList = document.querySelector("[data-specialty-menu-list]");
 const specialtyMenuItems = [];
 
-// Display order for the 2-column grid (row-major): (0,0) Rééducation
-// post-traumatique, (0,1) Drainage lymphatique manuel, (1,0) Physiothérapie
-// respiratoire, then the rest in their natural order.
-const specialtyMenuOrder = [0, 6, 8, 1, 2, 3, 4, 5, 7];
-
+// Listed in the same order as the carousel and tabs (2-column grid, row-major).
 if (specialtyMenuList) {
-  specialtyMenuOrder.forEach((index) => {
-    const specialty = specialties[index];
+  specialties.forEach((specialty, index) => {
     const item = document.createElement("button");
     item.type = "button";
     item.textContent = specialty.title;
@@ -942,6 +1142,8 @@ if (specialtySwipeArea) {
   specialtySwipeArea.addEventListener(
     "touchend",
     (event) => {
+      // Phones swipe through the native carousel track instead.
+      if (specialtyMobileQuery.matches) return;
       const deltaX = event.changedTouches[0].clientX - touchStartX;
       const deltaY = event.changedTouches[0].clientY - touchStartY;
       if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;

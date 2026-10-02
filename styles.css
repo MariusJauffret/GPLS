@@ -45,7 +45,7 @@
   --type-tracking-display: -0.03em;
   --type-tracking-caption: 0.12em;
   --type-tracking-action: 0;
-  --type-tracking-on-color: 0.04em;
+  --type-tracking-on-color: 0.02em;
   --type-tracking-on-color-heading: 0.02em;
 
   /* Rayons — 3 valeurs, pas plus */
@@ -381,14 +381,9 @@ button[data-expertise-toggle] > .eyebrow {
   transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.site-header.is-scrolled,
-body.menu-open .site-header {
+.site-header.is-scrolled {
   background: var(--white);
   box-shadow: var(--shadow);
-}
-
-body.menu-open .site-header {
-  box-shadow: none;
 }
 
 .brand {
@@ -566,7 +561,6 @@ body.menu-open .desktop-nav__secondary {
 
 .menu-toggle,
 .mobile-menu,
-.mobile-menu-actions,
 .mobile-quick-actions {
   display: none;
 }
@@ -715,7 +709,6 @@ body.menu-open .desktop-nav__secondary {
 .hero__media video {
   width: 100%;
   height: 100%;
-  border-radius: 5px;
   object-fit: cover;
 }
 
@@ -1120,6 +1113,11 @@ body.menu-open .desktop-nav__secondary {
 
 .specialty-feature__media {
   position: relative;
+}
+
+/* Phone-only carousel, laid out in the max-width: 767px block. */
+.specialty-carousel {
+  display: none;
 }
 
 .specialty-feature__media-inner {
@@ -2704,7 +2702,7 @@ textarea:focus {
   }
 
   .brand {
-    width: 77px;
+    width: 60px;
     overflow: hidden;
     opacity: 1;
     visibility: visible;
@@ -2717,17 +2715,6 @@ textarea:focus {
     visibility: hidden;
     pointer-events: none;
     transition: opacity var(--ease-slow), width 0s linear 400ms, visibility 0s linear 400ms;
-  }
-
-  body.menu-open .site-header .brand {
-    position: absolute;
-    left: 50%;
-    width: 82px;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateX(-50%);
-    transition: opacity var(--ease-slow);
   }
 
   .brand__color {
@@ -2746,14 +2733,6 @@ textarea:focus {
     opacity: 0;
   }
 
-  body.menu-open .site-header .brand__color {
-    opacity: 0;
-  }
-
-  body.menu-open .site-header .brand__white {
-    opacity: 1;
-  }
-
   .menu-toggle {
     color: var(--white);
     border-radius: 50%;
@@ -2762,13 +2741,6 @@ textarea:focus {
 
   .site-header.is-compact .menu-toggle {
     background: var(--blue-active);
-  }
-
-  body.menu-open .site-header .menu-toggle {
-    color: var(--blue-100);
-    background: var(--blue-800);
-    border: 2px solid rgb(219 233 244 / 35%);
-    box-shadow: none;
   }
 
   /* LEGACY (rollback) — left-side horizontal pill, faded in once fully past the hero.
@@ -2845,6 +2817,22 @@ textarea:focus {
     transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
   }
 
+  /* TRIAL — horizontal dock: the pill sits in the header row, left of the
+     hamburger, at the exact spot of .mobile-menu__quick-actions (centred on
+     the 90px header line, 10px gap before the 48px toggle). It grows out of /
+     folds into the hamburger side. To revert to the vertical stack, delete
+     this block. */
+  .mobile-quick-actions {
+    top: calc(45px - 30px);
+    right: calc(20px + 48px + 10px);
+    flex-direction: row;
+    transform-origin: right center;
+  }
+
+  .site-header.is-actions-docked.is-quick-actions-hidden .mobile-quick-actions {
+    transform: scaleX(0);
+  }
+
   /* Hero CTA buttons collapse toward the right edge as the docked stack takes
      over, so it reads as the buttons folding into the circles rather than a
      plain crossfade. The label fades quickly; the button row itself scales
@@ -2911,89 +2899,8 @@ textarea:focus {
     filter: brightness(0) invert(1);
   }
 
-  body.menu-open .site-header {
-    gap: 8px;
-    background: var(--blue-950);
-  }
-
   body.menu-open .mobile-quick-actions {
     display: none;
-  }
-
-  /* The menu footer has its own layer; closing it never morphs into the dock. */
-  .mobile-menu-actions {
-    position: fixed;
-    z-index: 101;
-    top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    width: auto;
-    margin: 0;
-    padding: 14px 24px max(18px, env(safe-area-inset-bottom));
-    border-radius: 0;
-    background: var(--blue-950);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: none;
-    transition: none;
-  }
-
-  .mobile-menu-actions[hidden] {
-    display: none;
-  }
-
-  .mobile-menu-actions .mobile-quick-actions__button {
-    display: inline-flex;
-    width: 100%;
-    height: 50px;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border-radius: var(--radius-pill);
-    min-width: 0;
-    padding: 0 12px;
-    font-size: var(--type-detail);
-    font-weight: var(--type-weight-action);
-    line-height: 1;
-    transition: background-color var(--ease);
-  }
-
-  .mobile-menu-actions .mobile-quick-actions__button:first-child {
-    background: var(--blue-800);
-    color: var(--blue-50);
-  }
-
-  .mobile-menu-actions .mobile-quick-actions__button:first-child img,
-  .mobile-menu-actions .mobile-quick-actions__button:last-child img {
-    width: 25px;
-    height: 25px;
-  }
-
-  .mobile-menu-actions .mobile-quick-actions__button:last-child {
-    background: var(--blue-active);
-    color: var(--white);
-  }
-
-  .mobile-menu-actions .mobile-quick-actions__button:last-child img {
-    filter: brightness(0) invert(1);
-  }
-
-  .mobile-menu-actions .mobile-quick-actions__button:first-child:active {
-    background: var(--blue-700);
-  }
-
-  .mobile-menu-actions .mobile-quick-actions__button:last-child:active {
-    background: var(--blue-700);
-  }
-
-  .mobile-menu-actions .mobile-quick-actions__label {
-    display: inline;
-    white-space: nowrap;
   }
 
   .desktop-nav {
@@ -3031,40 +2938,15 @@ textarea:focus {
     transition: background-color var(--ease);
   }
 
-  .menu-toggle__icon span:nth-child(3) {
-    width: 55%;
-    align-self: flex-end;
-    transition: background-color var(--ease), width var(--ease);
-  }
-
-  body.menu-open .menu-toggle__icon {
-    transform: rotate(90deg);
-  }
-
-  body.menu-open .menu-toggle__icon span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  body.menu-open .menu-toggle__icon span:nth-child(2) {
-    opacity: 0;
-  }
-
-  body.menu-open .menu-toggle__icon span:nth-child(3) {
-    width: 100%;
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
   /* Mobile menu — direction 2C (light). Full-screen sheet: fixed header band,
-     scrolling nav, pinned footer. The sheet itself never scrolls; only .nav does.
+     scrolling nav. The sheet itself never scrolls; only .nav does.
      Colours are scoped tokens so this direction stays self-contained. */
   .mobile-menu {
     --mm-ink: #0b3f66;
     --mm-brand: #005488;
     --mm-accent: #0d7bc5;
     --mm-divider: #eceef1;
-    --mm-outline: #dde3e9;
     --mm-secondary: #3c5e78;
-    --mm-status: #12656b;
     position: fixed;
     z-index: 200;
     inset: 0;
@@ -3075,17 +2957,31 @@ textarea:focus {
     color: var(--mm-ink);
   }
 
+  /* The sheet only fades: its header band sits exactly over the site header
+     (same logo, same button spot), so the logo reads as perfectly still. Only
+     the nav and footer below it slide in. */
   .mobile-menu:not([hidden]) {
-    animation: mobileMenuIn 220ms ease-out;
+    animation: mobileMenuFade 220ms ease-out;
   }
 
-  @keyframes mobileMenuIn {
+  .mobile-menu:not([hidden]) .mobile-menu__nav {
+    animation: mobileMenuSlide 220ms ease-out;
+  }
+
+  @keyframes mobileMenuFade {
     from {
       opacity: 0;
-      transform: translateX(24px);
     }
     to {
       opacity: 1;
+    }
+  }
+
+  @keyframes mobileMenuSlide {
+    from {
+      transform: translateX(24px);
+    }
+    to {
       transform: none;
     }
   }
@@ -3095,33 +2991,57 @@ textarea:focus {
   }
 
   /* Header band */
+  /* Same 90px band as .site-header, so the logo and the close button share
+     one centre line. */
   .mobile-menu__header {
     flex: 0 0 auto;
     display: flex;
+    height: 90px;
     align-items: center;
     justify-content: space-between;
-    padding: 22px 24px 26px;
+    padding-inline: 20px;
     background: var(--mm-brand);
   }
 
   .mobile-menu__logo {
-    height: 64px;
+    height: 60px;
     width: auto;
   }
 
+  /* Horizontal twin of the docked .mobile-quick-actions stack (same pill, same
+     48px circles, styled by the shared .mobile-quick-actions__button rules).
+     The right margin leaves room for the absolutely-placed close button. */
+  .mobile-menu__quick-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    margin-right: calc(48px + 10px);
+    padding: 6px;
+    border-radius: 999px;
+    background: rgba(252, 253, 253, 0.644);
+  }
+
+  /* Mirrors .menu-toggle exactly (48px circle, 20px glyph with 2px strokes),
+     pinned to the same spot: vertically centred in the 90px .site-header,
+     inset by its 20px side padding — so open and close share one position. */
   .mobile-menu__close {
+    position: absolute;
+    top: calc((90px - 48px) / 2);
+    right: 20px;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    padding: 0;
     border: 0;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.16);
     color: #ffffff;
-    font-size: 20px;
-    line-height: 1;
     cursor: pointer;
+  }
+
+  .mobile-menu__close svg {
+    display: block;
   }
 
   /* Scroll region */
@@ -3131,7 +3051,7 @@ textarea:focus {
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-    padding: 10px 24px 0;
+    padding: 10px 24px max(24px, env(safe-area-inset-bottom));
   }
 
   /* Top-level items (leaf <a> and parent <button> share this) */
@@ -3146,8 +3066,8 @@ textarea:focus {
     border-bottom: 1px solid var(--mm-divider);
     background: none;
     font-family: inherit;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 500;
     line-height: 1.2;
     letter-spacing: 0;
     color: var(--mm-ink);
@@ -3167,7 +3087,7 @@ textarea:focus {
 
   /* Current page marker (opt-in via .is-current) */
   .mobile-menu__item.is-current {
-    font-weight: 700;
+    font-weight: 500;
     box-shadow: inset 2px 0 var(--mm-accent);
   }
 
@@ -3180,7 +3100,7 @@ textarea:focus {
 
   .mobile-menu__item--parent[aria-expanded="true"] {
     padding: 19px 4px 12px;
-    font-weight: 700;
+    font-weight: 500;
     border-bottom-color: transparent;
   }
 
@@ -3216,8 +3136,8 @@ textarea:focus {
 
   .mobile-menu__submenu a {
     padding: 9px 0;
-    font-size: 17px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     line-height: 1.3;
     color: var(--mm-secondary);
     text-decoration: none;
@@ -3226,83 +3146,6 @@ textarea:focus {
   /* Item after an open submenu regains a separating rule on top */
   .mobile-menu__item--parent[aria-expanded="true"] + .mobile-menu__submenu + .mobile-menu__item {
     border-top: 1px solid var(--mm-divider);
-  }
-
-  /* Footer */
-  .mobile-menu__footer {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 18px 24px max(12px, env(safe-area-inset-bottom));
-    border-top: 1px solid var(--mm-divider);
-  }
-
-  .mobile-menu__status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0;
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--mm-status);
-  }
-
-  .mobile-menu__status-dot {
-    width: 8px;
-    height: 8px;
-    flex: 0 0 auto;
-    border-radius: 50%;
-    background: var(--mm-status);
-  }
-
-  /* Expanded (any submenu open) drops the status line to protect vertical space */
-  .mobile-menu.is-expanded .mobile-menu__status {
-    display: none;
-  }
-
-  .mobile-menu__footer-actions {
-    display: flex;
-    gap: 10px;
-  }
-
-  .mobile-menu__cta {
-    display: flex;
-    flex: 1.35 1 0;
-    min-width: 0;
-    align-items: center;
-    justify-content: center;
-    height: 56px;
-    border-radius: 14px;
-    background: var(--mm-accent);
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 400;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .mobile-menu__phone {
-    display: flex;
-    flex: 1 1 0;
-    min-width: 0;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 56px;
-    border-radius: 14px;
-    border: 1.5px solid var(--mm-outline);
-    background: transparent;
-    color: var(--mm-ink);
-    font-size: 14px;
-    font-weight: 400;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .mobile-menu__phone img {
-    width: 18px;
-    height: 18px;
   }
 
   .mobile-menu :focus-visible {
@@ -3683,12 +3526,139 @@ textarea:focus {
   }
 
   .specialty-feature__media {
-    height: 400px;
+    height: auto;
+  }
+
+  .specialty-feature__media-inner {
+    display: none;
   }
 
   .specialty-feature__nav {
     left: 5px;
     bottom: 5px;
+  }
+
+  /* Full-bleed track: slides line up with the content column while the
+     neighbours peek in from the page gutters. */
+  .specialty-carousel {
+    display: block;
+    --carousel-gap: 8px;
+  }
+
+  .specialty-carousel__track {
+    position: relative;
+    display: flex;
+    gap: var(--carousel-gap);
+    margin-inline: calc(-1 * var(--page-gutter));
+    padding-inline: var(--page-gutter) 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--page-gutter);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .specialty-carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Trailing spacer instead of padding-inline-end, which some WebKit versions
+     drop in overflowing flex containers. */
+  .specialty-carousel__track::after {
+    content: "";
+    flex: 0 0 calc(var(--page-gutter) - var(--carousel-gap));
+  }
+
+  .specialty-carousel__track:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 4px;
+  }
+
+  .specialty-carousel__slide {
+    /* The track only pads its start, so subtract the end gutter too. */
+    flex: 0 0 calc(100% - var(--page-gutter));
+    aspect-ratio: 4 / 5;
+    max-height: 460px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Never transform the snapping slide itself — Safari snaps to the
+     transformed box — so the depth effect sits on this inner card. */
+  .specialty-carousel__card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    background: var(--blue-800);
+    opacity: 0.45;
+    transform: scale(0.92);
+    transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1), transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Shrink towards the active slide so the peeking edges stay visible. */
+  .specialty-carousel__slide.is-before .specialty-carousel__card {
+    transform-origin: right center;
+  }
+
+  .specialty-carousel__slide.is-after .specialty-carousel__card {
+    transform-origin: left center;
+  }
+
+  .specialty-carousel__slide.is-active .specialty-carousel__card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .specialty-carousel__card img,
+  .specialty-carousel__card video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Sound toggle on video slides — only shown (and tappable) on the active one. */
+  .specialty-carousel__sound {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(8 43 79 / 55%);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    color: var(--white);
+    cursor: pointer;
+    transition: opacity 200ms ease, visibility 0s linear 0s;
+  }
+
+  .specialty-carousel__slide:not(.is-active) .specialty-carousel__sound {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 200ms ease, visibility 0s linear 200ms;
+  }
+
+  .specialty-carousel__sound svg {
+    display: block;
+  }
+
+  .specialty-carousel__sound[aria-pressed="true"] .specialty-carousel__sound-off,
+  .specialty-carousel__sound[aria-pressed="false"] .specialty-carousel__sound-on {
+    display: none;
+  }
+
+  .specialty-carousel__sound:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
   }
 
   .specialty-feature__list {
@@ -3786,6 +3756,11 @@ textarea:focus {
     background: var(--blue-active);
   }
 
+  /* A last item left alone on its row (odd count) spans both columns. */
+  .specialty-feature__list-items > button:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .specialty-feature__copy {
     padding: 0px 0 20px;
   }
@@ -3851,7 +3826,7 @@ textarea:focus {
     margin: 26px 0 0;
     z-index: 1;
     background-color: var(--blue-50);
-    padding-top: 30px;
+    padding-top: 20px;
     margin-bottom: 10px;
     border-radius: 10px;
   }
@@ -4227,7 +4202,7 @@ textarea:focus {
   }
 
   .site-footer__brand img {
-    width: 160px;
+    width: 112px;
   }
 
   .site-footer__info {
