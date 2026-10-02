@@ -3584,8 +3584,8 @@ textarea:focus {
     scroll-snap-stop: always;
   }
 
-  /* Never transform the snapping slide itself — Safari snaps to the
-     transformed box — so the depth effect sits on this inner card. */
+  /* The dimming of inactive slides sits on this inner card, never on the
+     snapping slide itself (Safari snaps to a transformed slide's box). */
   .specialty-carousel__card {
     position: relative;
     width: 100%;
@@ -3594,22 +3594,11 @@ textarea:focus {
     border-radius: 5px;
     background: var(--blue-800);
     opacity: 0.45;
-    transform: scale(0.92);
-    transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1), transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  /* Shrink towards the active slide so the peeking edges stay visible. */
-  .specialty-carousel__slide.is-before .specialty-carousel__card {
-    transform-origin: right center;
-  }
-
-  .specialty-carousel__slide.is-after .specialty-carousel__card {
-    transform-origin: left center;
+    transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .specialty-carousel__slide.is-active .specialty-carousel__card {
     opacity: 1;
-    transform: none;
   }
 
   .specialty-carousel__card img,
